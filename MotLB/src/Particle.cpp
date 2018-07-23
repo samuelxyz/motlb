@@ -8,23 +8,26 @@
 #include "Particle.h"
 #include "Battle.h"
 
-Particle::Particle(Battle* battle, Team team, Vec2 position,
-    Vec2 velocity, double size, double lifetime)
+namespace entity
+{
+  Particle::Particle(Battle* battle, Team team, Vec2 position,
+      Vec2 velocity, double size, double lifetime)
   : Entity(battle, team, position, velocity),
     size(size), lifetime(lifetime), dSize(-size/lifetime)
-{
-}
+  {
+  }
 
-Particle::~Particle()
-{
-  // TODO Auto-generated destructor stub
-}
+  Particle::~Particle()
+  {
+    // TODO Auto-generated destructor stub
+  }
 
-void Particle::update()
-{
-  Entity::update();
+  void Particle::update()
+  {
+    Entity::update();
 
-  size += dSize;
-  if (size <= 0)
-    battle->remove(*this);
+    size += dSize;
+    if (size <= 0)
+      battle->remove(*this);
+  }
 }

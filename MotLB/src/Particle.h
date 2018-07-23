@@ -10,21 +10,24 @@
 
 #include "Entity.h"
 
-class Particle: public Entity
+namespace entity
 {
-  public:
+  class Particle: public Entity
+  {
+    public:
 
-    Particle(Battle*, Team, Vec2 position,
-        Vec2 velocity, double size, double lifetime);
-    virtual ~Particle();
+      Particle(Battle*, Team, Vec2 position,
+          Vec2 velocity, double size, double lifetime);
+      virtual ~Particle();
 
-    virtual void update() override;
+      virtual void update() override;
 
-  private:
-    double size;
-    double lifetime;
-    double dSize;
+    private:
+      double size;
+      double lifetime;
+      double dSize;
 
-};
+  };
+}
 
 #endif /* PARTICLE_H_ */

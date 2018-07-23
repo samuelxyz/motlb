@@ -10,34 +10,37 @@
 #include "Battle.h"
 #include "Box.h"
 
-Entity::Entity(Battle* battle, Team team,
-    Vec2 position, Vec2 velocity)
+namespace entity
+{
+  Entity::Entity(Battle* battle, Team team,
+      Vec2 position, Vec2 velocity)
   : battle(battle), team(team),
     position(position), velocity(velocity)
-{
-}
+  {
+  }
 
-Entity::~Entity()
-{
-}
+  Entity::~Entity()
+  {
+  }
 
-void Entity::update()
-{
-  move();
-  checkContainment();
-}
+  void Entity::update()
+  {
+    move();
+    checkContainment();
+  }
 
-void Entity::move()
-{
-  position += velocity;
-}
+  void Entity::move()
+  {
+    position += velocity;
+  }
 
-void Entity::render()
-{
-}
+  void Entity::render()
+  {
+  }
 
-void Entity::checkContainment()
-{
-  if (!((*battle).getBounds().containsAbs(position)))
-    (*battle).remove(*this);
+  void Entity::checkContainment()
+  {
+    if (!((*battle).getBounds().containsAbs(position)))
+      (*battle).remove(*this);
+  }
 }

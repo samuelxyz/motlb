@@ -15,6 +15,8 @@
 
 class Entity;
 
+using namespace entity;
+
 class Battle
 {
   public:
