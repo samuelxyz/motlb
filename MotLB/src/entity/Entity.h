@@ -8,7 +8,7 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
-#include "Vec2.h"
+#include "..\Vec2.h"
 
 class Battle;
 

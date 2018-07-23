@@ -9,6 +9,8 @@
 
 #include "Vec2.h"
 
+using namespace entity;
+
 Battle::Battle()
   : bounds(Vec2(), Vec2(800, 800))
 {

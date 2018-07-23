@@ -11,9 +11,9 @@
 #include <vector>
 
 #include "Box.h"
-#include "Particle.h"
+#include "entity/Particle.h"
 
-class Entity;
+
 
 using namespace entity;
 

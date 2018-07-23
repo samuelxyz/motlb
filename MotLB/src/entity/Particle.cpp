@@ -6,7 +6,8 @@
  */
 
 #include "Particle.h"
-#include "Battle.h"
+
+#include "..\Battle.h"
 
 namespace entity
 {

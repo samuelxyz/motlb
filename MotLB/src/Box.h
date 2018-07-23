@@ -19,6 +19,9 @@ class Box
         double yMin, double yMax, double angle);
     Box(Vec2 corner1, Vec2 corner2);
 
+    Vec2 position;
+    double angle;
+
     double getWidth() const;
     double getHeight() const;
 
@@ -33,8 +36,7 @@ class Box
 
   private:
 
-    Vec2 position;
-    double xMin, xMax, yMin, yMax, angle;
+    double xMin, xMax, yMin, yMax;
 
     bool containsRel(Vec2 relPoint) const;
     void relCorners(std::array<Vec2, 4>& toFill) const;

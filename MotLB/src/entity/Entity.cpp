@@ -7,8 +7,8 @@
 
 #include "Entity.h"
 
-#include "Battle.h"
-#include "Box.h"
+#include "../Battle.h"
+#include "../Box.h"
 
 namespace entity
 {

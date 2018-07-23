@@ -9,6 +9,7 @@
 #define UNIT_H_
 
 #include "Entity.h"
+#include "../Box.h"
 
 namespace entity
 {
@@ -16,9 +17,17 @@ namespace entity
   class Unit: public Entity
   {
     public:
+
       Unit(Battle*, Team,
-          Vec2 position, Vec2 velocity);
+          Vec2 position, Vec2 velocity, double angle);
       virtual ~Unit();
+
+      Vec2 getPosition();
+      Vec2 getAngle();
+
+    protected:
+
+      Box* box;
   };
 
 } /* namespace entity */
