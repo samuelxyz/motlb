@@ -9,6 +9,7 @@
 #define VEC2_H_
 
 #include <iostream>
+#include <vector>
 
 class Vec2
 { // small and fundamental enough to pass by value
@@ -49,6 +50,8 @@ class Vec2
     void rotateBy(double angle);
     void rotateTo(double targetAngle);
     void scaleTo(double targetLength);
+
+    static Vec2 mostExtreme(const std::vector<Vec2>&, const Vec2& direction);
 
   private:
 

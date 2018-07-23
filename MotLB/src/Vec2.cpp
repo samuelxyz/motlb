@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <iomanip>
+#include <cassert>
 
 // --- CONSTRUCTORS ---
 
@@ -42,6 +43,11 @@ Vec2 operator*(const Vec2& v, double d)
 Vec2 operator*(double d, const Vec2& v)
 {
   return Vec2(v.getX() * d, v.getY() * d);
+}
+// Dot product
+double operator*(const Vec2& v1, const Vec2& v2)
+{
+  return v1.getX() * v2.getX() + v1.getY() * v2.getY();
 }
 
 std::ostream& operator<<(std::ostream& out, const Vec2 v)
@@ -161,4 +167,24 @@ void Vec2::checkRounding()
     x = round(x);
   if (std::abs(round(y) - y) < 1.0e-12)
     y = round(y);
+}
+
+/*static*/ Vec2 Vec2::mostExtreme(const std::vector<Vec2>& vectors, const Vec2& direction)
+{
+  assert(!vectors.empty() && direction > 0);
+
+  Vec2 farthest = vectors.front();
+  double largestDot = direction * farthest;
+
+  for (size_t i = 1; i < vectors.size(); i++)
+  {
+    double dot = direction * vectors.at(i);
+    if (dot > largestDot)
+    {
+      farthest = vectors.at(i);
+      largestDot = dot;
+    }
+  }
+
+  return farthest;
 }

@@ -15,9 +15,11 @@
 class Box
 {
   public:
-    Box(Vec2 position, double xMin, double xMax,
-        double yMin, double yMax, double angle);
+    Box(Vec2 position, double angle, double xMin, double xMax,
+        double yMin, double yMax);
     Box(Vec2 corner1, Vec2 corner2);
+
+    friend std::ostream& operator<<(std::ostream& out, const Box&);
 
     Vec2 position;
     double angle;
