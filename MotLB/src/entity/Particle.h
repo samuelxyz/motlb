@@ -12,7 +12,7 @@
 
 namespace entity
 {
-  class Particle: public Entity
+  class Particle: public entity::Entity
   {
     public:
 

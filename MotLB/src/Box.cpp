@@ -206,3 +206,49 @@ Vec2 Box::collideOneWay(const Box& other) const
   return finalShortest;
 }
 
+Vec2 Box::contain(const Box& target) const
+{
+  Vec2 res;
+
+  std::array<Vec2, 4> corners;
+  target.absCorners(corners);
+
+  for (Vec2& c : corners)
+  {
+    c = toRelative(c);
+
+    // x
+    if (c.getX() > xMax)
+    {
+      if (res.getX() > 0)
+        return Vec2(); // can't fit
+      else if (xMax - c.getX() < res.getX())
+        res.setRect(xMax - c.getX(), res.getY());
+    }
+    else if (c.getX() < xMin)
+    {
+      if (res.getX() < 0)
+        return Vec2(); // can't fit
+      else if (xMin - c.getX() > res.getX())
+        res.setRect(xMin - c.getX(), res.getY());
+    }
+
+    // y
+    if (c.getY() > yMax)
+    {
+      if (res.getY() > 0)
+        return Vec2(); // can't fit
+      if (yMax - c.getY() < res.getY())
+        res.setRect(res.getX(), yMax - c.getY());
+    }
+    else if (c.getY() < yMin)
+    {
+      if (res.getY() < 0)
+        return Vec2(); // can't fit
+      if (yMin - c.getY() > res.getY())
+        res.setRect(res.getX(), yMin - c.getY());
+    }
+  }
+
+  return toAbs(res);
+}

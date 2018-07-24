@@ -9,8 +9,6 @@
 
 #include "Vec2.h"
 
-using namespace entity;
-
 Battle::Battle()
   : bounds(Vec2(), Vec2(800, 800))
 {
@@ -31,16 +29,28 @@ void Battle::stop()
 {
 }
 
-void Battle::add(Entity& e)
+template <class... Args>
+void Battle::add(entity::Entity::Type type, Args&&... args)
 {
-}
-
-void Battle::remove(Entity& e)
-{
+  switch (type)
+  {
+    case entity::Entity::Type::PARTICLE:
+      particles.emplace_back(args);
+      break;
+    case entity::Entity::Type::PROJECTILE:
+      projectiles.emplace_back(args);
+      break;
+    case entity::Entity::Type::UNIT:
+      units.emplace_back(args);
+      break;
+  }
 }
 
 void Battle::clearAll()
 {
+  particles.clear();
+  projectiles.clear();
+  units.clear();
 }
 
 Box const& Battle::getBounds() const
@@ -50,9 +60,15 @@ Box const& Battle::getBounds() const
 
 void Battle::update()
 {
+  for (auto& u : units)
+    u.update();
+  for (auto& p : projectiles)
+    p.update();
+  for (auto& p : particles)
+    p.update();
 }
 
-void Battle::remove(Particle& particle)
+void Battle::remove(entity::Particle& particle)
 {
   // std::find?
   for (size_t i = 0; i < particles.size(); i++)
@@ -67,9 +83,4 @@ void Battle::remove(Particle& particle)
 
 void Battle::render()
 {
-}
-
-void Battle::add(Particle& p)
-{
-  particles.push_back(p);
 }

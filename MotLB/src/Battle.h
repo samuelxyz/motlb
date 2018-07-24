@@ -12,13 +12,12 @@
 
 #include "Box.h"
 #include "entity/Particle.h"
-
-
-
-using namespace entity;
+#include "entity/Projectile.h"
+#include "entity/Unit.h"
 
 class Battle
 {
+
   public:
 
     Battle();
@@ -27,18 +26,23 @@ class Battle
     void run();
     void stop();
 
-    void add(Entity&);
-    void add(Particle&);
-    void remove(Entity&);
-    void remove(Particle&);
+    template <class... Args>
+    void add(entity::Entity::Type, Args&&...);
+
+    void remove(entity::Entity&);
+    void remove(entity::Particle&);
     void clearAll();
 
     const Box& getBounds() const;
 
+    std::vector<entity::Unit>& getUnits();
+
   private:
 
     const Box bounds;
-    std::vector<Particle> particles;
+    std::vector<entity::Particle> particles;
+    std::vector<entity::Projectile> projectiles;
+    std::vector<entity::Unit> units;
     void update();
     void render();
 };

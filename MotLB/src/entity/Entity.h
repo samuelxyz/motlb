@@ -8,7 +8,8 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
-#include "..\Vec2.h"
+#include "../Vec2.h"
+//#include "../Battle.h"
 
 class Battle;
 
@@ -18,13 +19,20 @@ namespace entity
   {
     public:
 
-      enum Team
+      enum class Team
       {
         NEUTRAL,
         RED,
         BLUE,
         GREEN,
         YELLOW,
+      };
+
+      enum class Type
+      {
+        PARTICLE,
+        PROJECTILE,
+        UNIT
       };
 
       Entity(Battle*, Team,

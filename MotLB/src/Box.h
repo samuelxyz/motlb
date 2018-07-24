@@ -35,6 +35,7 @@ class Box
     Vec2 toClosestEdge(Vec2 absPoint) const; // rel directions
     static bool overlaps(const Box&, const Box&);
     static Vec2 collide(const Box& standOn, const Box& giveWay);
+    Vec2 contain(const Box& target) const;
 
   private:
 
