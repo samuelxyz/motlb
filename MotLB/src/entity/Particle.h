@@ -22,6 +22,10 @@ namespace entity
 
       virtual void update() override;
 
+    protected:
+
+      virtual void checkContainment() override;
+
     private:
       double size;
       double lifetime;

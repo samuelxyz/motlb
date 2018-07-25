@@ -35,8 +35,7 @@ namespace entity
         UNIT
       };
 
-      Entity(Battle*, Team,
-          Vec2 position, Vec2 velocity);
+      Entity(Battle*, Team, Vec2 position, Vec2 velocity);
       virtual ~Entity();
 
       virtual void update();
@@ -49,7 +48,7 @@ namespace entity
       Vec2 position, velocity;
 
       virtual void move();
-      virtual void checkContainment();
+      virtual void checkContainment() = 0;
   };
 }
 

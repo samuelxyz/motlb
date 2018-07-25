@@ -16,9 +16,9 @@ namespace entity
   : Entity(battle, team, position, velocity),
     box(new Box(position, -10, 10, -10, 10, angle)),
     active(true),
+    health(baseHealth),
     attackCooldown(position.getLength() % attackInterval), // TODO: random
-    target(nullptr),
-    health(baseHealth)
+    target(nullptr)
   {
     // TODO Auto-generated constructor stub
 
@@ -146,8 +146,8 @@ namespace entity
 
     double totalI = inertia + u.inertia;
 
-    box->position -= dx * inertia / totalI;
-    u.box->position += dx * inertia / totalI;
+    box->position -= dx * (inertia / totalI);
+    u.box->position += dx * (inertia / totalI);
 
     checkContainment();
     u.checkContainment();
@@ -177,6 +177,17 @@ namespace entity
   double Unit::idealSpeed()
   {
     return (target)? topSpeed : 0;
+  }
+
+  void Unit::receiveAttack(double damage, Vec2 impulse)
+  {
+    health -= damage;
+    receiveImpulse(impulse);
+  }
+
+  void Unit::receiveImpulse(Vec2 impulse)
+  {
+    velocity += (1/inertia) * impulse;
   }
 
 } /* namespace entity */

@@ -10,12 +10,15 @@
 
 #include "Entity.h"
 #include "../Box.h"
+#include "Projectile.h"
 
 namespace entity
 {
 
   class Unit: public Entity
   {
+      friend class Projectile;
+
     public:
 
       Unit(Battle*, Team, Vec2 position, Vec2 velocity, double angle);
@@ -25,6 +28,8 @@ namespace entity
       Vec2 getAngle();
 
       virtual void update() override;
+      void receiveAttack(double, Vec2);
+      void receiveImpulse(Vec2);
 
     protected:
 

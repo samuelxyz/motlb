@@ -29,8 +29,13 @@ class Battle
     template <class... Args>
     void add(entity::Entity::Type, Args&&...);
 
-    void remove(entity::Entity&);
+    void remove(entity::Projectile&);
     void remove(entity::Particle&);
+    void remove(entity::Unit&);
+
+//    // dummy for Entity.checkContainment()
+//    void remove(entity::Entity&);
+
     void clearAll();
 
     const Box& getBounds() const;

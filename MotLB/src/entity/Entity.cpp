@@ -37,10 +37,4 @@ namespace entity
   void Entity::render()
   {
   }
-
-  void Entity::checkContainment()
-  {
-    if (!((*battle).getBounds().containsAbs(position)))
-      (*battle).remove(*this);
-  }
 }

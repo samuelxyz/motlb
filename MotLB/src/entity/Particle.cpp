@@ -31,4 +31,10 @@ namespace entity
     if (size <= 0)
       battle->remove(*this);
   }
+
+  void Particle::checkContainment()
+  {
+    if (!((*battle).getBounds().containsAbs(position)))
+      battle->remove(*this);
+  }
 }
