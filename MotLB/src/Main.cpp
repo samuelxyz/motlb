@@ -5,10 +5,12 @@
  *      Author: xinyi
  */
 
+#include <cstdlib>
 #include <iostream>
+#include <ctime>
 
-#include "Vec2.h"
 #include "Box.h"
+#include "Vec2.h"
 
 Vec2 getVector()
 {
@@ -62,6 +64,7 @@ void boxTest()
 
 int main()
 {
+  std::srand(static_cast<unsigned int>(std::time(0)));
   boxTest();
   return 0;
 }

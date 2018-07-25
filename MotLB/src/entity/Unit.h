@@ -66,6 +66,8 @@ namespace entity
       virtual void checkContainment() override;
 
       virtual void attack();
+
+
   };
 
 } /* namespace entity */

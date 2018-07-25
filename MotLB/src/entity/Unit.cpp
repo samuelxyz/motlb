@@ -5,6 +5,8 @@
  *      Author: xinyi
  */
 
+#include <cstdio>
+
 #include "Unit.h"
 #include "../Battle.h"
 
@@ -17,7 +19,7 @@ namespace entity
     box(new Box(position, -10, 10, -10, 10, angle)),
     active(true),
     health(baseHealth),
-    attackCooldown(position.getLength() % attackInterval), // TODO: random
+    attackCooldown(rand() % attackInterval), // TODO: random
     target(nullptr)
   {
     // TODO Auto-generated constructor stub
@@ -109,9 +111,11 @@ namespace entity
     double targetAngle =
         (target->getPosition() - getPosition()).getAngle();
 
+    double maxAbs = rotationSpeed;
+
     double rot = // clamp so abs(rot) < rotationSpeed
-        std::max(-rotationSpeed,
-            std::min(rotationSpeed, targetAngle - box->angle));
+        std::max(-maxAbs,
+            std::min(maxAbs, targetAngle - box->angle));
 
     box->angle += rot;
   }
