@@ -9,6 +9,8 @@
 #include <iostream>
 #include <ctime>
 
+#include <GLFW/glfw3.h>
+
 #include "Box.h"
 #include "Vec2.h"
 
@@ -62,9 +64,46 @@ void boxTest()
   std::cout << Box::collide(b1, b2);
 }
 
+int glfwTest()
+{
+  GLFWwindow* window;
+
+      /* Initialize the library */
+      if (!glfwInit())
+          return -1;
+
+      /* Create a windowed mode window and its OpenGL context */
+      window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+      if (!window)
+      {
+          glfwTerminate();
+          return -1;
+      }
+
+      /* Make the window's context current */
+      glfwMakeContextCurrent(window);
+
+      /* Loop until the user closes the window */
+      while (!glfwWindowShouldClose(window))
+      {
+          /* Render here */
+          glClear(GL_COLOR_BUFFER_BIT);
+
+          /* Swap front and back buffers */
+          glfwSwapBuffers(window);
+
+          /* Poll for and process events */
+          glfwPollEvents();
+      }
+
+      glfwTerminate();
+      return 0;
+}
+
 int main()
 {
-  std::srand(static_cast<unsigned int>(std::time(0)));
-  boxTest();
-  return 0;
+//  std::srand(static_cast<unsigned int>(std::time(0)));
+//  boxTest();
+
+  return glfwTest();
 }
