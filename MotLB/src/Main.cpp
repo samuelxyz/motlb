@@ -58,52 +58,76 @@ Box getBox()
 
 void boxTest()
 {
-//  Box b1(getBox()), b2(getBox());
+  //  Box b1(getBox()), b2(getBox());
   Box b1(Vec2(), 3.14159/2, -1, 1, -1, 1);
   Box b2(Vec2(1, 1), 0, -0.3, 0.3, -0.3, 0.3);
   std::cout << Box::collide(b1, b2);
+}
+
+static void error_callback(int error, const char* description)
+{
+  fprintf(stderr, "Error: %s\n", description);
+}
+
+void renderBasic()
+{
+  glBegin(GL_TRIANGLES);
+
+  glVertex2f(-0.7f, -0.2f);
+  glVertex2f(-0.7f, -0.7f);
+  glVertex2f(-0.2f, -0.7f);
+
+  glVertex2f(0.7f, 0.2f);
+  glVertex2f(0.7f, 0.7f);
+  glVertex2f(0.2f, 0.7f);
+
+  glEnd();
 }
 
 int glfwTest()
 {
   GLFWwindow* window;
 
-      /* Initialize the library */
-      if (!glfwInit())
-          return -1;
+  glfwSetErrorCallback(error_callback);
 
-      /* Create a windowed mode window and its OpenGL context */
-      window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-      if (!window)
-      {
-          glfwTerminate();
-          return -1;
-      }
+  /* Initialize the library */
+  if (!glfwInit())
+    return -1;
 
-      /* Make the window's context current */
-      glfwMakeContextCurrent(window);
+  /* Create a windowed mode window and its OpenGL context */
+  window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+  if (!window)
+  {
+    glfwTerminate();
+    return -1;
+  }
 
-      /* Loop until the user closes the window */
-      while (!glfwWindowShouldClose(window))
-      {
-          /* Render here */
-          glClear(GL_COLOR_BUFFER_BIT);
+  /* Make the window's context current */
+  glfwMakeContextCurrent(window);
 
-          /* Swap front and back buffers */
-          glfwSwapBuffers(window);
+  /* Loop until the user closes the window */
+  while (!glfwWindowShouldClose(window))
+  {
+    /* Render here */
+    glClear(GL_COLOR_BUFFER_BIT);
 
-          /* Poll for and process events */
-          glfwPollEvents();
-      }
+    renderBasic();
 
-      glfwTerminate();
-      return 0;
+    /* Swap front and back buffers */
+    glfwSwapBuffers(window);
+
+    /* Poll for and process events */
+    glfwPollEvents();
+  }
+
+  glfwTerminate();
+  return 0;
 }
 
 int main()
 {
-//  std::srand(static_cast<unsigned int>(std::time(0)));
-//  boxTest();
+  //  std::srand(static_cast<unsigned int>(std::time(0)));
+  //  boxTest();
 
   return glfwTest();
 }
