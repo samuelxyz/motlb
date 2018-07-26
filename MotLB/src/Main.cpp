@@ -84,6 +84,11 @@ void renderBasic()
   glEnd();
 }
 
+void renderArray()
+{
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
 int glfwTest()
 {
   GLFWwindow* window;
@@ -114,13 +119,29 @@ int glfwTest()
 
   std::cout << glGetString(GL_VERSION) << std::endl;
 
+  float positions[] = {
+
+      -0.7f, -0.2f,
+      -0.7f, -0.7f,
+      -0.2f, -0.7f,
+
+       0.7f,  0.2f,
+       0.7f,  0.7f,
+       0.2f,  0.7f,
+  };
+
+  GLuint buffer;
+  glGenBuffers(1, &buffer);
+  glBindBuffer(GL_ARRAY_BUFFER, buffer);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
   {
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    renderBasic();
+    renderArray();
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
