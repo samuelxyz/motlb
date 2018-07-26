@@ -5,11 +5,11 @@
  *      Author: xinyi
  */
 
-#include <cstdlib>
-#include <iostream>
-#include <ctime>
-
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#include <cstdio>
+#include <iostream>
 
 #include "Box.h"
 #include "Vec2.h"
@@ -104,6 +104,15 @@ int glfwTest()
 
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
+
+  /* Initialize GLEW */
+  if (glewInit() != GLEW_OK)
+  {
+    std::cerr << "GLEW is not ok" << std::endl;
+    return -1;
+  }
+
+  std::cout << glGetString(GL_VERSION) << std::endl;
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
