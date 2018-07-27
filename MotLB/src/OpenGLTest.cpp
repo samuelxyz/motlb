@@ -16,10 +16,19 @@
 #include <string>
 #include <sstream>
 
-static void error_callback(int error, const char* description)
+#ifdef MOTLB_DEBUG
+static void printGLFWError(int error, const char* description)
 {
-  fprintf(stderr, "Error: %s\n", description);
+  fprintf(stderr, "[GLFW Error] %s\n", description);
 }
+
+void APIENTRY printGLDebug(GLenum source, GLenum type, GLuint id,
+    GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
+{
+//  std::cout << "[GL][" << __FILE__ << ": line " << __LINE__ << "] " << message << std::endl;
+  std::cout << "[GL] " << message << std::endl;
+}
+#endif
 
 struct ShaderSources
 {
@@ -133,11 +142,17 @@ int openGLTest()
 {
   GLFWwindow* window;
 
-  glfwSetErrorCallback(error_callback);
+#ifdef MOTLB_DEBUG
+  glfwSetErrorCallback(printGLFWError);
+#endif
 
   /* Initialize the library */
   if (!glfwInit())
     return -1;
+
+#ifdef MOTLB_DEBUG
+  glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
 
   /* Create a windowed mode window and its OpenGL context */
   window = glfwCreateWindow(640, 640, "MotLB OpenGL Test", NULL, NULL);
@@ -158,6 +173,10 @@ int openGLTest()
   }
 
   std::cout << glGetString(GL_VERSION) << std::endl;
+
+#ifdef MOTLB_DEBUG
+  glDebugMessageCallback(printGLDebug, nullptr);
+#endif
 
   float positions[] = {
 
@@ -214,13 +233,32 @@ int openGLTest()
 
   GLuint shaders = createShaders(sources.vertexSource, sources.fragmentSource);
   glUseProgram(shaders);
+
+  int u_Color_loc = glGetUniformLocation(shaders, "u_Color");
+
   glDeleteProgram(shaders);
+
+  float red = 0.0f, redIncrement = 0.05f;
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
   {
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
+
+    red += redIncrement;
+    if (red >= 1.0f)
+    {
+      red = 1.0f;
+      redIncrement = -0.05f;
+    }
+    else if (red <= 0.0f)
+    {
+      red = 0.0f;
+      redIncrement = 0.05f;
+    }
+
+    glUniform4f(u_Color_loc, red, 1.0f, 0.0f, 1.0f);
 
 //    renderArray();
     renderElements(sizeof(indices)/sizeof(unsigned int));
