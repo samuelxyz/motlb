@@ -124,6 +124,11 @@ void renderArray()
   glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
+void renderElements(int indices)
+{
+  glDrawElements(GL_TRIANGLES, indices, GL_UNSIGNED_INT, nullptr);
+}
+
 int openGLTest()
 {
   GLFWwindow* window;
@@ -135,7 +140,7 @@ int openGLTest()
     return -1;
 
   /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+  window = glfwCreateWindow(640, 640, "MotLB OpenGL Test", NULL, NULL);
   if (!window)
   {
     glfwTerminate();
@@ -156,13 +161,40 @@ int openGLTest()
 
   float positions[] = {
 
-      -0.7f, -0.2f,
+      -0.7f, -0.2f, // lower left
       -0.7f, -0.7f,
       -0.2f, -0.7f,
 
-       0.7f,  0.2f,
+      -0.7f,  0.2f, // upper left
+      -0.7f,  0.7f,
+      -0.2f,  0.7f,
+
+       0.7f,  0.2f, // upper right
        0.7f,  0.7f,
        0.2f,  0.7f,
+
+       0.7f, -0.2f, // lower right
+       0.7f, -0.7f,
+       0.2f, -0.7f,
+
+      -0.2f, -0.2f, // center square
+      -0.2f,  0.2f,
+       0.2f,  0.2f,
+       0.2f, -0.2f
+  };
+
+  GLuint indices[] = {
+
+      0, 1, 2,
+
+      3, 4, 5,
+
+      6, 7, 8,
+
+      9, 10, 11,
+
+      12, 13, 14,
+      12, 14, 15
   };
 
   GLuint buffer;
@@ -172,6 +204,11 @@ int openGLTest()
 
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+
+  GLuint ibo;
+  glGenBuffers(1, &ibo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   ShaderSources sources = parseShader("resources/shaders/Basic.shader");
 
@@ -185,7 +222,8 @@ int openGLTest()
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    renderArray();
+//    renderArray();
+    renderElements(sizeof(indices)/sizeof(unsigned int));
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
