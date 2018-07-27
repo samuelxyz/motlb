@@ -138,6 +138,21 @@ void renderElements(int indices)
   glDrawElements(GL_TRIANGLES, indices, GL_UNSIGNED_INT, nullptr);
 }
 
+void changeColor(float& color, float& increment)
+{
+  color += increment;
+  if (color >= 1.0f)
+  {
+    color = 1.0f;
+    increment *= -1;
+  }
+  else if (color <= 0.0f)
+  {
+    color = 0.0f;
+    increment *= -1;
+  }
+}
+
 int openGLTest()
 {
   GLFWwindow* window;
@@ -165,6 +180,8 @@ int openGLTest()
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
 
+  glfwSwapInterval(1);
+
   /* Initialize GLEW */
   if (glewInit() != GLEW_OK)
   {
@@ -172,9 +189,9 @@ int openGLTest()
     return -1;
   }
 
-  std::cout << glGetString(GL_VERSION) << std::endl;
-
 #ifdef MOTLB_DEBUG
+  std::cout << "Running in debug mode with OpenGL version " <<
+      glGetString(GL_VERSION) << std::endl;
   glDebugMessageCallback(printGLDebug, nullptr);
 #endif
 
@@ -238,7 +255,9 @@ int openGLTest()
 
   glDeleteProgram(shaders);
 
-  float red = 0.0f, redIncrement = 0.05f;
+  float red = 0.0f, redIncrement = 0.05f,
+      green = 0.0f, greenIncrement = 0.025f,
+      blue = 0.0f, blueIncrement = 0.0125f;
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
@@ -246,19 +265,11 @@ int openGLTest()
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
 
-    red += redIncrement;
-    if (red >= 1.0f)
-    {
-      red = 1.0f;
-      redIncrement = -0.05f;
-    }
-    else if (red <= 0.0f)
-    {
-      red = 0.0f;
-      redIncrement = 0.05f;
-    }
+    changeColor(red, redIncrement);
+    changeColor(green, greenIncrement);
+    changeColor(blue, blueIncrement);
 
-    glUniform4f(u_Color_loc, red, 1.0f, 0.0f, 1.0f);
+    glUniform4f(u_Color_loc, red, green, blue, 1.0f);
 
 //    renderArray();
     renderElements(sizeof(indices)/sizeof(unsigned int));
