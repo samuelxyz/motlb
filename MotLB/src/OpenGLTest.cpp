@@ -233,6 +233,10 @@ int openGLTest()
       12, 14, 15
   };
 
+  GLuint vao;
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
+
   GLuint buffer;
   glGenBuffers(1, &buffer);
   glBindBuffer(GL_ARRAY_BUFFER, buffer);
@@ -249,15 +253,13 @@ int openGLTest()
   ShaderSources sources = parseShader("resources/shaders/Basic.shader");
 
   GLuint shaders = createShaders(sources.vertexSource, sources.fragmentSource);
-  glUseProgram(shaders);
+//  glUseProgram(shaders);
 
   int u_Color_loc = glGetUniformLocation(shaders, "u_Color");
 
-  glDeleteProgram(shaders);
-
-  float red = 0.0f, redIncrement = 0.05f,
-      green = 0.0f, greenIncrement = 0.025f,
-      blue = 0.0f, blueIncrement = 0.0125f;
+  float red = 0.0f, redIncrement = 0.02f,
+      green = 0.0f, greenIncrement = 0.01f,
+      blue = 0.0f, blueIncrement = 0.005f;
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
@@ -265,11 +267,20 @@ int openGLTest()
     /* Render here */
     glClear(GL_COLOR_BUFFER_BIT);
 
+    glUseProgram(shaders);
+
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
     changeColor(blue, blueIncrement);
 
     glUniform4f(u_Color_loc, red, green, blue, 1.0f);
+
+//    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+//    glEnableVertexAttribArray(0);
+//    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+    glBindVertexArray(vao);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
 //    renderArray();
     renderElements(sizeof(indices)/sizeof(unsigned int));
@@ -280,6 +291,8 @@ int openGLTest()
     /* Poll for and process events */
     glfwPollEvents();
   }
+
+  glDeleteProgram(shaders);
 
   glfwTerminate();
   return 0;
