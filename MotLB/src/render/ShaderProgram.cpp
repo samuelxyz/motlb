@@ -104,11 +104,11 @@ namespace render
     return shader;
   }
 
-  GLuint ShaderProgram::getUniformLocation(const std::string& uniformName)
+  GLint ShaderProgram::getUniformLocation(const std::string& uniformName)
   {
     auto cachedLoc = uniformCache.find(uniformName);
 
-    GLuint location;
+    GLint location;
 
     if (cachedLoc == uniformCache.end())
     {
