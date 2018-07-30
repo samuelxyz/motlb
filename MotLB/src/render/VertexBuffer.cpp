@@ -22,12 +22,12 @@ VertexBuffer::VertexBuffer(const void* data, GLsizeiptr size, GLenum usage)
   {
   }
 
-  void VertexBuffer::bind()
+  void VertexBuffer::bind() const
   {
     glBindBuffer(GL_ARRAY_BUFFER, ID);
   }
 
-  void VertexBuffer::unbind()
+  void VertexBuffer::unbind() const
   {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
   }

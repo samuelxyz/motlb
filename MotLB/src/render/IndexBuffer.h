@@ -16,17 +16,16 @@ namespace render
   class IndexBuffer
   {
     private:
-      GLuint ID;
-      GLsizeiptr bufferSize;
+      GLuint ID, numIndices;
       GLenum usage;
 
     public:
-      IndexBuffer(const void* data, GLsizeiptr size, GLenum usage);
+      IndexBuffer(const GLuint* data, GLuint numIndices, GLenum usage);
       ~IndexBuffer();
 
-      void updateData(const void* data, GLsizeiptr size);
-      void bind();
-      void unbind();
+      void updateData(const GLuint* data, GLuint numIndices);
+      void bind() const;
+      void unbind() const;
   };
 
 } /* namespace render */

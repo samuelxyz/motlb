@@ -10,36 +10,36 @@
 namespace render
 {
 
-  IndexBuffer::IndexBuffer(const void* data, GLsizeiptr size, GLenum usage)
-  : bufferSize(size), usage(usage)
+  IndexBuffer::IndexBuffer(const GLuint* data, GLuint numIndices, GLenum usage)
+  : numIndices(numIndices), usage(usage)
   {
     glGenBuffers(1, &ID);
     bind();
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, usage);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), data, usage);
   }
 
   IndexBuffer::~IndexBuffer()
   {
   }
 
-  void IndexBuffer::updateData(const void* data, GLsizeiptr size)
+  void IndexBuffer::updateData(const GLuint* data, GLuint numIndices)
   {
-    if (size > bufferSize)
+    if (numIndices > this->numIndices)
     {
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, usage);
+      glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), data, usage);
     }
     else
     {
-      glBufferSubData(ID, 0, size, data);
+      glBufferSubData(ID, 0, numIndices * sizeof(GLuint), data);
     }
   }
 
-  void IndexBuffer::bind()
+  void IndexBuffer::bind() const
   {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID);
   }
 
-  void IndexBuffer::unbind()
+  void IndexBuffer::unbind() const
   {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   }

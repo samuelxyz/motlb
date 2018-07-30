@@ -158,7 +158,7 @@ int openGLTest()
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
 
-  render::IndexBuffer ibo((const void*)indices, sizeof(indices), GL_STATIC_DRAW);
+  render::IndexBuffer ibo(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
   render::ShaderProgram shaders("resources/shaders/Basic.shader");
 

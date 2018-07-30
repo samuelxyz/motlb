@@ -25,8 +25,8 @@ namespace render
       ~VertexBuffer();
 
       void updateData(const void* data, GLsizeiptr size);
-      void bind();
-      void unbind();
+      void bind() const;
+      void unbind() const;
   };
 
 } /* namespace render */
