@@ -10,10 +10,11 @@
 namespace render
 {
 
-  VertexBuffer::VertexBuffer(const void* data, GLsizeiptr size, GLenum usage)
+VertexBuffer::VertexBuffer(const void* data, GLsizeiptr size, GLenum usage)
+: bufferSize(size), usage(usage)
   {
     glGenBuffers(1, &ID);
-    glBindBuffer(GL_ARRAY_BUFFER, ID);
+    bind();
     glBufferData(GL_ARRAY_BUFFER, size, data, usage);
   }
 
@@ -21,4 +22,26 @@ namespace render
   {
   }
 
+  void VertexBuffer::bind()
+  {
+    glBindBuffer(GL_ARRAY_BUFFER, ID);
+  }
+
+  void VertexBuffer::unbind()
+  {
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+  }
+
+  void VertexBuffer::updateData(const void* data, GLsizeiptr size)
+  {
+    if (size > bufferSize)
+    {
+      glBufferData(GL_ARRAY_BUFFER, size, data, usage);
+    }
+    else
+    {
+      glBufferSubData(ID, 0, size, data);
+    }
+  }
 } /* namespace render */
+

@@ -17,10 +17,16 @@ namespace render
   {
     private:
       GLuint ID;
+      GLsizeiptr bufferSize;
+      GLenum usage;
 
     public:
       VertexBuffer(const void* data, GLsizeiptr size, GLenum usage);
       virtual ~VertexBuffer();
+
+      void updateData(const void* data, GLsizeiptr size);
+      void bind();
+      void unbind();
   };
 
 } /* namespace render */
