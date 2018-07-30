@@ -20,6 +20,7 @@ namespace render
 
   IndexBuffer::~IndexBuffer()
   {
+    glDeleteBuffers(1, &ID);
   }
 
   void IndexBuffer::updateData(const GLuint* data, GLuint numIndices)

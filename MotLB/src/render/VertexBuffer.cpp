@@ -20,6 +20,7 @@ VertexBuffer::VertexBuffer(const void* data, GLsizeiptr size, GLenum usage)
 
   VertexBuffer::~VertexBuffer()
   {
+    glDeleteBuffers(1, &ID);
   }
 
   void VertexBuffer::bind() const
