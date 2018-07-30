@@ -10,6 +10,7 @@
 
 #include <string>
 #include <GL/glew.h>
+#include <unordered_map>
 
 namespace render
 {
@@ -19,6 +20,7 @@ namespace render
     private:
       GLuint programID, vertexShaderID, fragmentShaderID;
       std::string vertexShaderSource, fragmentShaderSource;
+      std::unordered_map<std::string, GLuint> uniformCache;
 
     public:
 
@@ -33,6 +35,7 @@ namespace render
     private:
       void parseShaders(const std::string& filepath);
       static GLuint compileShader(GLenum type, std::string& source);
+      GLuint getUniformLocation(const std::string& uniformName);
   };
 
 } /* namespace render */

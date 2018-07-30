@@ -104,12 +104,34 @@ namespace render
     return shader;
   }
 
+  GLuint ShaderProgram::getUniformLocation(const std::string& uniformName)
+  {
+    auto cachedLoc = uniformCache.find(uniformName);
+
+    GLuint location;
+
+    if (cachedLoc == uniformCache.end())
+    {
+      location = glGetUniformLocation(programID, uniformName.c_str());
+      uniformCache[uniformName] = location;
+    }
+    else
+    {
+      location = uniformCache[uniformName];
+    }
+
+    return location;
+  }
+
   void ShaderProgram::setUniform4f(const std::string& uniformName, float float1,
       float float2, float float3, float float4)
   {
-    GLuint location = glGetUniformLocation(programID, uniformName.c_str());
-    glUniform4f(location, float1, float2, float3, float4);
+
+    glUniform4f(getUniformLocation(uniformName), float1, float2, float3, float4);
   }
+
+
+
 
 } /* namespace render */
 
