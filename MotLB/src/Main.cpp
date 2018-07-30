@@ -10,7 +10,8 @@
 #include "Box.h"
 #include "Vec2.h"
 
-int openGLTest();
+int uniformShaderTest();
+int vertexColorShaderTest();
 
 Vec2 getVector()
 {
@@ -67,5 +68,5 @@ int main()
   //  std::srand(static_cast<unsigned int>(std::time(0)));
   //  boxTest();
 
-  return openGLTest();
+  return vertexColorShaderTest();
 }

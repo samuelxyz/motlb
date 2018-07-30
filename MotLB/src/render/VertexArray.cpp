@@ -42,10 +42,6 @@ namespace render
           attribute.dataType, GL_FALSE, stride, (const void*)offset);
       offset += attribute.numComponents * getSizeOfType(attribute.dataType);
     }
-
-//    // original code
-//    glEnableVertexAttribArray(0);
-//    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
   }
 
   void VertexArray::bind()

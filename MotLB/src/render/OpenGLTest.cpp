@@ -71,7 +71,7 @@ void changeColor(float& color, float& increment)
   }
 }
 
-int openGLTest()
+int uniformShaderTest()
 {
   GLFWwindow* window;
 
@@ -151,7 +151,7 @@ int openGLTest()
       12, 14, 15
   };
 
-  render::ShaderProgram shaders("resources/shaders/Basic.shader");
+  render::ShaderProgram shaders("resources/shaders/UniformColorShader.glsl");
 
   render::VertexArray vertexArray;
   vertexArray.addAttribute("position", GL_FLOAT, 2);
@@ -185,7 +185,6 @@ int openGLTest()
 
     indexBuffer.bind();
 
-//    renderArray();
     renderElements(indexBuffer.getNumIndices());
 
     /* Swap front and back buffers */
@@ -198,3 +197,133 @@ int openGLTest()
   glfwTerminate();
   return 0;
 }
+
+int vertexColorShaderTest()
+{
+  GLFWwindow* window;
+
+#ifdef MOTLB_DEBUG
+  glfwSetErrorCallback(printGLFWError);
+#endif
+
+  /* Initialize the library */
+  if (!glfwInit())
+    return -1;
+
+#ifdef MOTLB_DEBUG
+  glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
+
+  /* Create a windowed mode window and its OpenGL context */
+  window = glfwCreateWindow(640, 640, "MotLB OpenGL Test", NULL, NULL);
+  if (!window)
+  {
+    glfwTerminate();
+    return -1;
+  }
+
+  /* Make the window's context current */
+  glfwMakeContextCurrent(window);
+
+  glfwSwapInterval(1);
+
+  /* Initialize GLEW */
+  if (glewInit() != GLEW_OK)
+  {
+    std::cerr << "GLEW is not ok" << std::endl;
+    return -1;
+  }
+
+#ifdef MOTLB_DEBUG
+  std::cout << "Running in debug mode with OpenGL version " <<
+      glGetString(GL_VERSION) << std::endl;
+  glDebugMessageCallback(printGLDebug, nullptr);
+#endif
+
+  float vertices[] = {
+
+//   |  x      y   |   r     g     b     a  |
+      -0.7f, -0.2f,   1.0f, 0.0f, 0.0f, 1.0f, // lower left
+      -0.7f, -0.7f,   1.0f, 0.0f, 0.0f, 1.0f,
+      -0.2f, -0.7f,   1.0f, 0.0f, 0.0f, 1.0f,
+
+      -0.7f,  0.2f,   0.0f, 1.0f, 0.0f, 1.0f, // upper left
+      -0.7f,  0.7f,   0.0f, 1.0f, 0.0f, 1.0f,
+      -0.2f,  0.7f,   0.0f, 1.0f, 0.0f, 1.0f,
+
+       0.7f,  0.2f,   0.0f, 0.0f, 1.0f, 1.0f, // upper right
+       0.7f,  0.7f,   0.0f, 0.0f, 1.0f, 1.0f,
+       0.2f,  0.7f,   0.0f, 0.0f, 1.0f, 1.0f,
+
+       0.7f, -0.2f,   1.0f, 1.0f, 0.0f, 1.0f, // lower right
+       0.7f, -0.7f,   1.0f, 1.0f, 0.0f, 1.0f,
+       0.2f, -0.7f,   1.0f, 1.0f, 0.0f, 1.0f,
+
+      -0.2f, -0.2f,   1.0f, 0.0f, 0.0f, 1.0f, // center square
+      -0.2f,  0.2f,   0.0f, 1.0f, 0.0f, 1.0f,
+       0.2f,  0.2f,   0.0f, 0.0f, 1.0f, 1.0f,
+       0.2f, -0.2f,   1.0f, 1.0f, 0.0f, 1.0f
+  };
+
+  GLuint indices[] = {
+
+      0, 1, 2,
+
+      3, 4, 5,
+
+      6, 7, 8,
+
+      9, 10, 11,
+
+      12, 13, 14,
+      12, 14, 15
+  };
+
+  render::ShaderProgram shaders("resources/shaders/VertexColorShader.glsl");
+
+  render::VertexArray vertexArray;
+  vertexArray.addAttribute("position", GL_FLOAT, 2);
+  vertexArray.addAttribute("color", GL_FLOAT, 4);
+
+  render::VertexBuffer vertexBuffer((const void*)vertices, sizeof(vertices), GL_STATIC_DRAW);
+  vertexArray.applyAttributesWithBuffer(vertexBuffer, shaders);
+
+//  vertexArray.bind();
+//  glEnableVertexAttribArray(0);
+//  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+
+  render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
+
+  float red = 0.0f, redIncrement = 0.02f,
+      green = 0.0f, greenIncrement = 0.01f,
+      blue = 0.0f, blueIncrement = 0.005f;
+
+  /* Loop until the user closes the window */
+  while (!glfwWindowShouldClose(window))
+  {
+    /* Render here */
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    shaders.bind();
+    changeColor(red, redIncrement);
+    changeColor(green, greenIncrement);
+    changeColor(blue, blueIncrement);
+    shaders.setUniform4f("u_Color", red, green, blue, 1.0f);
+
+    vertexArray.bind();
+
+    indexBuffer.bind();
+
+    renderElements(indexBuffer.getNumIndices());
+
+    /* Swap front and back buffers */
+    glfwSwapBuffers(window);
+
+    /* Poll for and process events */
+    glfwPollEvents();
+  }
+
+  glfwTerminate();
+  return 0;
+}
+

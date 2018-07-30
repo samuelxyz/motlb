@@ -1,5 +1,5 @@
 /*
- * Basic.shader
+ * UniformColorShader.glsl
  *
  *  Created on: Jul 26, 2018
  *      Author: Samuel Tan
