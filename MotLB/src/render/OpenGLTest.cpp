@@ -183,7 +183,7 @@ int openGLTest()
     ibo.bind();
 
 //    renderArray();
-    renderElements(sizeof(indices)/sizeof(unsigned int));
+    renderElements(ibo.getNumIndices());
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
