@@ -35,6 +35,7 @@ namespace render
 
   ShaderProgram::~ShaderProgram()
   {
+    //glDeleteProgram(programID);
   }
 
   void ShaderProgram::parseShaders(const std::string& filepath)
@@ -106,7 +107,7 @@ namespace render
   void ShaderProgram::setUniform4f(const std::string& uniformName, float float1,
       float float2, float float3, float float4)
   {
-    GLuint location = glGetUniformLocation(programID, uniformName);
+    GLuint location = glGetUniformLocation(programID, uniformName.c_str());
     glUniform4f(location, float1, float2, float3, float4);
   }
 

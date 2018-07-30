@@ -9,13 +9,11 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <cassert>
 #include <cstdio>
 #include <iostream>
-#include <string>
-#include <sstream>
 
 #include "ShaderProgram.h"
+#include "VertexBuffer.h"
 
 #ifdef MOTLB_DEBUG
 static void printGLFWError(int error, const char* description)
@@ -155,10 +153,7 @@ int openGLTest()
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  GLuint buffer;
-  glGenBuffers(1, &buffer);
-  glBindBuffer(GL_ARRAY_BUFFER, buffer);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+  render::VertexBuffer vbo((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
 
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
@@ -204,8 +199,6 @@ int openGLTest()
     /* Poll for and process events */
     glfwPollEvents();
   }
-
-  glDeleteProgram(shaders);
 
   glfwTerminate();
   return 0;
