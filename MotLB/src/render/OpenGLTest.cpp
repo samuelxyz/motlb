@@ -14,6 +14,7 @@
 
 #include "IndexBuffer.h"
 #include "ShaderProgram.h"
+#include "VertexArray.h"
 #include "VertexBuffer.h"
 
 #ifdef MOTLB_DEBUG
@@ -150,17 +151,19 @@ int openGLTest()
       12, 14, 15
   };
 
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-
-  render::VertexBuffer vbo((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
-
-  render::IndexBuffer ibo(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
-
   render::ShaderProgram shaders("resources/shaders/Basic.shader");
+
+  render::VertexArray vertexArray;
+  vertexArray.addAttribute("position", GL_FLOAT, 2);
+
+  render::VertexBuffer vertexBuffer((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
+  vertexArray.applyAttributesWithBuffer(vertexBuffer, shaders);
+
+//  vertexArray.bind();
+//  glEnableVertexAttribArray(0);
+//  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+
+  render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
   float red = 0.0f, redIncrement = 0.02f,
       green = 0.0f, greenIncrement = 0.01f,
@@ -178,12 +181,12 @@ int openGLTest()
     changeColor(blue, blueIncrement);
     shaders.setUniform4f("u_Color", red, green, blue, 1.0f);
 
-    glBindVertexArray(vao);
+    vertexArray.bind();
 
-    ibo.bind();
+    indexBuffer.bind();
 
 //    renderArray();
-    renderElements(ibo.getNumIndices());
+    renderElements(indexBuffer.getNumIndices());
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
