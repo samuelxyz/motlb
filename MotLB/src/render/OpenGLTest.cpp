@@ -4,33 +4,17 @@
  *  Created on: Jul 26, 2018
  *      Author: Samuel Tan
  *
- *      TODO const correctness
  */
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include <cstdio>
 #include <iostream>
 
+#include "../Window.h"
 #include "IndexBuffer.h"
 #include "ShaderProgram.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "Renderer.h"
-
-#ifdef MOTLB_DEBUG
-static void printGLFWError(int error, const char* description)
-{
-  fprintf(stderr, "[GLFW Error] %s\n", description);
-}
-
-void APIENTRY printGLDebug(GLenum source, GLenum type, GLuint id,
-    GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
-{
-//  std::cout << "[GL][" << __FILE__ << ": line " << __LINE__ << "] " << message << std::endl;
-  std::cout << "[GL] " << message << std::endl;
-}
-#endif
 
 void renderBasic()
 {
@@ -74,45 +58,7 @@ void changeColor(float& color, float& increment)
 
 int uniformShaderTest()
 {
-  GLFWwindow* window;
-
-#ifdef MOTLB_DEBUG
-  glfwSetErrorCallback(printGLFWError);
-#endif
-
-  /* Initialize the library */
-  if (!glfwInit())
-    return -1;
-
-#ifdef MOTLB_DEBUG
-  glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-#endif
-
-  /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(640, 640, "MotLB OpenGL Test", NULL, NULL);
-  if (!window)
-  {
-    glfwTerminate();
-    return -1;
-  }
-
-  /* Make the window's context current */
-  glfwMakeContextCurrent(window);
-
-  glfwSwapInterval(1);
-
-  /* Initialize GLEW */
-  if (glewInit() != GLEW_OK)
-  {
-    std::cerr << "GLEW is not ok" << std::endl;
-    return -1;
-  }
-
-#ifdef MOTLB_DEBUG
-  std::cout << "Running in debug mode with OpenGL version " <<
-      glGetString(GL_VERSION) << std::endl;
-  glDebugMessageCallback(printGLDebug, nullptr);
-#endif
+  Window window;
 
   float positions[] = {
 
@@ -169,7 +115,7 @@ int uniformShaderTest()
       blue = 0.0f, blueIncrement = 0.005f;
 
   /* Loop until the user closes the window */
-  while (!glfwWindowShouldClose(window))
+  while (!window.shouldClose())
   {
     /* Render here */
     renderer.clear();
@@ -182,7 +128,7 @@ int uniformShaderTest()
     renderer.draw(vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
-    glfwSwapBuffers(window);
+    window.swapBuffers();
 
     /* Poll for and process events */
     glfwPollEvents();
@@ -194,45 +140,7 @@ int uniformShaderTest()
 
 int vertexColorShaderTest()
 {
-  GLFWwindow* window;
-
-#ifdef MOTLB_DEBUG
-  glfwSetErrorCallback(printGLFWError);
-#endif
-
-  /* Initialize the library */
-  if (!glfwInit())
-    return -1;
-
-#ifdef MOTLB_DEBUG
-  glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-#endif
-
-  /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(640, 640, "MotLB OpenGL Test", NULL, NULL);
-  if (!window)
-  {
-    glfwTerminate();
-    return -1;
-  }
-
-  /* Make the window's context current */
-  glfwMakeContextCurrent(window);
-
-  glfwSwapInterval(1);
-
-  /* Initialize GLEW */
-  if (glewInit() != GLEW_OK)
-  {
-    std::cerr << "GLEW is not ok" << std::endl;
-    return -1;
-  }
-
-#ifdef MOTLB_DEBUG
-  std::cout << "Running in debug mode with OpenGL version " <<
-      glGetString(GL_VERSION) << std::endl;
-  glDebugMessageCallback(printGLDebug, nullptr);
-#endif
+  Window window;
 
   float vertices[] = {
 
@@ -287,20 +195,18 @@ int vertexColorShaderTest()
   render::Renderer renderer;
 
   /* Loop until the user closes the window */
-  while (!glfwWindowShouldClose(window))
+  while (!window.shouldClose())
   {
     /* Render here */
-
     renderer.draw(vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
-    glfwSwapBuffers(window);
+    window.swapBuffers();
 
     /* Poll for and process events */
     glfwPollEvents();
   }
 
-  glfwTerminate();
   return 0;
 }
 
