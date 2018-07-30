@@ -123,6 +123,7 @@ int uniformShaderTest()
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
     changeColor(blue, blueIncrement);
+    shaderProgram.bind();
     shaderProgram.setUniform4f("u_Color", red, green, blue, 1.0f);
 
     renderer.draw(vertexArray, indexBuffer, shaderProgram);

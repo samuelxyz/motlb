@@ -126,7 +126,7 @@ namespace render
   void ShaderProgram::setUniform4f(const std::string& uniformName, float float1,
       float float2, float float3, float float4)
   {
-
+    // remember to bind first!
     glUniform4f(getUniformLocation(uniformName), float1, float2, float3, float4);
   }
 
