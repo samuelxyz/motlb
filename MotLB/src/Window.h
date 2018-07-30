@@ -18,6 +18,7 @@ class Window
 
   public:
     Window();
+    Window(int width, int height, const char* title, GLFWmonitor* monitor);
     ~Window();
 
     bool shouldClose() const;

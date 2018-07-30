@@ -9,7 +9,11 @@
 #include <cassert>
 #include <iostream>
 
-Window::Window()
+Window::Window() : Window(640, 640, "MotLB", nullptr)
+{
+}
+
+Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
 {
 
 #ifdef MOTLB_DEBUG /////////////////////////
@@ -24,7 +28,7 @@ Window::Window()
 #endif /////////////////////////////////////
 
   /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(640, 640, "MotLB OpenGL Test", NULL, NULL);
+  window = glfwCreateWindow(width, height, title, monitor, NULL);
   if (!window)
   {
     glfwTerminate();
