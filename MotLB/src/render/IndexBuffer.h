@@ -26,7 +26,7 @@ namespace render
       void updateData(const GLuint* data, GLuint numIndices);
       void bind() const;
       void unbind() const;
-      GLuint getNumIndices() const {return numIndices;}
+      GLuint getNumIndices() const { return numIndices; }
   };
 
 } /* namespace render */

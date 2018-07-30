@@ -35,7 +35,7 @@ namespace render
 
   ShaderProgram::~ShaderProgram()
   {
-    //glDeleteProgram(programID);
+    glDeleteProgram(programID);
   }
 
   void ShaderProgram::parseShaders(const std::string& filepath)

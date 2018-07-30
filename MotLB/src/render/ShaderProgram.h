@@ -32,7 +32,7 @@ namespace render
 
     private:
       void parseShaders(const std::string& filepath);
-      GLuint compileShader(GLenum type, std::string& source);
+      static GLuint compileShader(GLenum type, std::string& source);
   };
 
 } /* namespace render */

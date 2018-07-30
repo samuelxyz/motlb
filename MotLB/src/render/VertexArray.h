@@ -37,8 +37,8 @@ namespace render
       VertexArray();
       ~VertexArray();
 
-      void addAttribute(std::string varName, GLenum dataType, GLuint numComponents);
-      void applyAttributesWithBuffer(render::VertexBuffer& vb, render::ShaderProgram& sp);
+      void addAttribute(const std::string& varName, GLenum dataType, GLuint numComponents);
+      void applyAttributesWithBuffer(const VertexBuffer& vb, const ShaderProgram& sp);
 
       void bind();
       void unbind();

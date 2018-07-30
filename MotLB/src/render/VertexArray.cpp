@@ -22,13 +22,13 @@ namespace render
     glDeleteVertexArrays(1, &ID);
   }
 
-  void VertexArray::addAttribute(std::string varName, GLenum dataType, GLuint numComponents)
+  void VertexArray::addAttribute(const std::string& varName, GLenum dataType, GLuint numComponents)
   {
     attributes.push_back({ varName, dataType, numComponents });
     stride += (numComponents * getSizeOfType(dataType));
   }
 
-  void VertexArray::applyAttributesWithBuffer(VertexBuffer& vb, ShaderProgram& sp)
+  void VertexArray::applyAttributesWithBuffer(const VertexBuffer& vb, const ShaderProgram& sp)
   {
     vb.bind();
     bind();

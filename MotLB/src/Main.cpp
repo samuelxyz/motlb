@@ -68,5 +68,5 @@ int main()
   //  std::srand(static_cast<unsigned int>(std::time(0)));
   //  boxTest();
 
-  return vertexColorShaderTest();
+  return uniformShaderTest() + vertexColorShaderTest();
 }
