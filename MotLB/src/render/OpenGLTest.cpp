@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <iostream>
 
+#include "IndexBuffer.h"
 #include "ShaderProgram.h"
 #include "VertexBuffer.h"
 
@@ -154,14 +155,10 @@ int openGLTest()
   glBindVertexArray(vao);
 
   render::VertexBuffer vbo((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
-
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
 
-  GLuint ibo;
-  glGenBuffers(1, &ibo);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+  render::IndexBuffer ibo((const void*)indices, sizeof(indices), GL_STATIC_DRAW);
 
   render::ShaderProgram shaders("resources/shaders/Basic.shader");
 
@@ -176,19 +173,14 @@ int openGLTest()
     glClear(GL_COLOR_BUFFER_BIT);
 
     shaders.bind();
-
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
     changeColor(blue, blueIncrement);
-
     shaders.setUniform4f("u_Color", red, green, blue, 1.0f);
 
-//    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-//    glEnableVertexAttribArray(0);
-//    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
     glBindVertexArray(vao);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    ibo.bind();
 
 //    renderArray();
     renderElements(sizeof(indices)/sizeof(unsigned int));

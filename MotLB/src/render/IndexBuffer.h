@@ -1,19 +1,19 @@
 /*
- * VertexBuffer.h
+ * IndexBuffer.h
  *
  *  Created on: Jul 30, 2018
  *      Author: Samuel Tan
  */
 
-#ifndef VERTEXBUFFER_H_
-#define VERTEXBUFFER_H_
+#ifndef INDEXBUFFER_H_
+#define INDEXBUFFER_H_
 
 #include <GL/glew.h>
 
 namespace render
 {
 
-  class VertexBuffer
+  class IndexBuffer
   {
     private:
       GLuint ID;
@@ -21,8 +21,8 @@ namespace render
       GLenum usage;
 
     public:
-      VertexBuffer(const void* data, GLsizeiptr size, GLenum usage);
-      ~VertexBuffer();
+      IndexBuffer(const void* data, GLsizeiptr size, GLenum usage);
+      ~IndexBuffer();
 
       void updateData(const void* data, GLsizeiptr size);
       void bind();
@@ -31,4 +31,4 @@ namespace render
 
 } /* namespace render */
 
-#endif /* VERTEXBUFFER_H_ */
+#endif /* INDEXBUFFER_H_ */
