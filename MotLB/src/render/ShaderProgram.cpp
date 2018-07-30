@@ -69,7 +69,7 @@ namespace render
 
   }
 
-  void ShaderProgram::bind()
+  void ShaderProgram::bind() const
   {
     glUseProgram(programID);
   }
@@ -129,9 +129,6 @@ namespace render
 
     glUniform4f(getUniformLocation(uniformName), float1, float2, float3, float4);
   }
-
-
-
 
 } /* namespace render */
 

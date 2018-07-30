@@ -40,8 +40,8 @@ namespace render
       void addAttribute(const std::string& varName, GLenum dataType, GLuint numComponents);
       void applyAttributesWithBuffer(const VertexBuffer& vb, const ShaderProgram& sp);
 
-      void bind();
-      void unbind();
+      void bind() const;
+      void unbind() const;
 
     private:
       GLsizei getSizeOfType(GLenum dataType);

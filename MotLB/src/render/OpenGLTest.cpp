@@ -16,6 +16,7 @@
 #include "ShaderProgram.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
+#include "Renderer.h"
 
 #ifdef MOTLB_DEBUG
 static void printGLFWError(int error, const char* description)
@@ -151,19 +152,17 @@ int uniformShaderTest()
       12, 14, 15
   };
 
-  render::ShaderProgram shaders("resources/shaders/UniformColorShader.glsl");
+  render::ShaderProgram shaderProgram("resources/shaders/UniformColorShader.glsl");
 
   render::VertexArray vertexArray;
   vertexArray.addAttribute("position", GL_FLOAT, 2);
 
   render::VertexBuffer vertexBuffer((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
-  vertexArray.applyAttributesWithBuffer(vertexBuffer, shaders);
-
-//  vertexArray.bind();
-//  glEnableVertexAttribArray(0);
-//  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+  vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
   render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
+
+  render::Renderer renderer;
 
   float red = 0.0f, redIncrement = 0.02f,
       green = 0.0f, greenIncrement = 0.01f,
@@ -173,19 +172,14 @@ int uniformShaderTest()
   while (!glfwWindowShouldClose(window))
   {
     /* Render here */
-    glClear(GL_COLOR_BUFFER_BIT);
+    renderer.clear();
 
-    shaders.bind();
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
     changeColor(blue, blueIncrement);
-    shaders.setUniform4f("u_Color", red, green, blue, 1.0f);
+    shaderProgram.setUniform4f("u_Color", red, green, blue, 1.0f);
 
-    vertexArray.bind();
-
-    indexBuffer.bind();
-
-    renderElements(indexBuffer.getNumIndices());
+    renderer.draw(vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);
@@ -279,42 +273,25 @@ int vertexColorShaderTest()
       12, 14, 15
   };
 
-  render::ShaderProgram shaders("resources/shaders/VertexColorShader.glsl");
+  render::ShaderProgram shaderProgram("resources/shaders/VertexColorShader.glsl");
 
   render::VertexArray vertexArray;
   vertexArray.addAttribute("position", GL_FLOAT, 2);
   vertexArray.addAttribute("color", GL_FLOAT, 4);
 
   render::VertexBuffer vertexBuffer((const void*)vertices, sizeof(vertices), GL_STATIC_DRAW);
-  vertexArray.applyAttributesWithBuffer(vertexBuffer, shaders);
-
-//  vertexArray.bind();
-//  glEnableVertexAttribArray(0);
-//  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2*sizeof(float), nullptr);
+  vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
   render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
-  float red = 0.0f, redIncrement = 0.02f,
-      green = 0.0f, greenIncrement = 0.01f,
-      blue = 0.0f, blueIncrement = 0.005f;
+  render::Renderer renderer;
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window))
   {
     /* Render here */
-    glClear(GL_COLOR_BUFFER_BIT);
 
-    shaders.bind();
-    changeColor(red, redIncrement);
-    changeColor(green, greenIncrement);
-    changeColor(blue, blueIncrement);
-    shaders.setUniform4f("u_Color", red, green, blue, 1.0f);
-
-    vertexArray.bind();
-
-    indexBuffer.bind();
-
-    renderElements(indexBuffer.getNumIndices());
+    renderer.draw(vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);

@@ -27,7 +27,7 @@ namespace render
       ShaderProgram(const std::string& filepath);
       virtual ~ShaderProgram();
 
-      void bind();
+      void bind() const;
       void setUniform4f(const std::string& uniformName, float, float, float, float);
 
       GLuint getID() const {return programID;}

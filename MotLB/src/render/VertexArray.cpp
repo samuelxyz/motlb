@@ -44,12 +44,12 @@ namespace render
     }
   }
 
-  void VertexArray::bind()
+  void VertexArray::bind() const
   {
     glBindVertexArray(ID);
   }
 
-  void VertexArray::unbind()
+  void VertexArray::unbind() const
   {
     glBindVertexArray(0);
   }
