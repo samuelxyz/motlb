@@ -17,13 +17,16 @@ namespace render
   : maxBoxes(maxBoxes), boxes(),
     shaderProgram(sp), vertexArray(),
     vertexBuffer(nullptr, maxBoxes * FLOATS_PER_BOX * sizeof(float), GL_DYNAMIC_DRAW),
-    indexBuffer(nullptr, maxBoxes * 6, GL_DYNAMIC_DRAW)
+    indexBuffer((const GLuint*)nullptr, maxBoxes * 6, GL_DYNAMIC_DRAW)
   {
     vertexArray.addAttribute("color", GL_FLOAT, 4);
     vertexArray.addAttribute("position", GL_FLOAT, 2);
     vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
     boxes.reserve(maxBoxes);
+
+    indexBuffer.forceBind();
+//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.ID); // debug, works
   }
 
   ColoredBoxBatch::~ColoredBoxBatch()

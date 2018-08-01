@@ -30,6 +30,7 @@ namespace render
       };
 
     private:
+      static GLuint currentlyBound;
       std::vector<Attribute> attributes;
       GLuint ID, stride;
 
@@ -41,6 +42,7 @@ namespace render
       void applyAttributesWithBuffer(const VertexBuffer& vb, const ShaderProgram& sp);
 
       void bind() const;
+      void forceBind() const;
       void unbind() const;
 
     private:

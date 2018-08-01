@@ -111,8 +111,6 @@ int uniformShaderTest()
 
   render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
-  render::Renderer renderer;
-
   float red = 0.0f, redIncrement = 0.02f,
       green = 0.0f, greenIncrement = 0.01f,
       blue = 0.0f, blueIncrement = 0.005f;
@@ -121,7 +119,7 @@ int uniformShaderTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    renderer.clear();
+    render::Renderer::clear();
 
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
@@ -129,7 +127,7 @@ int uniformShaderTest()
     shaderProgram.bind();
     shaderProgram.setUniform4f("u_Color", red, green, blue, 1.0f);
 
-    renderer.draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
+    render::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     window.swapBuffers();
@@ -196,13 +194,12 @@ int vertexColorShaderTest()
 
   render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
-  render::Renderer renderer;
-
   /* Loop until the user closes the window */
   while (!window.shouldClose())
   {
     /* Render here */
-    renderer.draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
+    render::Renderer::clear();
+    render::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     window.swapBuffers();
@@ -228,6 +225,7 @@ int coloredBoxBatchTest()
   while (!window.shouldClose())
   {
     /* Render here */
+    render::Renderer::clear();
     cbb.render();
 
     /* Swap front and back buffers */

@@ -16,6 +16,8 @@ namespace render
   class IndexBuffer
   {
     private:
+
+      static GLuint currentlyBound;
       GLuint ID, numIndices;
       GLenum usage;
 
@@ -25,8 +27,10 @@ namespace render
 
       void updateData(const GLuint* data, GLuint numIndices);
       void bind() const;
+      void forceBind() const;
       void unbind() const;
       GLuint getNumIndices() const { return numIndices; }
+
   };
 
 } /* namespace render */

@@ -11,6 +11,8 @@
 namespace render
 {
 
+  GLuint VertexArray::currentlyBound = 0;
+
   VertexArray::VertexArray()
   : stride(0)
   {
@@ -19,6 +21,8 @@ namespace render
 
   VertexArray::~VertexArray()
   {
+    if (currentlyBound == ID)
+      currentlyBound = 0;
     glDeleteVertexArrays(1, &ID);
   }
 
@@ -46,12 +50,20 @@ namespace render
 
   void VertexArray::bind() const
   {
+    if (currentlyBound != ID)
+      forceBind();
+  }
+
+  void VertexArray::forceBind() const
+  {
     glBindVertexArray(ID);
+    currentlyBound = ID;
   }
 
   void VertexArray::unbind() const
   {
     glBindVertexArray(0);
+    currentlyBound = 0;
   }
 
   GLsizei VertexArray::getSizeOfType(GLenum dataType)

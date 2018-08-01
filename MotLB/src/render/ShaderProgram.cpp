@@ -15,6 +15,8 @@
 namespace render
 {
 
+  GLuint ShaderProgram::currentlyBound = 0;
+
   ShaderProgram::ShaderProgram(const std::string& filepath)
   : programID(glCreateProgram())
   {
@@ -35,6 +37,8 @@ namespace render
 
   ShaderProgram::~ShaderProgram()
   {
+    if (currentlyBound == programID)
+      currentlyBound = 0;
     glDeleteProgram(programID);
   }
 
@@ -71,7 +75,14 @@ namespace render
 
   void ShaderProgram::bind() const
   {
+    if (currentlyBound != programID)
+      forceBind();
+  }
+
+  void ShaderProgram::forceBind() const
+  {
     glUseProgram(programID);
+    currentlyBound = programID;
   }
 
   GLuint ShaderProgram::compileShader(GLenum type, std::string& source)

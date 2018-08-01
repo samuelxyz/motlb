@@ -18,6 +18,7 @@ namespace render
   class ShaderProgram
   {
     private:
+      static GLuint currentlyBound;
       GLuint programID, vertexShaderID, fragmentShaderID;
       std::string vertexShaderSource, fragmentShaderSource;
       std::unordered_map<std::string, GLint> uniformCache;
@@ -28,6 +29,7 @@ namespace render
       virtual ~ShaderProgram();
 
       void bind() const;
+      void forceBind() const;
       void setUniform4f(const std::string& uniformName, float, float, float, float);
 
       GLuint getID() const {return programID;}

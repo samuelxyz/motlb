@@ -16,6 +16,7 @@ namespace render
   class VertexBuffer
   {
     private:
+      static GLuint currentlyBound;
       GLuint ID;
       GLsizeiptr bufferSize;
       GLenum usage;
@@ -26,6 +27,7 @@ namespace render
 
       void updateData(const void* data, GLsizeiptr size);
       void bind() const;
+      void forceBind() const;
       void unbind() const;
   };
 
