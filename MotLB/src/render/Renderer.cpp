@@ -27,13 +27,13 @@ namespace render
     glClear(GL_COLOR_BUFFER_BIT);
   }
 
-  void Renderer::draw(const VertexArray& va, const IndexBuffer& ib,
-      const ShaderProgram& sp)
+  void Renderer::draw(GLenum mode, const VertexArray& va,
+      const IndexBuffer& ib, const ShaderProgram& sp)
   {
     va.bind();
     ib.bind();
     sp.bind();
-    glDrawElements(GL_TRIANGLES, ib.getNumIndices(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(mode, ib.getNumIndices(), GL_UNSIGNED_INT, nullptr);
   }
 
 } /* namespace render */

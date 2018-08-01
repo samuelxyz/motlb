@@ -63,10 +63,10 @@ void Box::absCorners(std::array<Vec2, 4>& toFill) const
   relCorners(toFill);
 
   // printing for debug
-  std::cout << "relCorners:";
-  for (Vec2 v : toFill)
-    std::cout << " " << v;
-  std::cout << std::endl;
+//  std::cout << "relCorners:";
+//  for (Vec2 v : toFill)
+//    std::cout << " " << v;
+//  std::cout << std::endl;
 
   for (Vec2& c : toFill)
   {

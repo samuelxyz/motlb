@@ -12,6 +12,7 @@
 
 int uniformShaderTest();
 int vertexColorShaderTest();
+int coloredBoxBatchTest();
 
 Vec2 getVector()
 {
@@ -68,5 +69,5 @@ int main()
   //  std::srand(static_cast<unsigned int>(std::time(0)));
   //  boxTest();
 
-  return uniformShaderTest() + vertexColorShaderTest();
+  return uniformShaderTest() + vertexColorShaderTest() + coloredBoxBatchTest();
 }

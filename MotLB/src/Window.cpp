@@ -38,6 +38,7 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
 
+  /* Set refresh rate to once per frame (60 Hz) */
   glfwSwapInterval(1);
 
   /* Initialize GLEW */

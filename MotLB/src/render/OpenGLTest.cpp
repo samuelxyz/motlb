@@ -6,15 +6,18 @@
  *
  */
 
-#include <cstdio>
-#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
+#include "../Box.h"
+#include "../Vec2.h"
 #include "../Window.h"
+#include "ColoredBoxBatch.h"
 #include "IndexBuffer.h"
+#include "Renderer.h"
 #include "ShaderProgram.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
-#include "Renderer.h"
 
 void renderBasic()
 {
@@ -126,7 +129,7 @@ int uniformShaderTest()
     shaderProgram.bind();
     shaderProgram.setUniform4f("u_Color", red, green, blue, 1.0f);
 
-    renderer.draw(vertexArray, indexBuffer, shaderProgram);
+    renderer.draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     window.swapBuffers();
@@ -199,7 +202,33 @@ int vertexColorShaderTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    renderer.draw(vertexArray, indexBuffer, shaderProgram);
+    renderer.draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
+
+    /* Swap front and back buffers */
+    window.swapBuffers();
+
+    /* Poll for and process events */
+    glfwPollEvents();
+  }
+
+  return 0;
+}
+
+int coloredBoxBatchTest()
+{
+  Window window;
+
+  render::ShaderProgram shaderProgram("resources/shaders/ColoredBoxBatch.glsl");
+  render::ColoredBoxBatch cbb(1, shaderProgram);
+
+  Box box(Vec2(-0.5, -0.5), Vec2(0.5, 0.5));
+  cbb.add({0.0f, 0.0f, 1.0f, 1.0f, box});
+
+  /* Loop until the user closes the window */
+  while (!window.shouldClose())
+  {
+    /* Render here */
+    cbb.render();
 
     /* Swap front and back buffers */
     window.swapBuffers();

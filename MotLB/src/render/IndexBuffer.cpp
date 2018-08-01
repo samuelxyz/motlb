@@ -25,13 +25,14 @@ namespace render
 
   void IndexBuffer::updateData(const GLuint* data, GLuint numIndices)
   {
+    bind();
     if (numIndices > this->numIndices)
     {
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), data, usage);
     }
     else
     {
-      glBufferSubData(ID, 0, numIndices * sizeof(GLuint), data);
+      glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, numIndices * sizeof(GLuint), data);
     }
   }
 

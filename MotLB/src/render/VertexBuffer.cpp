@@ -35,13 +35,14 @@ VertexBuffer::VertexBuffer(const void* data, GLsizeiptr size, GLenum usage)
 
   void VertexBuffer::updateData(const void* data, GLsizeiptr size)
   {
+    bind();
     if (size > bufferSize)
     {
       glBufferData(GL_ARRAY_BUFFER, size, data, usage);
     }
     else
     {
-      glBufferSubData(ID, 0, size, data);
+      glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
     }
   }
 } /* namespace render */

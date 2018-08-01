@@ -26,7 +26,8 @@ namespace render
       ~Renderer();
 
       static void clear();
-      static void draw(const VertexArray& va, const IndexBuffer& ib, const ShaderProgram& sp);
+      static void draw(GLenum mode, const VertexArray& va,
+          const IndexBuffer& ib, const ShaderProgram& sp);
   };
 
 } /* namespace render */
