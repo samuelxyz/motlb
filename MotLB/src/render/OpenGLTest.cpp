@@ -119,7 +119,7 @@ int uniformShaderTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    render::Renderer::clear();
+    render::Renderer::clearScreen();
 
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
@@ -198,7 +198,7 @@ int vertexColorShaderTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    render::Renderer::clear();
+    render::Renderer::clearScreen();
     render::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
@@ -225,8 +225,8 @@ int coloredBoxBatchTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    render::Renderer::clear();
-    cbb.render();
+    render::Renderer::clearScreen();
+    cbb.renderAll();
 
     /* Swap front and back buffers */
     window.swapBuffers();

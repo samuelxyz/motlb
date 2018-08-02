@@ -15,6 +15,8 @@ namespace render
 {
 
   Renderer::Renderer()
+  : cbbShader("resources/shaders/ColoredBoxBatch.glsl"),
+    cbb(200, cbbShader)
   {
   }
 
@@ -22,7 +24,7 @@ namespace render
   {
   }
 
-  void Renderer::clear()
+  void Renderer::clearScreen()
   {
     glClear(GL_COLOR_BUFFER_BIT);
   }
@@ -34,6 +36,18 @@ namespace render
     ib.bind();
     sp.bind();
     glDrawElements(mode, ib.getNumIndices(), GL_UNSIGNED_INT, nullptr);
+  }
+
+  void Renderer::renderAndClearAll()
+  {
+    clearScreen();
+    cbb.renderAll();
+    cbb.clearAll();
+  }
+
+  void Renderer::addColoredBox(float r, float g, float b, float a, Box& box)
+  {
+    cbb.add({ r, g, b, a, box });
   }
 
 } /* namespace render */

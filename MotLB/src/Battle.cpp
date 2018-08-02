@@ -10,15 +10,14 @@
 #include "Vec2.h"
 
 Battle::Battle()
-  : bounds(Vec2(), Vec2(800, 800))
+  : bounds(Vec2(-1, -1), Vec2(1, 1)), // TODO projection matrices
+    particles(), projectiles(), units(),
+    renderer()
 {
-  // TODO Auto-generated constructor stub
-
 }
 
 Battle::~Battle()
 {
-  // TODO Auto-generated destructor stub
 }
 
 void Battle::run()
@@ -29,22 +28,24 @@ void Battle::stop()
 {
 }
 
-template <class... Args>
-void Battle::add(entity::Entity::Type type, Args&&... args)
+void Battle::update()
 {
-  switch (type)
-  {
-    case entity::Entity::Type::PARTICLE:
-      particles.emplace_back(args...); //???
-      break;
-    case entity::Entity::Type::PROJECTILE:
-      projectiles.emplace_back(args...);
-      break;
-    case entity::Entity::Type::UNIT:
-      units.emplace_back(args...);
-      break;
-  }
+  for (auto& u : units)
+    u.update();
+  for (auto& p : projectiles)
+    p.update();
+  for (auto& p : particles)
+    p.update();
 }
+
+void Battle::renderAll()
+{
+  for (auto& u : units)
+    u.render();
+
+  renderer.renderAndClearAll();
+}
+
 
 void Battle::clearAll()
 {
@@ -58,14 +59,19 @@ Box const& Battle::getBounds() const
   return bounds;
 }
 
-void Battle::update()
+void Battle::add(entity::Projectile& p)
 {
-  for (auto& u : units)
-    u.update();
-  for (auto& p : projectiles)
-    p.update();
-  for (auto& p : particles)
-    p.update();
+  projectiles.push_back(p);
+}
+
+void Battle::add(entity::Particle& p)
+{
+  particles.push_back(p);
+}
+
+void Battle::add(entity::Unit& u)
+{
+  units.push_back(u);
 }
 
 void Battle::remove(entity::Particle& particle)
@@ -101,11 +107,13 @@ void Battle::remove(entity::Unit& u)
     }
 }
 
+void Battle::renderBox(float r, float g, float b, float a, Box& box)
+{
+  renderer.addColoredBox(r, g, b, a, box);
+}
+
 std::vector<entity::Unit>& Battle::getUnits()
 {
   return units;
 }
 
-void Battle::render()
-{
-}

@@ -10,9 +10,10 @@
 #include "Box.h"
 #include "Vec2.h"
 
-int uniformShaderTest();
-int vertexColorShaderTest();
-int coloredBoxBatchTest();
+//int uniformShaderTest();
+//int vertexColorShaderTest();
+//int coloredBoxBatchTest();
+int battleRenderTest();
 
 Vec2 getVector()
 {
@@ -69,5 +70,5 @@ int main()
   //  std::srand(static_cast<unsigned int>(std::time(0)));
   //  boxTest();
 
-  return uniformShaderTest() + vertexColorShaderTest() + coloredBoxBatchTest();
+  return battleRenderTest();
 }

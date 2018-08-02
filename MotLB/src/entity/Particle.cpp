@@ -20,7 +20,6 @@ namespace entity
 
   Particle::~Particle()
   {
-    // TODO Auto-generated destructor stub
   }
 
   void Particle::update()

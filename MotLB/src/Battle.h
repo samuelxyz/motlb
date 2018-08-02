@@ -14,6 +14,7 @@
 #include "entity/Particle.h"
 #include "entity/Projectile.h"
 #include "entity/Unit.h"
+#include "render/Renderer.h"
 
 class Battle
 {
@@ -25,16 +26,17 @@ class Battle
 
     void run();
     void stop();
+    void update();
+    void renderAll();
+    void renderBox(float r, float g, float b, float a, Box& box);
 
-    template <class... Args>
-    void add(entity::Entity::Type, Args&&...);
+    void add(entity::Projectile&);
+    void add(entity::Particle&);
+    void add(entity::Unit&);
 
     void remove(entity::Projectile&);
     void remove(entity::Particle&);
     void remove(entity::Unit&);
-
-//    // dummy for Entity.checkContainment()
-//    void remove(entity::Entity&);
 
     void clearAll();
 
@@ -48,8 +50,9 @@ class Battle
     std::vector<entity::Particle> particles;
     std::vector<entity::Projectile> projectiles;
     std::vector<entity::Unit> units;
-    void update();
-    void render();
+
+    render::Renderer renderer;
+
 };
 
 #endif /* BATTLE_H_ */

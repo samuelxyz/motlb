@@ -28,13 +28,6 @@ namespace entity
         YELLOW,
       };
 
-      enum class Type
-      {
-        PARTICLE,
-        PROJECTILE,
-        UNIT
-      };
-
       Entity(Battle*, Team, Vec2 position, Vec2 velocity);
       virtual ~Entity();
 

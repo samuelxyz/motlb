@@ -17,7 +17,7 @@ namespace render
   : maxBoxes(maxBoxes), boxes(),
     shaderProgram(sp), vertexArray(),
     vertexBuffer(nullptr, maxBoxes * FLOATS_PER_BOX * sizeof(float), GL_DYNAMIC_DRAW),
-    indexBuffer((const GLuint*)nullptr, maxBoxes * 6, GL_DYNAMIC_DRAW)
+    indexBuffer(nullptr, maxBoxes * 6, GL_DYNAMIC_DRAW)
   {
     vertexArray.addAttribute("color", GL_FLOAT, 4);
     vertexArray.addAttribute("position", GL_FLOAT, 2);
@@ -33,17 +33,22 @@ namespace render
   {
   }
 
-  void ColoredBoxBatch::add(ColoredBox cbox)
+  bool ColoredBoxBatch::add(ColoredBox cbox)
   {
-    boxes.push_back(cbox);
+    if (boxes.size() < maxBoxes)
+    {
+      boxes.push_back(cbox);
+      return true;
+    }
+    return false;
   }
 
-  void ColoredBoxBatch::clear()
+  void ColoredBoxBatch::clearAll()
   {
     boxes.clear();
   }
 
-  void ColoredBoxBatch::render()
+  void ColoredBoxBatch::renderAll()
   {
     // load boxes into buffers
     unsigned int iIndex = 0, vIndex = 0;

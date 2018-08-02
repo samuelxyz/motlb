@@ -16,29 +16,26 @@ namespace entity
   Unit::Unit(Battle* battle, Team team,
       Vec2 position, Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity),
-    box(new Box(position, -10, 10, -10, 10, angle)),
+    box(position, angle, -.10, .10, -.10, .10),
     active(true),
     health(baseHealth),
     attackCooldown(rand() % attackInterval), // TODO: random
     target(nullptr)
   {
-    // TODO Auto-generated constructor stub
-
   }
 
   Unit::~Unit()
   {
-    delete box;
   }
 
   Vec2 Unit::getPosition()
   {
-    return box->position;
+    return box.position;
   }
 
   Vec2 Unit::getAngle()
   {
-    return box->angle;
+    return box.angle;
   }
 
   void Unit::update()
@@ -57,9 +54,14 @@ namespace entity
     checkAttack();
   }
 
+  void Unit::render()
+  {
+    battle->renderBox(0.0f, 0.0f, 1.0f, 1.0f, box);
+  }
+
   void Unit::move()
   {
-    box->position += velocity;
+    box.position += velocity;
   }
 
   bool Unit::checkActive()
@@ -115,15 +117,15 @@ namespace entity
 
     double rot = // clamp so abs(rot) < rotationSpeed
         std::max(-maxAbs,
-            std::min(maxAbs, targetAngle - box->angle));
+            std::min(maxAbs, targetAngle - box.angle));
 
-    box->angle += rot;
+    box.angle += rot;
   }
 
   void Unit::accelerate()
   {
     Vec2 idealVelocity;
-    idealVelocity.setPolar(idealSpeed(), box->angle);
+    idealVelocity.setPolar(idealSpeed(), box.angle);
 
     Vec2 dV = idealVelocity - velocity;
     if (dV.getLength() > acceleration)
@@ -134,24 +136,24 @@ namespace entity
 
   void Unit::checkCollision()
   {
-    for (Unit u : battle->getUnits())
+    for (Unit& u : battle->getUnits())
       if (u.active && &u != this)
         doCollision(u);
   }
 
   void Unit::doCollision(Unit& u)
   {
-    if (!Box::overlaps(*box, *(u.box)))
+    if (!Box::overlaps(box, u.box))
       return;
 
-    Vec2 dx = Box::collide(*box, *(u.box));
-    if (!dx.getLength())
+    Vec2 dx = Box::collide(box, u.box);
+    if (dx.isZero())
       return;
 
     double totalI = inertia + u.inertia;
 
-    box->position -= dx * (inertia / totalI);
-    u.box->position += dx * (inertia / totalI);
+    box.position -= dx * (inertia / totalI);
+    u.box.position += dx * (inertia / totalI);
 
     checkContainment();
     u.checkContainment();
@@ -171,7 +173,7 @@ namespace entity
 
   void Unit::checkContainment()
   {
-    box->position += battle->getBounds().contain(*box);
+    box.position += battle->getBounds().contain(box);
   }
 
   void Unit::attack()
@@ -195,3 +197,4 @@ namespace entity
   }
 
 } /* namespace entity */
+

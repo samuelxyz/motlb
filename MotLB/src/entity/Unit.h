@@ -28,6 +28,7 @@ namespace entity
       Vec2 getAngle();
 
       virtual void update() override;
+      virtual void render() override;
       void receiveAttack(double, Vec2);
       void receiveImpulse(Vec2);
 
@@ -46,7 +47,7 @@ namespace entity
         ;
       static constexpr int attackInterval = 20;
 
-      Box* box;
+      Box box;
       bool active;
       double health;
       int attackCooldown;

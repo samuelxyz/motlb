@@ -21,7 +21,6 @@ namespace entity
 
   Projectile::~Projectile()
   {
-    // TODO Auto-generated destructor stub
   }
 
   void Projectile::update()
@@ -35,7 +34,7 @@ namespace entity
   {
     for (Unit u : battle->getUnits())
       if (u.active && (friendlyFire || u.team != team) &&
-          u.box->containsAbs(position))
+          u.box.containsAbs(position))
         hit(u);
   }
 

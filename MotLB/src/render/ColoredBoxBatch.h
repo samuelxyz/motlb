@@ -46,10 +46,10 @@ namespace render
       ColoredBoxBatch(unsigned int maxBoxes, ShaderProgram& sp);
       ~ColoredBoxBatch();
 
-      void add(ColoredBox);
-      void clear();
+      bool add(ColoredBox);
+      void clearAll();
 
-      void render();
+      void renderAll();
   };
 
 } /* namespace render */

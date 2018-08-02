@@ -105,7 +105,7 @@ Vec2 Box::collide(const Box& standOn, const Box& giveWay)
   Vec2 v1 = standOn.collideOneWay(giveWay);
   Vec2 v2 = -giveWay.collideOneWay(standOn);
 
-  std::cout << "Collision results: " << v1 << " " << v2 << std::endl;
+//  std::cout << "Collision results: " << v1 << " " << v2 << std::endl;
 
   if (v1.isZero())
     return v2;
@@ -159,24 +159,24 @@ Vec2 Box::collideOneWay(const Box& other) const
   std::array<Vec2, 4> corners;
   other.absCorners(corners);
 
-  std::cout << "absCorners:"; // debug printing
-  for (Vec2& v : corners)
-    std::cout << " " << v;
-  std::cout << std::endl;
+//  std::cout << "absCorners:"; // debug printing
+//  for (Vec2& v : corners)
+//    std::cout << " " << v;
+//  std::cout << std::endl;
 
   std::vector<Vec2> inCorners;
   for (Vec2 v : corners)
     if (containsAbs(v))
       inCorners.push_back(v);
 
-  std::cout << "inCorners:"; // debug printing
-  for (Vec2& v : inCorners)
-    std::cout << " " << v;
-  std::cout << std::endl << *this << std::endl << std::endl;
+//  std::cout << "inCorners:"; // debug printing
+//  for (Vec2& v : inCorners)
+//    std::cout << " " << v;
+//  std::cout << std::endl << *this << std::endl << std::endl;
 
   if (inCorners.empty())
   {
-    std::cout << "inCorners empty" << std::endl;
+//    std::cout << "inCorners empty" << std::endl;
     return Vec2(); // no translation needed
   }
 
