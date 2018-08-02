@@ -14,8 +14,13 @@ int battleRenderTest()
   Window window;
 
   Battle battle;
-  entity::Unit testUnit(&battle, entity::Entity::Team::BLUE, Vec2(.01, .01), Vec2(), 1);
-  battle.add(testUnit);
+
+  entity::Unit u1(&battle, entity::Entity::Team::BLUE, Vec2(), Vec2(0.5, 0.5), 1);
+  battle.add(u1);
+  entity::Unit u2(&battle, entity::Entity::Team::RED, Vec2(), Vec2(-0.5, -0.5), 4);
+  battle.add(u2);
+  entity::Unit u3(&battle, entity::Entity::Team::GREEN, Vec2(), Vec2(-0.5, 0.5), 2);
+  battle.add(u3);
 
   while (!window.shouldClose())
   {

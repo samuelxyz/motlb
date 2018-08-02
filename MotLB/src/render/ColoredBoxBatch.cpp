@@ -51,7 +51,7 @@ namespace render
   void ColoredBoxBatch::renderAll()
   {
     // load boxes into buffers
-    unsigned int iIndex = 0, vIndex = 0;
+    unsigned int iIndex = 0, vIndex = 0, iVertexElement = 0;
     const unsigned int iLength = maxBoxes * 6, vLength = maxBoxes * FLOATS_PER_BOX;
     GLuint* iData = new GLuint[iLength];
     float* vData = new float[vLength];
@@ -74,13 +74,13 @@ namespace render
       }
 
       // do index buffer, two triangles  //    absCorners:
-      iData[iIndex + 0] = iIndex + 0;    //    1---------0
-      iData[iIndex + 1] = iIndex + 1;    //    |         |
-      iData[iIndex + 2] = iIndex + 3;    //    |         |
-      iData[iIndex + 3] = iIndex + 1;    //    |         |
-      iData[iIndex + 4] = iIndex + 3;    //    |         |
-      iData[iIndex + 5] = iIndex + 2;    //    2---------3
-      iIndex += 6;                       //
+      iData[iIndex++] = iVertexElement + 0;    //    1---------0
+      iData[iIndex++] = iVertexElement + 1;    //    |         |
+      iData[iIndex++] = iVertexElement + 3;    //    |         |
+      iData[iIndex++] = iVertexElement + 1;    //    |         |
+      iData[iIndex++] = iVertexElement + 3;    //    |         |
+      iData[iIndex++] = iVertexElement + 2;    //    2---------3
+      iVertexElement += 4;                     //
     }
 
     // fill the rest of the arrays with 0
