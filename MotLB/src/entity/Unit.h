@@ -24,13 +24,13 @@ namespace entity
       Unit(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, double angle);
       virtual ~Unit();
 
-      geometry::Vec2 getPosition();
-      geometry::Vec2 getAngle();
+      geometry::Vec2 getPosition() const;
+      geometry::Vec2 getAngle() const;
 
       virtual void update() override;
       virtual void render() override;
-      void receiveAttack(double, geometry::Vec2);
-      void receiveImpulse(geometry::Vec2);
+      void receiveAttack(const double, const geometry::Vec2);
+      void receiveImpulse(const geometry::Vec2);
 
     protected:
 
@@ -60,7 +60,7 @@ namespace entity
       void checkCollision();
       void checkAttack();
 
-      double idealSpeed();
+      double idealSpeed() const;
       void doCollision(Unit& u);
 
       virtual void move() override;
@@ -68,7 +68,7 @@ namespace entity
 
       virtual void attack();
 
-
+      geometry::Vec2 rayTo(const Unit& other) const;
   };
 
 } /* namespace entity */

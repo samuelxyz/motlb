@@ -28,12 +28,12 @@ namespace entity
   {
   }
 
-  geometry::Vec2 Unit::getPosition()
+  geometry::Vec2 Unit::getPosition() const
   {
     return box.position;
   }
 
-  geometry::Vec2 Unit::getAngle()
+  geometry::Vec2 Unit::getAngle() const
   {
     return box.angle;
   }
@@ -107,11 +107,13 @@ namespace entity
 
   void Unit::rotate()
   {
+    // TODO fix rotation funkiness
+
     if (!target)
       return;
 
     double targetAngle =
-        (target->getPosition() - getPosition()).getAngle();
+        rayTo(*target).getAngle();
 
     double maxAbs = rotationSpeed;
 
@@ -137,7 +139,7 @@ namespace entity
   void Unit::checkCollision()
   {
     for (Unit& u : battle->getUnits())
-      if (u.active && &u != this)
+      if (u.active && &u != this && rayTo(u).getLength() < 50.0)
         doCollision(u);
   }
 
@@ -173,29 +175,34 @@ namespace entity
 
   void Unit::checkContainment()
   {
-//    box.position += battle->getBounds().contain(box);
-    const geometry::Box& bounds = battle->getBounds();
-    box.position += bounds.contain(box);
+    box.position += battle->getBounds().contain(box);
+//    const geometry::Box& bounds = battle->getBounds();
+//    box.position += bounds.contain(box);
   }
 
   void Unit::attack()
   {
   }
 
-  double Unit::idealSpeed()
+  double Unit::idealSpeed() const
   {
     return (target)? topSpeed : 0;
   }
 
-  void Unit::receiveAttack(double damage, geometry::Vec2 impulse)
+  void Unit::receiveAttack(const double damage, const geometry::Vec2 impulse)
   {
     health -= damage;
     receiveImpulse(impulse);
   }
 
-  void Unit::receiveImpulse(geometry::Vec2 impulse)
+  void Unit::receiveImpulse(const geometry::Vec2 impulse)
   {
     velocity += (1/inertia) * impulse;
+  }
+
+  geometry::Vec2 Unit::rayTo(const Unit& other) const
+  {
+    return (other.getPosition() - getPosition());
   }
 
 } /* namespace entity */
