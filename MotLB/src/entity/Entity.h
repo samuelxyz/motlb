@@ -8,7 +8,9 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
+#include "../Values.h"
 #include "../Vec2.h"
+
 //#include "../Battle.h"
 
 class Battle;
@@ -21,11 +23,11 @@ namespace entity
 
       enum class Team
       {
-        NEUTRAL,
-        RED,
-        BLUE,
-        GREEN,
-        YELLOW,
+        NEUTRAL = 0,
+        RED     = 1,
+        GREEN   = 2,
+        BLUE    = 3,
+        YELLOW  = 4,
       };
 
       Entity(Battle*, Team, Vec2 position, Vec2 velocity);
@@ -33,6 +35,8 @@ namespace entity
 
       virtual void update();
       virtual void render();
+
+      static const Values::Color& getTeamColor(Team team);
 
     protected:
 
@@ -42,6 +46,17 @@ namespace entity
 
       virtual void move();
       virtual void checkContainment() = 0;
+
+    private:
+
+      static constexpr Values::Color teamColors[] =
+      {
+        {0.5f, 0.5f, 0.5f, 0.5f},
+        {1.0f, 0.0f, 0.0f, 1.0f},
+        {0.0f, 1.0f, 0.0f, 1.0f},
+        {0.0f, 0.4f, 1.0f, 1.0f},
+        {1.0f, 1.0f, 0.0f, 1.0f}
+      };
   };
 }
 

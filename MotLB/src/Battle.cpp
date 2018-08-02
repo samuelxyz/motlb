@@ -7,6 +7,10 @@
 
 #include "Battle.h"
 
+#include <stddef.h>
+#include <iterator>
+
+#include "Values.h"
 #include "Vec2.h"
 
 Battle::Battle()
@@ -107,9 +111,9 @@ void Battle::remove(entity::Unit& u)
     }
 }
 
-void Battle::renderBox(float r, float g, float b, float a, Box& box)
+void Battle::renderBox(const Values::Color& color, Box& box)
 {
-  renderer.addColoredBox(r, g, b, a, box);
+  renderer.addColoredBox(color, box);
 }
 
 std::vector<entity::Unit>& Battle::getUnits()

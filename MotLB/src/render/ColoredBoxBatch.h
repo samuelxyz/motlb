@@ -14,6 +14,7 @@
 #include "ShaderProgram.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
+#include "../Values.h"
 
 class Box;
 
@@ -29,8 +30,13 @@ namespace render
 
       struct ColoredBox
       {
-        float r, g, b, a;
+        Values::Color& color;
         Box& box;
+
+        ColoredBox(Values::Color& color, Box& box)
+        : color(color), box(box)
+        {
+        }
       };
 
     private:

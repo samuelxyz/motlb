@@ -10,6 +10,7 @@
 #include <GLFW/glfw3.h>
 
 #include "../Box.h"
+#include "../entity/Entity.h"
 #include "../Vec2.h"
 #include "../Window.h"
 #include "ColoredBoxBatch.h"
@@ -219,7 +220,8 @@ int coloredBoxBatchTest()
   render::ColoredBoxBatch cbb(1, shaderProgram);
 
   Box box(Vec2(-0.5, -0.5), Vec2(0.5, 0.5));
-  cbb.add({0.0f, 0.0f, 1.0f, 1.0f, box});
+  Values::Color blue(entity::Entity::getTeamColor(entity::Entity::Team::BLUE));
+  cbb.add({blue, box});
 
   /* Loop until the user closes the window */
   while (!window.shouldClose())

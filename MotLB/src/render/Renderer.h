@@ -34,7 +34,7 @@ namespace render
 
       void renderAndClearAll();
 
-      void addColoredBox(float r, float g, float b, float a, Box& box);
+      void addColoredBox(const Values::Color& color, Box& box);
 
     private:
       ShaderProgram cbbShader;

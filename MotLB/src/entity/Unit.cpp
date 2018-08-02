@@ -56,7 +56,7 @@ namespace entity
 
   void Unit::render()
   {
-    battle->renderBox(0.0f, 0.0f, 1.0f, 1.0f, box);
+    battle->renderBox(getTeamColor(team), box);
   }
 
   void Unit::move()

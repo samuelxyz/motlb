@@ -64,10 +64,10 @@ namespace render
       // do vertex buffer, four vertices
       for (Vec2& v : boxCorners)
       {
-        vData[vIndex++] = cb.r;
-        vData[vIndex++] = cb.g;
-        vData[vIndex++] = cb.b;
-        vData[vIndex++] = cb.a;
+        vData[vIndex++] = cb.color.r;
+        vData[vIndex++] = cb.color.g;
+        vData[vIndex++] = cb.color.b;
+        vData[vIndex++] = cb.color.a;
 
         vData[vIndex++] = static_cast<float>(v.getX());
         vData[vIndex++] = static_cast<float>(v.getY());

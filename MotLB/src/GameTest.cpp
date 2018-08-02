@@ -14,7 +14,7 @@ int battleRenderTest()
   Window window;
 
   Battle battle;
-  entity::Unit testUnit(&battle, entity::Entity::Team::BLUE, Vec2(.01, .01), Vec2(), 0);
+  entity::Unit testUnit(&battle, entity::Entity::Team::BLUE, Vec2(.01, .01), Vec2(), 1);
   battle.add(testUnit);
 
   while (!window.shouldClose())

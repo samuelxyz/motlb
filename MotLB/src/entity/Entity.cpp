@@ -12,6 +12,10 @@
 
 namespace entity
 {
+
+  // why do i have to define this again ugh
+  constexpr Values::Color Entity::teamColors[];
+
   Entity::Entity(Battle* battle, Team team,
       Vec2 position, Vec2 velocity)
   : battle(battle), team(team),
@@ -37,4 +41,10 @@ namespace entity
   void Entity::render()
   {
   }
+
+  const Values::Color& Entity::getTeamColor(Team team)
+  {
+    return teamColors[static_cast<int>(team)];
+  }
 }
+

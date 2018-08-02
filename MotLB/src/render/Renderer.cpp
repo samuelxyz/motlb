@@ -7,9 +7,9 @@
 
 #include "Renderer.h"
 
-#include "VertexArray.h"
+#include "../Values.h"
 #include "IndexBuffer.h"
-#include "ShaderProgram.h"
+#include "VertexArray.h"
 
 namespace render
 {
@@ -45,9 +45,9 @@ namespace render
     cbb.clearAll();
   }
 
-  void Renderer::addColoredBox(float r, float g, float b, float a, Box& box)
+  void Renderer::addColoredBox(const Values::Color& color, Box& box)
   {
-    cbb.add({ r, g, b, a, box });
+    cbb.add( ColoredBoxBatch::ColoredBox(const_cast<Values::Color&>(color), box ) );
   }
 
 } /* namespace render */

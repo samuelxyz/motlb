@@ -6,10 +6,14 @@
  */
 
 #include "Window.h"
+
 #include <cassert>
+#include <cstdio>
 #include <iostream>
 
-Window::Window() : Window(640, 640, "MotLB", nullptr)
+#include "Values.h"
+
+Window::Window() : Window(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT, "MotLB", nullptr)
 {
 }
 
@@ -26,6 +30,8 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
 #ifdef MOTLB_DEBUG /////////////////////////
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif /////////////////////////////////////
+
+  glfwWindowHint(GLFW_SAMPLES, 4);
 
   /* Create a windowed mode window and its OpenGL context */
   window = glfwCreateWindow(width, height, title, monitor, NULL);
@@ -51,6 +57,17 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   glDebugMessageCallback(printGLDebug, nullptr);
 
 #endif /////////////////////////////////////
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glEnable(GL_POLYGON_SMOOTH);
+
+  glEnable(GL_LINE_SMOOTH);
+  glLineWidth(1);
+
+  glEnable(GL_MULTISAMPLE);
+
 }
 
 Window::~Window()
