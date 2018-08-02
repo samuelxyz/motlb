@@ -16,10 +16,10 @@ namespace entity
   Unit::Unit(Battle* battle, Team team,
       geometry::Vec2 position, geometry::Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity),
-    box(position, angle, -.10, .10, -.10, .10),
+    box(position, angle, -10, 10, -10, 10),
     active(true),
     health(baseHealth),
-    attackCooldown(rand() % attackInterval), // TODO: random
+    attackCooldown(rand() % attackInterval),
     target(nullptr)
   {
   }
@@ -173,7 +173,9 @@ namespace entity
 
   void Unit::checkContainment()
   {
-    box.position += battle->getBounds().contain(box);
+//    box.position += battle->getBounds().contain(box);
+    const geometry::Box& bounds = battle->getBounds();
+    box.position += bounds.contain(box);
   }
 
   void Unit::attack()

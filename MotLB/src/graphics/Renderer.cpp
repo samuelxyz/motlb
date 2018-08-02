@@ -11,13 +11,23 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 namespace graphics
 {
 
   Renderer::Renderer()
-  : cbbShader("resources/shaders/ColoredBoxBatch.glsl"),
+  : cbbShader("resources/shaders/MotLB_generic.glsl"),
     cbb(200, cbbShader)
   {
+    glm::mat4 projMatrix = glm::ortho(
+        0.0f, static_cast<float>(Values::BATTLE_WIDTH),
+        0.0f, static_cast<float>(Values::BATTLE_HEIGHT),
+       -1.0f, 1.0f);
+
+    cbbShader.bind();
+    cbbShader.setUniformMat4f("u_projMatrix", projMatrix);
   }
 
   Renderer::~Renderer()
@@ -45,9 +55,9 @@ namespace graphics
     cbb.clearAll();
   }
 
-  void Renderer::addColoredBox(const Values::Color& color, geometry::Box& box)
+  void Renderer::addColoredBox(const Values::Color& color, const geometry::Box& box)
   {
-    cbb.add( ColoredBoxBatch::ColoredBox(const_cast<Values::Color&>(color), box ) );
+    cbb.add(ColoredBoxBatch::ColoredBox(color, box));
   }
 
 } /* namespace render */

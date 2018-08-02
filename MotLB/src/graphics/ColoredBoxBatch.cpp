@@ -26,7 +26,6 @@ namespace graphics
     boxes.reserve(maxBoxes);
 
     indexBuffer.forceBind();
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.ID); // debug, works
   }
 
   ColoredBoxBatch::~ColoredBoxBatch()

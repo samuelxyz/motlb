@@ -15,6 +15,7 @@
 #include "entity/Unit.h"
 #include "geometry/Box.h"
 #include "graphics/Renderer.h"
+#include "Values.h"
 
 class Battle
 {
@@ -28,7 +29,7 @@ class Battle
     void stop();
     void update();
     void renderAll();
-    void renderBox(const Values::Color& color, geometry::Box& box);
+    void renderBox(const Values::Color& color, const geometry::Box& box);
 
     void add(entity::Projectile&);
     void add(entity::Particle&);
@@ -52,6 +53,8 @@ class Battle
     std::vector<entity::Unit> units;
 
     graphics::Renderer renderer;
+
+    static constexpr Values::Color backgroundColor { 1.0f, 0.94f, 0.7f, 1.0f };
 
 };
 

@@ -13,8 +13,10 @@
 #include "geometry/Vec2.h"
 #include "Values.h"
 
+constexpr Values::Color Battle::backgroundColor;
+
 Battle::Battle()
-  : bounds(geometry::Vec2(-1, -1), geometry::Vec2(1, 1)), // TODO projection matrices
+  : bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
     particles(), projectiles(), units(),
     renderer()
 {
@@ -44,6 +46,8 @@ void Battle::update()
 
 void Battle::renderAll()
 {
+  renderBox(backgroundColor, bounds);
+
   for (auto& u : units)
     u.render();
 
@@ -111,7 +115,7 @@ void Battle::remove(entity::Unit& u)
     }
 }
 
-void Battle::renderBox(const Values::Color& color, geometry::Box& box)
+void Battle::renderBox(const Values::Color& color, const geometry::Box& box)
 {
   renderer.addColoredBox(color, box);
 }

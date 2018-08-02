@@ -12,6 +12,8 @@
 #include <GL/glew.h>
 #include <unordered_map>
 
+#include "glm/glm.hpp"
+
 namespace graphics
 {
 
@@ -31,6 +33,7 @@ namespace graphics
       void bind() const;
       void forceBind() const;
       void setUniform4f(const std::string& uniformName, float, float, float, float);
+      void setUniformMat4f(const std::string& uniformName, const glm::mat4& matrix);
 
       GLuint getID() const {return programID;}
 

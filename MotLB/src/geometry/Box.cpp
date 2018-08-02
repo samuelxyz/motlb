@@ -25,10 +25,10 @@ namespace geometry
 
   Box::Box(geometry::Vec2 corner1, geometry::Vec2 corner2)
   : position(0.5*(corner1 + corner2)), angle(0),
-    xMin(std::min(corner1.getX(), corner2.getX())),
-    xMax(std::max(corner1.getX(), corner2.getX())),
-    yMin(std::min(corner1.getY(), corner2.getY())),
-    yMax(std::max(corner1.getY(), corner2.getY()))
+    xMin(std::min(corner1.getX(), corner2.getX()) - position.getX()),
+    xMax(std::max(corner1.getX(), corner2.getX()) - position.getX()),
+    yMin(std::min(corner1.getY(), corner2.getY()) - position.getY()),
+    yMax(std::max(corner1.getY(), corner2.getY()) - position.getY())
   {
   }
 
@@ -252,6 +252,8 @@ namespace geometry
       }
     }
 
-    return toAbs(res);
+//    return toAbs(res);
+    res.rotateTo(angle);
+    return res;
   }
 }

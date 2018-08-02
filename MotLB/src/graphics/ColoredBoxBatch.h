@@ -32,10 +32,10 @@ namespace graphics
 
       struct ColoredBox
       {
-        Values::Color& color;
-        geometry::Box& box;
+        const Values::Color& color;
+        const geometry::Box& box;
 
-        ColoredBox(Values::Color& color, geometry::Box& box)
+        ColoredBox(const Values::Color& color, const geometry::Box& box)
         : color(color), box(box)
         {
         }

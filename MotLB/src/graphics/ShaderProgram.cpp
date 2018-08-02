@@ -141,5 +141,12 @@ namespace graphics
     glUniform4f(getUniformLocation(uniformName), float1, float2, float3, float4);
   }
 
+  void ShaderProgram::setUniformMat4f(const std::string& uniformName,
+      const glm::mat4& matrix)
+  {
+    glUniformMatrix4fv(getUniformLocation(uniformName), 1, GL_FALSE, &matrix[0][0]);
+
+  }
+
 } /* namespace render */
 
