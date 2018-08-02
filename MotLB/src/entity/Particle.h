@@ -16,8 +16,8 @@ namespace entity
   {
     public:
 
-      Particle(Battle*, Team, Vec2 position,
-          Vec2 velocity, double size, double lifetime);
+      Particle(Battle*, Team, geometry::Vec2 position,
+          geometry::Vec2 velocity, double size, double lifetime);
       virtual ~Particle();
 
       virtual void update() override;

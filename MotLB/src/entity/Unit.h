@@ -8,8 +8,8 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
+#include "../geometry/Box.h"
 #include "Entity.h"
-#include "../Box.h"
 #include "Projectile.h"
 
 namespace entity
@@ -21,16 +21,16 @@ namespace entity
 
     public:
 
-      Unit(Battle*, Team, Vec2 position, Vec2 velocity, double angle);
+      Unit(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, double angle);
       virtual ~Unit();
 
-      Vec2 getPosition();
-      Vec2 getAngle();
+      geometry::Vec2 getPosition();
+      geometry::Vec2 getAngle();
 
       virtual void update() override;
       virtual void render() override;
-      void receiveAttack(double, Vec2);
-      void receiveImpulse(Vec2);
+      void receiveAttack(double, geometry::Vec2);
+      void receiveImpulse(geometry::Vec2);
 
     protected:
 
@@ -47,7 +47,7 @@ namespace entity
         ;
       static constexpr int attackInterval = 20;
 
-      Box box;
+      geometry::Box box;
       bool active;
       double health;
       int attackCooldown;

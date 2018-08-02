@@ -7,10 +7,10 @@
 
 #include "ColoredBoxBatch.h"
 
-#include "../Box.h"
+#include "Box.h"
 #include "Renderer.h"
 
-namespace render
+namespace graphics
 {
 
   ColoredBoxBatch::ColoredBoxBatch(unsigned int maxBoxes, ShaderProgram& sp)
@@ -58,11 +58,11 @@ namespace render
 
     for (ColoredBox& cb : boxes)
     {
-      std::array<Vec2, 4> boxCorners;
+      std::array<geometry::Vec2, 4> boxCorners;
       cb.box.absCorners(boxCorners);
 
       // do vertex buffer, four vertices
-      for (Vec2& v : boxCorners)
+      for (geometry::Vec2& v : boxCorners)
       {
         vData[vIndex++] = cb.color.r;
         vData[vIndex++] = cb.color.g;

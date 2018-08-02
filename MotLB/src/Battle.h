@@ -10,11 +10,11 @@
 
 #include <vector>
 
-#include "Box.h"
 #include "entity/Particle.h"
 #include "entity/Projectile.h"
 #include "entity/Unit.h"
-#include "render/Renderer.h"
+#include "geometry/Box.h"
+#include "graphics/Renderer.h"
 
 class Battle
 {
@@ -28,7 +28,7 @@ class Battle
     void stop();
     void update();
     void renderAll();
-    void renderBox(const Values::Color& color, Box& box);
+    void renderBox(const Values::Color& color, geometry::Box& box);
 
     void add(entity::Projectile&);
     void add(entity::Particle&);
@@ -40,18 +40,18 @@ class Battle
 
     void clearAll();
 
-    const Box& getBounds() const;
+    const geometry::Box& getBounds() const;
 
     std::vector<entity::Unit>& getUnits();
 
   private:
 
-    const Box bounds;
+    const geometry::Box bounds;
     std::vector<entity::Particle> particles;
     std::vector<entity::Projectile> projectiles;
     std::vector<entity::Unit> units;
 
-    render::Renderer renderer;
+    graphics::Renderer renderer;
 
 };
 

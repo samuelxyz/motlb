@@ -11,7 +11,7 @@
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 
-namespace render
+namespace graphics
 {
 
   Renderer::Renderer()
@@ -45,7 +45,7 @@ namespace render
     cbb.clearAll();
   }
 
-  void Renderer::addColoredBox(const Values::Color& color, Box& box)
+  void Renderer::addColoredBox(const Values::Color& color, geometry::Box& box)
   {
     cbb.add( ColoredBoxBatch::ColoredBox(const_cast<Values::Color&>(color), box ) );
   }

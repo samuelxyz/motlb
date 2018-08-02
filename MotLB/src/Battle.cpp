@@ -10,11 +10,11 @@
 #include <stddef.h>
 #include <iterator>
 
+#include "geometry/Vec2.h"
 #include "Values.h"
-#include "Vec2.h"
 
 Battle::Battle()
-  : bounds(Vec2(-1, -1), Vec2(1, 1)), // TODO projection matrices
+  : bounds(geometry::Vec2(-1, -1), geometry::Vec2(1, 1)), // TODO projection matrices
     particles(), projectiles(), units(),
     renderer()
 {
@@ -58,7 +58,7 @@ void Battle::clearAll()
   units.clear();
 }
 
-Box const& Battle::getBounds() const
+geometry::Box const& Battle::getBounds() const
 {
   return bounds;
 }
@@ -111,7 +111,7 @@ void Battle::remove(entity::Unit& u)
     }
 }
 
-void Battle::renderBox(const Values::Color& color, Box& box)
+void Battle::renderBox(const Values::Color& color, geometry::Box& box)
 {
   renderer.addColoredBox(color, box);
 }

@@ -11,8 +11,8 @@
 namespace entity
 {
 
-  Projectile::Projectile(Battle* battle, Team team, Vec2 position,
-      Vec2 velocity, double damage, double inertia, double friendlyFire)
+  Projectile::Projectile(Battle* battle, Team team, geometry::Vec2 position,
+      geometry::Vec2 velocity, double damage, double inertia, double friendlyFire)
   : Entity(battle, team, position, velocity),
     damage(damage), inertia(inertia),
     friendlyFire(friendlyFire)

@@ -11,8 +11,8 @@
 
 namespace entity
 {
-  Particle::Particle(Battle* battle, Team team, Vec2 position,
-      Vec2 velocity, double size, double lifetime)
+  Particle::Particle(Battle* battle, Team team, geometry::Vec2 position,
+      geometry::Vec2 velocity, double size, double lifetime)
   : Entity(battle, team, position, velocity),
     size(size), lifetime(lifetime), dSize(-size/lifetime)
   {

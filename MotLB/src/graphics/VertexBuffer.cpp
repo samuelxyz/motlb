@@ -5,9 +5,9 @@
  *      Author: Samuel Tan
  */
 
-#include "VertexBuffer.h"
+#include "../graphics/VertexBuffer.h"
 
-namespace render
+namespace graphics
 {
   GLuint VertexBuffer::currentlyBound = 0;
 

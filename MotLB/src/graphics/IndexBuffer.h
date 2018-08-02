@@ -10,7 +10,7 @@
 
 #include <GL/glew.h>
 
-namespace render
+namespace graphics
 {
 
   class IndexBuffer

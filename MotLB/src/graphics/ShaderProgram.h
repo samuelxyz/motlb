@@ -12,7 +12,7 @@
 #include <GL/glew.h>
 #include <unordered_map>
 
-namespace render
+namespace graphics
 {
 
   class ShaderProgram

@@ -5,14 +5,14 @@
  *      Author: Samuel Tan
  */
 
-#include "ShaderProgram.h"
+#include "../graphics/ShaderProgram.h"
 
 #include <iostream>
 #include <cassert>
 #include <sstream>
 #include <fstream>
 
-namespace render
+namespace graphics
 {
 
   GLuint ShaderProgram::currentlyBound = 0;

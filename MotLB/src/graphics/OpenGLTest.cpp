@@ -9,16 +9,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "../Box.h"
 #include "../entity/Entity.h"
-#include "../Vec2.h"
+#include "../geometry/Box.h"
+#include "../geometry/Vec2.h"
+#include "../graphics/ColoredBoxBatch.h"
+#include "../graphics/IndexBuffer.h"
+#include "../graphics/Renderer.h"
+#include "../graphics/ShaderProgram.h"
+#include "../graphics/VertexArray.h"
+#include "../graphics/VertexBuffer.h"
 #include "../Window.h"
-#include "ColoredBoxBatch.h"
-#include "IndexBuffer.h"
-#include "Renderer.h"
-#include "ShaderProgram.h"
-#include "VertexArray.h"
-#include "VertexBuffer.h"
 
 void renderBasic()
 {
@@ -102,15 +102,15 @@ int uniformShaderTest()
       12, 14, 15
   };
 
-  render::ShaderProgram shaderProgram("resources/shaders/UniformColorShader.glsl");
+  graphics::ShaderProgram shaderProgram("resources/shaders/UniformColorShader.glsl");
 
-  render::VertexArray vertexArray;
+  graphics::VertexArray vertexArray;
   vertexArray.addAttribute("position", GL_FLOAT, 2);
 
-  render::VertexBuffer vertexBuffer((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
+  graphics::VertexBuffer vertexBuffer((const void*)positions, sizeof(positions), GL_STATIC_DRAW);
   vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
-  render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
+  graphics::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
   float red = 0.0f, redIncrement = 0.02f,
       green = 0.0f, greenIncrement = 0.01f,
@@ -120,7 +120,7 @@ int uniformShaderTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    render::Renderer::clearScreen();
+    graphics::Renderer::clearScreen();
 
     changeColor(red, redIncrement);
     changeColor(green, greenIncrement);
@@ -128,7 +128,7 @@ int uniformShaderTest()
     shaderProgram.bind();
     shaderProgram.setUniform4f("u_Color", red, green, blue, 1.0f);
 
-    render::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
+    graphics::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     window.swapBuffers();
@@ -184,23 +184,23 @@ int vertexColorShaderTest()
       12, 14, 15
   };
 
-  render::ShaderProgram shaderProgram("resources/shaders/VertexColorShader.glsl");
+  graphics::ShaderProgram shaderProgram("resources/shaders/VertexColorShader.glsl");
 
-  render::VertexArray vertexArray;
+  graphics::VertexArray vertexArray;
   vertexArray.addAttribute("position", GL_FLOAT, 2);
   vertexArray.addAttribute("color", GL_FLOAT, 4);
 
-  render::VertexBuffer vertexBuffer((const void*)vertices, sizeof(vertices), GL_STATIC_DRAW);
+  graphics::VertexBuffer vertexBuffer((const void*)vertices, sizeof(vertices), GL_STATIC_DRAW);
   vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
-  render::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
+  graphics::IndexBuffer indexBuffer(indices, sizeof(indices)/sizeof(GLuint), GL_STATIC_DRAW);
 
   /* Loop until the user closes the window */
   while (!window.shouldClose())
   {
     /* Render here */
-    render::Renderer::clearScreen();
-    render::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
+    graphics::Renderer::clearScreen();
+    graphics::Renderer::draw(GL_TRIANGLES, vertexArray, indexBuffer, shaderProgram);
 
     /* Swap front and back buffers */
     window.swapBuffers();
@@ -216,10 +216,10 @@ int coloredBoxBatchTest()
 {
   Window window;
 
-  render::ShaderProgram shaderProgram("resources/shaders/ColoredBoxBatch.glsl");
-  render::ColoredBoxBatch cbb(1, shaderProgram);
+  graphics::ShaderProgram shaderProgram("resources/shaders/ColoredBoxBatch.glsl");
+  graphics::ColoredBoxBatch cbb(1, shaderProgram);
 
-  Box box(Vec2(-0.5, -0.5), Vec2(0.5, 0.5));
+  geometry::Box box(geometry::Vec2(-0.5, -0.5), geometry::Vec2(0.5, 0.5));
   Values::Color blue(entity::Entity::getTeamColor(entity::Entity::Team::BLUE));
   cbb.add({blue, box});
 
@@ -227,7 +227,7 @@ int coloredBoxBatchTest()
   while (!window.shouldClose())
   {
     /* Render here */
-    render::Renderer::clearScreen();
+    graphics::Renderer::clearScreen();
     cbb.renderAll();
 
     /* Swap front and back buffers */

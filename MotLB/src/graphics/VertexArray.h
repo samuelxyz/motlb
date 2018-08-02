@@ -8,14 +8,13 @@
 #ifndef VERTEXARRAY_H_
 #define VERTEXARRAY_H_
 
-#include "ShaderProgram.h"
-#include "VertexBuffer.h"
-
 #include <GL/glew.h>
 #include <string>
 #include <vector>
+#include "../graphics/ShaderProgram.h"
+#include "../graphics/VertexBuffer.h"
 
-namespace render
+namespace graphics
 {
 
   class VertexArray

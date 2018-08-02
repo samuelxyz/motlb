@@ -16,9 +16,11 @@
 #include "VertexBuffer.h"
 #include "../Values.h"
 
-class Box;
+namespace geometry {
+  class Box;
+}
 
-namespace render
+namespace graphics
 {
 
   class ColoredBoxBatch
@@ -31,9 +33,9 @@ namespace render
       struct ColoredBox
       {
         Values::Color& color;
-        Box& box;
+        geometry::Box& box;
 
-        ColoredBox(Values::Color& color, Box& box)
+        ColoredBox(Values::Color& color, geometry::Box& box)
         : color(color), box(box)
         {
         }

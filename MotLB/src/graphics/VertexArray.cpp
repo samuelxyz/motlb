@@ -5,10 +5,11 @@
  *      Author: Samuel Tan
  */
 
-#include "VertexArray.h"
+#include "../graphics/VertexArray.h"
+
 #include <cassert>
 
-namespace render
+namespace graphics
 {
 
   GLuint VertexArray::currentlyBound = 0;

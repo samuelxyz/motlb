@@ -8,7 +8,7 @@
 #include "Entity.h"
 
 #include "../Battle.h"
-#include "../Box.h"
+#include "../geometry/Box.h"
 
 namespace entity
 {
@@ -17,7 +17,7 @@ namespace entity
   constexpr Values::Color Entity::teamColors[];
 
   Entity::Entity(Battle* battle, Team team,
-      Vec2 position, Vec2 velocity)
+      geometry::Vec2 position, geometry::Vec2 velocity)
   : battle(battle), team(team),
     position(position), velocity(velocity)
   {

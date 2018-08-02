@@ -10,16 +10,16 @@
 
 #include <GL/glew.h>
 
-#include "ColoredBoxBatch.h"
-#include "ShaderProgram.h"
+#include "../graphics/ColoredBoxBatch.h"
+#include "../graphics/ShaderProgram.h"
 
-namespace render
+namespace graphics
 {
   class IndexBuffer;
   class VertexArray;
 } /* namespace render */
 
-namespace render
+namespace graphics
 {
 
   class Renderer
@@ -34,7 +34,7 @@ namespace render
 
       void renderAndClearAll();
 
-      void addColoredBox(const Values::Color& color, Box& box);
+      void addColoredBox(const Values::Color& color, geometry::Box& box);
 
     private:
       ShaderProgram cbbShader;

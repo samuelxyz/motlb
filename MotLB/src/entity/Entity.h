@@ -8,8 +8,8 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
+#include "../geometry/Vec2.h"
 #include "../Values.h"
-#include "../Vec2.h"
 
 //#include "../Battle.h"
 
@@ -30,7 +30,7 @@ namespace entity
         YELLOW  = 4,
       };
 
-      Entity(Battle*, Team, Vec2 position, Vec2 velocity);
+      Entity(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity);
       virtual ~Entity();
 
       virtual void update();
@@ -42,7 +42,7 @@ namespace entity
 
       Battle* battle;
       Team team;
-      Vec2 position, velocity;
+      geometry::Vec2 position, velocity;
 
       virtual void move();
       virtual void checkContainment() = 0;

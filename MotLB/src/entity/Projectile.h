@@ -17,7 +17,7 @@ namespace entity
   {
     public:
 
-      Projectile(Battle*, Team, Vec2 position, Vec2 velocity,
+      Projectile(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity,
           double damage, double knockback, double friendlyFire);
       virtual ~Projectile();
 

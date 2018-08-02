@@ -5,9 +5,9 @@
  *      Author: Samuel Tan
  */
 
-#include "IndexBuffer.h"
+#include "../graphics/IndexBuffer.h"
 
-namespace render
+namespace graphics
 {
 
   GLuint IndexBuffer::currentlyBound = 0;

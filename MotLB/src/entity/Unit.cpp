@@ -14,7 +14,7 @@ namespace entity
 {
 
   Unit::Unit(Battle* battle, Team team,
-      Vec2 position, Vec2 velocity, double angle)
+      geometry::Vec2 position, geometry::Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity),
     box(position, angle, -.10, .10, -.10, .10),
     active(true),
@@ -28,12 +28,12 @@ namespace entity
   {
   }
 
-  Vec2 Unit::getPosition()
+  geometry::Vec2 Unit::getPosition()
   {
     return box.position;
   }
 
-  Vec2 Unit::getAngle()
+  geometry::Vec2 Unit::getAngle()
   {
     return box.angle;
   }
@@ -124,10 +124,10 @@ namespace entity
 
   void Unit::accelerate()
   {
-    Vec2 idealVelocity;
+    geometry::Vec2 idealVelocity;
     idealVelocity.setPolar(idealSpeed(), box.angle);
 
-    Vec2 dV = idealVelocity - velocity;
+    geometry::Vec2 dV = idealVelocity - velocity;
     if (dV.getLength() > acceleration)
       dV.scaleTo(acceleration);
 
@@ -143,10 +143,10 @@ namespace entity
 
   void Unit::doCollision(Unit& u)
   {
-    if (!Box::overlaps(box, u.box))
+    if (!geometry::Box::overlaps(box, u.box))
       return;
 
-    Vec2 dx = Box::collide(box, u.box);
+    geometry::Vec2 dx = geometry::Box::collide(box, u.box);
     if (dx.isZero())
       return;
 
@@ -185,13 +185,13 @@ namespace entity
     return (target)? topSpeed : 0;
   }
 
-  void Unit::receiveAttack(double damage, Vec2 impulse)
+  void Unit::receiveAttack(double damage, geometry::Vec2 impulse)
   {
     health -= damage;
     receiveImpulse(impulse);
   }
 
-  void Unit::receiveImpulse(Vec2 impulse)
+  void Unit::receiveImpulse(geometry::Vec2 impulse)
   {
     velocity += (1/inertia) * impulse;
   }
