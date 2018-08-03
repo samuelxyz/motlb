@@ -56,7 +56,8 @@ namespace entity
 
   void Unit::render()
   {
-    battle->renderBox(getTeamColor(team), box);
+    if (active)
+      battle->renderBox(getTeamColor(team), box);
   }
 
   void Unit::move()
@@ -105,19 +106,27 @@ namespace entity
 
   void Unit::rotate()
   {
-    // TODO fix rotation funkiness
-
     if (!target)
       return;
 
+    // idk whether things mess up
+    // because of how 2pi == 0 when dealing with angles
+    // so i did this
+
     double targetAngle =
         rayTo(*target).getAngle();
+    if (targetAngle < 0)
+      targetAngle += Values::TWO_PI;
+
+    double currentAngle = box.angle;
+    if (currentAngle < 0)
+      currentAngle += Values::TWO_PI;
 
     double maxAbs = rotationSpeed;
 
     double rot = // clamp so abs(rot) < rotationSpeed
         std::max(-maxAbs,
-            std::min(maxAbs, targetAngle - box.angle));
+            std::min(maxAbs, targetAngle - currentAngle));
 
     box.angle += rot;
   }
@@ -143,11 +152,7 @@ namespace entity
 
   void Unit::doCollision(Unit& u)
   {
-    if (!geometry::Box::overlaps(box, u.box))
-      return;
-
-//    geometry::Vec2 dx = geometry::Box::collide(box, u.box);
-    geometry::Vec2 dx = geometry::Box::satCollide(box, u.box);
+    geometry::Vec2 dx = geometry::Box::collide(box, u.box);
     if (dx.isZero())
       return;
 
@@ -158,7 +163,6 @@ namespace entity
 
     checkContainment();
     u.checkContainment();
-
   }
 
   void Unit::checkAttack()
@@ -181,6 +185,19 @@ namespace entity
 
   void Unit::attack()
   {
+    geometry::Vec2 attackPoint(box.toAbs(geometry::Vec2(15)));
+    for (Unit& u : battle->getUnits())
+    {
+      if (u.team != team && u.active &&
+          rayTo(u).getLength() < MAX_INTERACTION_DISTANCE &&
+          u.box.containsAbs(attackPoint))
+      {
+        geometry::Vec2 impulse(knockback);
+        impulse.rotateBy(box.angle);
+
+        u.receiveAttack(attackStrength, impulse);
+      }
+    }
   }
 
   double Unit::idealSpeed() const

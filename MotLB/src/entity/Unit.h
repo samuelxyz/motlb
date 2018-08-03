@@ -41,13 +41,13 @@ namespace entity
         rotationSpeed = 0.1,
 
         baseHealth = 100,
-        attackStrength = 10,
-        knockback = 10,
+        attackStrength = 20,
+        knockback = 20,
 
         MAX_INTERACTION_DISTANCE = 50.0;
 
         ;
-      static constexpr int attackInterval = 20;
+      static constexpr int attackInterval = 30;
 
       geometry::Box box;
       bool active;
