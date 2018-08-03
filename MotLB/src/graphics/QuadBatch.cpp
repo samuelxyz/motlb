@@ -31,7 +31,7 @@ namespace graphics
   {
   }
 
-  bool QuadBatch::add(Values::Quad quad)
+  bool QuadBatch::add(const Values::Quad& quad)
   {
     if (quads.size() < maxQuads)
     {
@@ -49,7 +49,7 @@ namespace graphics
   void QuadBatch::renderAll()
   {
     // load quads into buffers
-    unsigned int iIndex = 0, vIndex = 0, iVertexElement = 0;
+    unsigned int iIndex = 0, vIndex = 0, iVertexNumber = 0;
     const unsigned int iLength = maxQuads * 6, vLength = maxQuads * FLOATS_PER_QUAD;
     GLuint* iData = new GLuint[iLength];
     float* vData = new float[vLength];
@@ -69,14 +69,14 @@ namespace graphics
         vData[vIndex++] = vertex.y;
       }
 
-      // do index buffer, two triangles  //    absCorners:
-      iData[iIndex++] = iVertexElement + 0;    //    1---------0
-      iData[iIndex++] = iVertexElement + 1;    //    |         |
-      iData[iIndex++] = iVertexElement + 3;    //    |         |
-      iData[iIndex++] = iVertexElement + 1;    //    |         |
-      iData[iIndex++] = iVertexElement + 3;    //    |         |
-      iData[iIndex++] = iVertexElement + 2;    //    2---------3
-      iVertexElement += 4;                     //
+      // do index buffer, two triangles       //    absCorners:
+      iData[iIndex++] = iVertexNumber + 0;    //    1---------0
+      iData[iIndex++] = iVertexNumber + 1;    //    |         |
+      iData[iIndex++] = iVertexNumber + 3;    //    |         |
+      iData[iIndex++] = iVertexNumber + 1;    //    |         |
+      iData[iIndex++] = iVertexNumber + 3;    //    |         |
+      iData[iIndex++] = iVertexNumber + 2;    //    2---------3
+      iVertexNumber += 4;                     //
     }
 
     // fill the rest of the arrays with 0

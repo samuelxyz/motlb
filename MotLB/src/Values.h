@@ -30,7 +30,9 @@ class Values
         float x, y;
     };
 
-    typedef std::array<ColoredVertex, 4> Quad;
+    typedef std::array<ColoredVertex, 4> Quad; // shape with four corners
+
+    typedef std::vector<ColoredVertex> CenteredPoly; // shape with corners > 4
 
     static Quad makeQuad(const Color& color, const geometry::Box& box)
     {

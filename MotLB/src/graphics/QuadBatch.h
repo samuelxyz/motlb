@@ -43,7 +43,7 @@ namespace graphics
       QuadBatch(unsigned int maxBoxes, ShaderProgram& sp);
       ~QuadBatch();
 
-      bool add(Values::Quad);
+      bool add(const Values::Quad&);
       void clearAll();
 
       void renderAll();
