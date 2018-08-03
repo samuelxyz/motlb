@@ -64,12 +64,6 @@ namespace geometry
   {
     relCorners(toFill);
 
-    // printing for debug
-    //  std::cout << "relCorners:";
-    //  for (geometry::Vec2 v : toFill)
-    //    std::cout << " " << v;
-    //  std::cout << std::endl;
-
     for (geometry::Vec2& c : toFill)
     {
       c = toAbs(c);
@@ -96,26 +90,26 @@ namespace geometry
         geometry::Vec2(0, minDistY) : geometry::Vec2(minDistX, 0);
   }
 
-  bool Box::overlaps(const Box& b1, const Box& b2)
-  {
-    return (b1.overlapsOneWay(b2)
-        || b2.overlapsOneWay(b1));
-  }
+//  bool Box::overlaps(const Box& b1, const Box& b2)
+//  {
+//    return (b1.overlapsOneWay(b2)
+//        || b2.overlapsOneWay(b1));
+//  }
 
-  geometry::Vec2 Box::collide(const Box& standOn, const Box& giveWay)
-  {
-    geometry::Vec2 v1 = standOn.collideOneWay(giveWay);
-    geometry::Vec2 v2 = -giveWay.collideOneWay(standOn);
-
-    //  std::cout << "Collision results: " << v1 << " " << v2 << std::endl;
-
-    if (v1.isZero())
-      return v2;
-    if (v2.isZero())
-      return v1;
-
-    return std::min(v1, v2);
-  }
+//  geometry::Vec2 Box::collide(const Box& standOn, const Box& giveWay)
+//  {
+//    geometry::Vec2 v1 = standOn.collideOneWay(giveWay);
+//    geometry::Vec2 v2 = -giveWay.collideOneWay(standOn);
+//
+//    //  std::cout << "Collision results: " << v1 << " " << v2 << std::endl;
+//
+//    if (v1.isZero())
+//      return v2;
+//    if (v2.isZero())
+//      return v1;
+//
+//    return std::min(v1, v2);
+//  }
 
   bool Box::containsRel(geometry::Vec2 point) const
   {
@@ -133,18 +127,18 @@ namespace geometry
     };
   }
 
-  bool Box::overlapsOneWay(const Box& other) const
-  {
-    std::array<geometry::Vec2, 4> corners;
-    other.absCorners(corners);
-
-    for (geometry::Vec2& v : corners)
-    {
-      if (containsAbs(v))
-        return true;
-    }
-    return false;
-  }
+//  bool Box::overlapsOneWay(const Box& other) const
+//  {
+//    std::array<geometry::Vec2, 4> corners;
+//    other.absCorners(corners);
+//
+//    for (geometry::Vec2& v : corners)
+//    {
+//      if (containsAbs(v))
+//        return true;
+//    }
+//    return false;
+//  }
 
   double Box::getWidth() const
   {
@@ -156,57 +150,131 @@ namespace geometry
     return yMax - yMin;
   }
 
-  geometry::Vec2 Box::collideOneWay(const Box& other) const
+  geometry::Vec2 geometry::Box::collide(const Box& standOn, const Box& giveWay)
   {
+    geometry::Vec2 v1 = standOn.collideOneWay(giveWay);
+    geometry::Vec2 v2 = -giveWay.collideOneWay(standOn);
+
+    if (v1.isZero() || v2.isZero())
+      return Vec2();
+
+    return std::min(v1, v2);
+  }
+
+  // abs result using SAT theorem
+  geometry::Vec2 geometry::Box::collideOneWay(const Box& other) const
+  {
+    // project all corners of other box
     std::array<geometry::Vec2, 4> corners;
     other.absCorners(corners);
+    for (geometry::Vec2& v : corners)
+      v = toRelative(v);
 
-    //  std::cout << "absCorners:"; // debug printing
-    //  for (geometry::Vec2& v : corners)
-    //    std::cout << " " << v;
-    //  std::cout << std::endl;
+    // test for overlap along this box's x axis
+    double otherXMax = std::max(
+        std::max(corners[0].getX(), corners[1].getX()),
+        std::max(corners[2].getX(), corners[3].getX())
+    );
 
-    std::vector<geometry::Vec2> inCorners;
-    for (geometry::Vec2 v : corners)
-      if (containsAbs(v))
-        inCorners.push_back(v);
+    double otherXMin = std::min(
+        std::min(corners[0].getX(), corners[1].getX()),
+        std::min(corners[2].getX(), corners[3].getX())
+    );
 
-    //  std::cout << "inCorners:"; // debug printing
-    //  for (geometry::Vec2& v : inCorners)
-    //    std::cout << " " << v;
-    //  std::cout << std::endl << *this << std::endl << std::endl;
+    geometry::Vec2 xMove(
+        collide1D({xMin, xMax}, {otherXMin, otherXMax}),
+        0
+    );
 
-    if (inCorners.empty())
-    {
-      //    std::cout << "inCorners empty" << std::endl;
-      return geometry::Vec2(); // no translation needed
-    }
+    // short circuit shortcut
+    if (xMove.isZero())
+      return Vec2();
 
-    // the plan is to try moving other in each
-    // cardinal direction, find shortest move
-    geometry::Vec2 candidateShortest;
-    geometry::Vec2 finalShortest;
+    // now test along y axis
+    double otherYMax = std::max(
+            std::max(corners[0].getY(), corners[1].getY()),
+            std::max(corners[2].getY(), corners[3].getY())
+        );
 
-    // consider movement +y
-    finalShortest.setRect(0, yMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, -1)).getY());
+    double otherYMin = std::min(
+        std::min(corners[0].getY(), corners[1].getY()),
+        std::min(corners[2].getY(), corners[3].getY())
+    );
 
-    // -y
-    candidateShortest.setRect(0, yMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, 1)).getY());
-    if (candidateShortest < finalShortest)
-      finalShortest = candidateShortest;
+    geometry::Vec2 yMove(
+        0,
+        collide1D({yMin, yMax}, {otherYMin, otherYMax})
+    );
 
-    // +x
-    candidateShortest.setRect(xMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(-1, 0)).getX(), 0);
-    if (candidateShortest < finalShortest)
-      finalShortest = candidateShortest;
+    if (yMove.isZero())
+      return Vec2();
 
-    // -x
-    candidateShortest.setRect(xMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(1, 0)).getX(), 0);
-    if (candidateShortest < finalShortest)
-      finalShortest = candidateShortest;
-
-    return finalShortest;
+    geometry::Vec2 shorterMove( std::min(xMove, yMove) );
+    shorterMove.rotateBy(angle);
+    return shorterMove;
   }
+
+  double Box::collide1D(const Box::Interval standOn, const Box::Interval giveWay)
+  {
+    // no overlap
+    if (giveWay.max <= standOn.min ||
+        giveWay.min >= standOn.max)
+      return 0.0;
+
+    // now we know there's definitely an overlap
+    // move giveWay to the right or left
+
+    double rightMove = standOn.max - giveWay.min;
+    double leftMove = standOn.min - giveWay.max;
+
+    return (abs(rightMove) < abs(leftMove)) ? rightMove : leftMove;
+  }
+
+//  geometry::Vec2 Box::collideOneWay(const Box& other) const
+//  {
+//    std::array<geometry::Vec2, 4> corners;
+//    other.absCorners(corners);
+//
+//    std::vector<geometry::Vec2> inCorners;
+//    for (geometry::Vec2& c : corners)
+//    {
+//      geometry::Vec2 v = toRelative(c);
+//      if (containsRel(v))
+//        inCorners.push_back(v);
+//    }
+//
+//    if (inCorners.empty())
+//    {
+//      //    std::cout << "inCorners empty" << std::endl;
+//      return geometry::Vec2(); // no translation needed
+//    }
+//
+//    // the plan is to try moving other in each
+//    // cardinal direction, find shortest move
+//    geometry::Vec2 candidateShortest;
+//    geometry::Vec2 finalShortest;
+//
+//    // consider movement +y
+//    finalShortest.setRect(0, yMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, -1)).getY());
+//
+//    // -y
+//    candidateShortest.setRect(0, yMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, 1)).getY());
+//    if (candidateShortest < finalShortest)
+//      finalShortest = candidateShortest;
+//
+//    // +x
+//    candidateShortest.setRect(xMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(-1, 0)).getX(), 0);
+//    if (candidateShortest < finalShortest)
+//      finalShortest = candidateShortest;
+//
+//    // -x
+//    candidateShortest.setRect(xMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(1, 0)).getX(), 0);
+//    if (candidateShortest < finalShortest)
+//      finalShortest = candidateShortest;
+//
+//    finalShortest.rotateBy(angle); // new
+//    return finalShortest;
+//  }
 
   geometry::Vec2 Box::contain(const Box& target) const
   {
@@ -257,3 +325,4 @@ namespace geometry
     return res;
   }
 }
+

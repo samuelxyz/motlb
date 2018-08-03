@@ -9,6 +9,7 @@
 #define BOX_H_
 
 #include <array>
+#include <cassert>
 
 #include "Vec2.h"
 
@@ -36,9 +37,12 @@ namespace geometry
       void absCorners(std::array<geometry::Vec2, 4>& toFill) const;
 
       geometry::Vec2 toClosestEdge(geometry::Vec2 absPoint) const; // rel directions
-      static bool overlaps(const Box&, const Box&);
       static geometry::Vec2 collide(const Box& standOn, const Box& giveWay);
       geometry::Vec2 contain(const Box& target) const;
+
+//      static geometry::Vec2 satCollide(const Box& standOn, const Box& giveWay);
+      // ^^ now renamed to simply collide
+//      static bool overlaps(const Box&, const Box&);
 
     private:
 
@@ -47,8 +51,23 @@ namespace geometry
       bool containsRel(geometry::Vec2 relPoint) const;
       void relCorners(std::array<geometry::Vec2, 4>& toFill) const;
 
-      bool overlapsOneWay(const Box& other) const; // if other inside this
       geometry::Vec2 collideOneWay(const Box& other) const;
+
+//      bool overlapsOneWay(const Box& other) const; // if other inside this
+//      geometry::Vec2 satOneWay(const Box& other) const;
+      // now renamed to simply collideOneWay
+
+      struct Interval
+      {
+          double min, max;
+
+          Interval(double min, double max): min(min), max(max)
+          {
+            assert(min <= max);
+          }
+      };
+
+      static double collide1D(const Interval standOn, const Interval giveWay);
   };
 }
 

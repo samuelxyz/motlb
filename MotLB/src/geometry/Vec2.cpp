@@ -87,10 +87,11 @@ Vec2::Vec2(double x, double y): x(x), y(y)
   }
 
   bool operator==(const Vec2& lhs, const Vec2& rhs)
-    {
+  {
     return (lhs.x == rhs.x) && (lhs.y == rhs.y);
-    }
+  }
 
+  // length comparison
   bool operator<(const Vec2& lhs, const Vec2& rhs)
   {
     return lhs.getLength() < rhs.getLength();
@@ -100,13 +101,13 @@ Vec2::Vec2(double x, double y): x(x), y(y)
     return rhs < lhs;
   }
   bool operator<=(const Vec2& lhs, const Vec2& rhs)
-    {
+  {
     return !(lhs > rhs);
-    }
+  }
   bool operator>=(const Vec2& lhs, const Vec2& rhs)
-    {
+  {
     return !(lhs < rhs);
-    }
+  }
 
   // --- METHODS ---
 
@@ -135,7 +136,7 @@ Vec2::Vec2(double x, double y): x(x), y(y)
 
   double Vec2::getAngle() const
   {
-    return atan2(x, y);
+    return atan2(y, x);
   }
 
   bool Vec2::isZero() const
@@ -174,7 +175,7 @@ Vec2::Vec2(double x, double y): x(x), y(y)
 
   /*static*/ Vec2 Vec2::mostExtreme(const std::vector<Vec2>& vectors, const Vec2& direction)
   {
-    assert(!vectors.empty() && direction > 0);
+    assert(!vectors.empty() && !direction.isZero());
 
     Vec2 farthest = vectors.front();
     double largestDot = direction * farthest;

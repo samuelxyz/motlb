@@ -19,8 +19,8 @@ int battleRenderTest()
   battle.add(u1);
   entity::Unit u2(&battle, entity::Entity::Team::RED, geometry::Vec2(200, 200), geometry::Vec2(), 4);
   battle.add(u2);
-//  entity::Unit u3(&battle, entity::Entity::Team::GREEN, geometry::Vec2(200, 600), geometry::Vec2(), 2);
-//  battle.add(u3);
+  entity::Unit u3(&battle, entity::Entity::Team::GREEN, geometry::Vec2(200, 600), geometry::Vec2(), 2);
+  battle.add(u3);
 
   while (!window.shouldClose())
   {

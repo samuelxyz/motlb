@@ -86,12 +86,10 @@ namespace entity
 
         if (target)
         {
-          // candidate already exists. Is this one closer?
-          if ((u.getPosition() - getPosition()) <
-              (target->getPosition() - getPosition()))
+          // candidate already found. Is this one closer?
+          if (rayTo(u) < rayTo(*target))
           {
             target = &u;
-
           }
         }
         else // target == nullptr
@@ -139,7 +137,7 @@ namespace entity
   void Unit::checkCollision()
   {
     for (Unit& u : battle->getUnits())
-      if (u.active && &u != this && rayTo(u).getLength() < 50.0)
+      if (u.active && &u != this && rayTo(u).getLength() < MAX_INTERACTION_DISTANCE)
         doCollision(u);
   }
 
@@ -148,7 +146,8 @@ namespace entity
     if (!geometry::Box::overlaps(box, u.box))
       return;
 
-    geometry::Vec2 dx = geometry::Box::collide(box, u.box);
+//    geometry::Vec2 dx = geometry::Box::collide(box, u.box);
+    geometry::Vec2 dx = geometry::Box::satCollide(box, u.box);
     if (dx.isZero())
       return;
 

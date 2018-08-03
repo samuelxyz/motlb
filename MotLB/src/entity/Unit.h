@@ -42,7 +42,9 @@ namespace entity
 
         baseHealth = 100,
         attackStrength = 10,
-        knockback = 10
+        knockback = 10,
+
+        MAX_INTERACTION_DISTANCE = 50.0;
 
         ;
       static constexpr int attackInterval = 20;
