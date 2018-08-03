@@ -46,10 +46,10 @@ void Battle::update()
 
 void Battle::renderAll()
 {
-  renderBox(backgroundColor, bounds);
+  renderer.addQuad(Values::makeQuad(backgroundColor, bounds));
 
   for (auto& u : units)
-    u.render();
+    u.render(renderer);
 
   renderer.renderAndClearAll();
 }
@@ -113,11 +113,6 @@ void Battle::remove(entity::Unit& u)
       units.erase(units.begin() + i);
       return;
     }
-}
-
-void Battle::renderBox(const Values::Color& color, const geometry::Box& box)
-{
-  renderer.addColoredBox(color, box);
 }
 
 std::vector<entity::Unit>& Battle::getUnits()

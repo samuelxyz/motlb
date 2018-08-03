@@ -8,11 +8,11 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <QuadBatch.h>
 
 #include "../entity/Entity.h"
 #include "../geometry/Box.h"
 #include "../geometry/Vec2.h"
-#include "../graphics/ColoredBoxBatch.h"
 #include "../graphics/IndexBuffer.h"
 #include "../graphics/Renderer.h"
 #include "../graphics/ShaderProgram.h"
@@ -217,11 +217,11 @@ int coloredBoxBatchTest()
   Window window;
 
   graphics::ShaderProgram shaderProgram("resources/shaders/ColoredBoxBatch.glsl");
-  graphics::ColoredBoxBatch cbb(1, shaderProgram);
+  graphics::QuadBatch cbb(1, shaderProgram);
 
   geometry::Box box(geometry::Vec2(-0.5, -0.5), geometry::Vec2(0.5, 0.5));
   Values::Color blue(entity::Entity::getTeamColor(entity::Entity::Team::BLUE));
-  cbb.add({blue, box});
+  cbb.add(Values::makeQuad(blue, box));
 
   /* Loop until the user closes the window */
   while (!window.shouldClose())

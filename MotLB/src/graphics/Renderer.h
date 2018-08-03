@@ -9,8 +9,8 @@
 #define RENDERER_H_
 
 #include <GL/glew.h>
+#include <QuadBatch.h>
 
-#include "../graphics/ColoredBoxBatch.h"
 #include "../graphics/ShaderProgram.h"
 
 namespace graphics
@@ -34,11 +34,11 @@ namespace graphics
 
       void renderAndClearAll();
 
-      void addColoredBox(const Values::Color& color, const geometry::Box& box);
+      void addQuad(const Values::Quad&);
 
     private:
-      ShaderProgram cbbShader;
-      ColoredBoxBatch cbb;
+      ShaderProgram quadShader;
+      QuadBatch quadBatch;
   };
 
 } /* namespace render */

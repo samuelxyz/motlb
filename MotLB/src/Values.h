@@ -8,6 +8,8 @@
 #ifndef VALUES_H_
 #define VALUES_H_
 
+#include "geometry/Box.h"
+
 class Values
 {
   public:
@@ -21,6 +23,34 @@ class Values
     {
         float r, g, b, a;
     };
+
+    struct ColoredVertex
+    {
+        Color color;
+        float x, y;
+    };
+
+    typedef std::array<ColoredVertex, 4> Quad;
+
+    static Quad makeQuad(const Color& color, const geometry::Box& box)
+    {
+      std::array<geometry::Vec2, 4> vertices;
+      box.absCorners(vertices);
+
+      Quad quad;
+
+      for (unsigned int i = 0; i < 4; i++)
+      {
+        quad[i] =
+        {
+            color,
+            static_cast<float>(vertices[i].getX()),
+            static_cast<float>(vertices[i].getY())
+        };
+      }
+
+      return quad;
+    }
 };
 
 #endif /* VALUES_H_ */

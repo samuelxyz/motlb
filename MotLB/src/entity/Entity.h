@@ -14,6 +14,10 @@
 //#include "../Battle.h"
 
 class Battle;
+namespace graphics
+{
+  class Renderer;
+}
 
 namespace entity
 {
@@ -34,7 +38,7 @@ namespace entity
       virtual ~Entity();
 
       virtual void update();
-      virtual void render();
+      virtual void render(graphics::Renderer& renderer);
 
       static const Values::Color& getTeamColor(Team team);
 

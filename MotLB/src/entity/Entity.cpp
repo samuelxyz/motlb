@@ -38,7 +38,7 @@ namespace entity
     position += velocity;
   }
 
-  void Entity::render()
+  void Entity::render(graphics::Renderer& renderer)
   {
   }
 

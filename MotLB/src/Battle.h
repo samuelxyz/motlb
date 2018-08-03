@@ -29,7 +29,6 @@ class Battle
     void stop();
     void update();
     void renderAll();
-    void renderBox(const Values::Color& color, const geometry::Box& box);
 
     void add(entity::Projectile&);
     void add(entity::Particle&);

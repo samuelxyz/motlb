@@ -18,16 +18,16 @@ namespace graphics
 {
 
   Renderer::Renderer()
-  : cbbShader("resources/shaders/MotLB_generic.glsl"),
-    cbb(200, cbbShader)
+  : quadShader("resources/shaders/MotLB_generic.glsl"),
+    quadBatch(200, quadShader)
   {
     glm::mat4 projMatrix = glm::ortho(
         0.0f, static_cast<float>(Values::BATTLE_WIDTH),
         0.0f, static_cast<float>(Values::BATTLE_HEIGHT),
        -1.0f, 1.0f);
 
-    cbbShader.bind();
-    cbbShader.setUniformMat4f("u_projMatrix", projMatrix);
+    quadShader.bind();
+    quadShader.setUniformMat4f("u_projMatrix", projMatrix);
   }
 
   Renderer::~Renderer()
@@ -51,13 +51,13 @@ namespace graphics
   void Renderer::renderAndClearAll()
   {
     clearScreen();
-    cbb.renderAll();
-    cbb.clearAll();
+    quadBatch.renderAll();
+    quadBatch.clearAll();
   }
 
-  void Renderer::addColoredBox(const Values::Color& color, const geometry::Box& box)
+  void Renderer::addQuad(const Values::Quad& quad)
   {
-    cbb.add(ColoredBoxBatch::ColoredBox(color, box));
+    quadBatch.add(quad);
   }
 
 } /* namespace render */

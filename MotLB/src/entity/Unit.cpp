@@ -54,10 +54,10 @@ namespace entity
     checkAttack();
   }
 
-  void Unit::render()
+  void Unit::render(graphics::Renderer& renderer)
   {
     if (active)
-      battle->renderBox(getTeamColor(team), box);
+      renderer.addQuad(Values::makeQuad(getTeamColor(team), box));
   }
 
   void Unit::move()

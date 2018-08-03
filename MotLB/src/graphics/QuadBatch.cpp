@@ -5,71 +5,68 @@
  *      Author: Samuel Tan
  */
 
-#include "ColoredBoxBatch.h"
-
+#include "QuadBatch.h"
 #include "Box.h"
 #include "Renderer.h"
 
 namespace graphics
 {
 
-  ColoredBoxBatch::ColoredBoxBatch(unsigned int maxBoxes, ShaderProgram& sp)
-  : maxBoxes(maxBoxes), boxes(),
+  QuadBatch::QuadBatch(unsigned int maxQuads, ShaderProgram& sp)
+  : maxQuads(maxQuads), quads(),
     shaderProgram(sp), vertexArray(),
-    vertexBuffer(nullptr, maxBoxes * FLOATS_PER_BOX * sizeof(float), GL_DYNAMIC_DRAW),
-    indexBuffer(nullptr, maxBoxes * 6, GL_DYNAMIC_DRAW)
+    vertexBuffer(nullptr, maxQuads * FLOATS_PER_QUAD * sizeof(float), GL_DYNAMIC_DRAW),
+    indexBuffer(nullptr, maxQuads * 6, GL_DYNAMIC_DRAW)
   {
     vertexArray.addAttribute("color", GL_FLOAT, 4);
     vertexArray.addAttribute("position", GL_FLOAT, 2);
     vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
-    boxes.reserve(maxBoxes);
+    quads.reserve(maxQuads);
 
     indexBuffer.forceBind();
   }
 
-  ColoredBoxBatch::~ColoredBoxBatch()
+  QuadBatch::~QuadBatch()
   {
   }
 
-  bool ColoredBoxBatch::add(ColoredBox cbox)
+  bool QuadBatch::add(Values::Quad quad)
   {
-    if (boxes.size() < maxBoxes)
+    if (quads.size() < maxQuads)
     {
-      boxes.push_back(cbox);
+      quads.push_back(quad);
       return true;
     }
     return false;
   }
 
-  void ColoredBoxBatch::clearAll()
+  void QuadBatch::clearAll()
   {
-    boxes.clear();
+    quads.clear();
   }
 
-  void ColoredBoxBatch::renderAll()
+  void QuadBatch::renderAll()
   {
-    // load boxes into buffers
+    // load quads into buffers
     unsigned int iIndex = 0, vIndex = 0, iVertexElement = 0;
-    const unsigned int iLength = maxBoxes * 6, vLength = maxBoxes * FLOATS_PER_BOX;
+    const unsigned int iLength = maxQuads * 6, vLength = maxQuads * FLOATS_PER_QUAD;
     GLuint* iData = new GLuint[iLength];
     float* vData = new float[vLength];
 
-    for (ColoredBox& cb : boxes)
+    for (Values::Quad& quad : quads)
     {
-      std::array<geometry::Vec2, 4> boxCorners;
-      cb.box.absCorners(boxCorners);
 
       // do vertex buffer, four vertices
-      for (geometry::Vec2& v : boxCorners)
+      for (Values::ColoredVertex& vertex : quad)
       {
-        vData[vIndex++] = cb.color.r;
-        vData[vIndex++] = cb.color.g;
-        vData[vIndex++] = cb.color.b;
-        vData[vIndex++] = cb.color.a;
+        vData[vIndex++] = vertex.color.r;
+        vData[vIndex++] = vertex.color.g;
+        vData[vIndex++] = vertex.color.b;
+        vData[vIndex++] = vertex.color.a;
 
-        vData[vIndex++] = static_cast<float>(v.getX());
-        vData[vIndex++] = static_cast<float>(v.getY());
+        vData[vIndex++] = vertex.x;
+        vData[vIndex++] = vertex.y;
       }
 
       // do index buffer, two triangles  //    absCorners:
