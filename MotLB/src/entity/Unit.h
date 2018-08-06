@@ -24,13 +24,16 @@ namespace entity
       Unit(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, double angle);
       virtual ~Unit();
 
-      geometry::Vec2 getPosition() const;
-      geometry::Vec2 getAngle() const;
+      geometry::Vec2 getPosition() const { return box.position; }
+      geometry::Vec2 getAngle() const { return box.angle; }
+      const geometry::Box& getBox() const { return box; }
 
       virtual void update() override;
       virtual void render(graphics::Renderer&) const override;
       void receiveAttack(const double, const geometry::Vec2);
       void receiveImpulse(const geometry::Vec2);
+
+      static constexpr double MAX_INTERACTION_DISTANCE = 50.0;
 
     protected:
 
@@ -42,11 +45,8 @@ namespace entity
 
         baseHealth = 100,
         attackStrength = 20,
-        knockback = 20,
+        knockback = 20;
 
-        MAX_INTERACTION_DISTANCE = 50.0;
-
-        ;
       static constexpr int attackInterval = 30;
 
       geometry::Box box;

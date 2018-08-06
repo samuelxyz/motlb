@@ -58,6 +58,17 @@ class Values
 
       return quad;
     }
+
+    static Color interpolateColors(Color start, Color end, float fraction)
+    {
+      assert(0.0f <= fraction && fraction <= 1.0f);
+      return Color {
+        start.r * (1-fraction) + end.r * fraction,
+        start.g * (1-fraction) + end.g * fraction,
+        start.b * (1-fraction) + end.b * fraction,
+        start.a * (1-fraction) + end.a * fraction
+      };
+    }
 };
 
 #endif /* VALUES_H_ */

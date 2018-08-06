@@ -119,7 +119,8 @@ Vec2::Vec2(double x, double y): x(x), y(y)
 
   void Vec2::setPolar(double length, double angle)
   {
-    this->x = length;
+    x = length;
+    y = 0;
     rotateBy(angle);
   }
 

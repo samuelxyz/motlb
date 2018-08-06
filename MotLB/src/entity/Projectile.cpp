@@ -90,8 +90,8 @@ namespace entity
   void Projectile::checkHit()
   {
     for (Unit u : battle->getUnits())
-      if (u.active && (friendlyFire || u.team != team) &&
-          u.box.containsAbs(position))
+      if (u.isActive() && (friendlyFire || u.getTeam() != team) &&
+          u.getBox().containsAbs(position))
         hit(u);
   }
 

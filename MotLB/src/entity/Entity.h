@@ -41,6 +41,7 @@ namespace entity
       virtual void render(graphics::Renderer& renderer) const;
 
       bool isActive() const { return active; }
+      Team getTeam() const { return team; }
 
       static const Values::Color& getTeamColor(Team team);
 

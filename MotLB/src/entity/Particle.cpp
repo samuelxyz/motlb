@@ -12,9 +12,9 @@
 namespace entity
 {
   Particle::Particle(Battle* battle, Team team, geometry::Vec2 position,
-      geometry::Vec2 velocity, double size, double lifetime)
+      geometry::Vec2 velocity, double radius, unsigned int lifetime)
   : Entity(battle, team, position, velocity),
-    size(size), lifetime(lifetime), dSize(-size/lifetime)
+    radius(radius), lifetime(lifetime), dr(-radius/lifetime)
   {
   }
 
@@ -26,8 +26,8 @@ namespace entity
   {
     Entity::update();
 
-    size += dSize;
-    if (size <= 0)
+    radius += dr;
+    if (radius <= 0)
       battle->remove(*this);
   }
 

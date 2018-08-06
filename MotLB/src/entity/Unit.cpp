@@ -27,16 +27,6 @@ namespace entity
   {
   }
 
-  geometry::Vec2 Unit::getPosition() const
-  {
-    return box.position;
-  }
-
-  geometry::Vec2 Unit::getAngle() const
-  {
-    return box.angle;
-  }
-
   void Unit::update()
   {
     if (!checkActive())
