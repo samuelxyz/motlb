@@ -15,8 +15,8 @@ namespace graphics
   QuadBatch::QuadBatch(unsigned int maxQuads, ShaderProgram& sp)
   : maxQuads(maxQuads), quads(),
     shaderProgram(sp), vertexArray(),
-    vertexBuffer(nullptr, maxQuads * FLOATS_PER_QUAD * sizeof(float), GL_DYNAMIC_DRAW),
-    indexBuffer(nullptr, maxQuads * 6, GL_DYNAMIC_DRAW)
+    vertexBuffer(nullptr, maxQuads * FLOATS_PER_QUAD * sizeof(float), GL_STREAM_DRAW),
+    indexBuffer(nullptr, maxQuads * 6, GL_STREAM_DRAW)
   {
     vertexArray.addAttribute("color", GL_FLOAT, 4);
     vertexArray.addAttribute("position", GL_FLOAT, 2);
@@ -86,7 +86,7 @@ namespace graphics
       iData[iIndex] = 0;
 
 
-    // load buffers into GL buffer objects
+    // load array data into GL buffer objects
     indexBuffer.updateData(iData, iLength);
     vertexBuffer.updateData(vData, vLength * sizeof(float));
 

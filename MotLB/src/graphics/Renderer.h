@@ -9,9 +9,10 @@
 #define RENDERER_H_
 
 #include <GL/glew.h>
-#include <QuadBatch.h>
+#include <ShaderProgram.h>
+#include <TriangleBatch.h>
 
-#include "../graphics/ShaderProgram.h"
+#include "../Values.h"
 
 namespace graphics
 {
@@ -34,11 +35,14 @@ namespace graphics
 
       void renderAndClearAll();
 
+      void addCenteredPoly(const Values::CenteredPoly&);
       void addQuad(const Values::Quad&);
 
     private:
-      ShaderProgram quadShader;
-      QuadBatch quadBatch;
+      ShaderProgram shaderProgram;
+//      CenteredPolyBatch cpBatch;
+//      QuadBatch quadBatch;
+      TriangleBatch tBatch;
   };
 
 } /* namespace render */

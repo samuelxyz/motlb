@@ -28,7 +28,10 @@ class Battle
     void run();
     void stop();
     void update();
+
     void renderAll();
+    void renderCP();
+    void renderQuad();
 
     void add(entity::Projectile&);
     void add(entity::Particle&);

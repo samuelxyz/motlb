@@ -12,13 +12,16 @@ namespace graphics
 
   GLuint IndexBuffer::currentlyBound = 0;
 
+  // if supplying data, make sure a VAO is bound first
   IndexBuffer::IndexBuffer(const GLuint* data, GLuint numIndices, GLenum usage)
-  : numIndices(numIndices), usage(usage)
+  : numIndices(numIndices), usage(usage), bufferMade(false)
   {
     glGenBuffers(1, &ID);
 
-    bind();
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), data, usage);
+    if (data)
+    {
+      updateData(data, numIndices);
+    }
   }
 
   IndexBuffer::~IndexBuffer()
@@ -28,18 +31,26 @@ namespace graphics
     glDeleteBuffers(1, &ID);
   }
 
+  // make sure a VAO is bound first
   void IndexBuffer::updateData(const GLuint* data, GLuint numIndices)
   {
     bind();
+//    forceBind();
 
-    if (numIndices > this->numIndices)
+    if (numIndices > this->numIndices || !bufferMade)
     {
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), data, usage);
+      bufferMade = true;
     }
     else
     {
       glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, numIndices * sizeof(GLuint), data);
     }
+
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(GLuint), nullptr, usage);
+//    bufferMade = true;
+//    glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, numIndices * sizeof(GLuint), data);
+
   }
 
   void IndexBuffer::bind() const

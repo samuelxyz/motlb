@@ -22,7 +22,7 @@ namespace graphics
   { // a component for more efficiently storing and drawing lots of CPs
     public:
 
-          static constexpr unsigned short FLOATS_PER_VERTEX = 24;
+          static constexpr unsigned short FLOATS_PER_VERTEX = 6;
           // ( 4 floats for color + 2 floats per position )
 
         private:

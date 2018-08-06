@@ -46,6 +46,17 @@ void Battle::update()
 
 void Battle::renderAll()
 {
+//  Values::CenteredPoly cp =
+//  {
+//      Values::ColoredVertex{{1.0f, 0.5f, 0.0f, 0.5f}, 400.0f, 400.0f},
+//      Values::ColoredVertex{{1.0f, 1.0f, 0.5f, 0.5f}, 800.0f, 800.0f},
+//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 0.5f}, 800.0f, 0.0f  },
+//      Values::ColoredVertex{{1.0f, 1.5f, 0.5f, 0.5f}, 0.0f  , 0.0f  },
+//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 0.5f}, 0.0f  , 800.0f}
+//  };
+//
+//  renderer.addCenteredPoly(cp);
+
   renderer.addQuad(Values::makeQuad(backgroundColor, bounds));
 
   for (auto& u : units)
@@ -54,6 +65,19 @@ void Battle::renderAll()
   renderer.renderAndClearAll();
 }
 
+//void Battle::renderCP()
+//{
+//  Values::CenteredPoly cp =
+//  {
+//      Values::ColoredVertex{{1.0f, 0.5f, 0.0f, 1.0f}, 400.0f, 400.0f},
+//      Values::ColoredVertex{{1.0f, 1.0f, 0.5f, 1.0f}, 800.0f, 800.0f},
+//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 1.0f}, 800.0f, 0.0f  },
+//      Values::ColoredVertex{{1.0f, 1.5f, 0.5f, 1.0f}, 0.0f  , 0.0f  },
+//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 1.0f}, 0.0f  , 800.0f}
+//  };
+//
+//  renderer.addCenteredPoly(cp);
+//}
 
 void Battle::clearAll()
 {

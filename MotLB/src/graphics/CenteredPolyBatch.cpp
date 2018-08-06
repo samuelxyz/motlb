@@ -15,8 +15,8 @@ namespace graphics
       ShaderProgram& sp)
   : maxVertices(maxVertices), vertexCount(0), list(),
     shaderProgram(sp), vertexArray(),
-    vertexBuffer(nullptr, maxVertices * FLOATS_PER_VERTEX * sizeof(float), GL_DYNAMIC_DRAW),
-    indexBuffer(nullptr, maxVertices * 3, GL_DYNAMIC_DRAW)
+    vertexBuffer(nullptr, maxVertices * FLOATS_PER_VERTEX * sizeof(float), GL_STREAM_DRAW),
+    indexBuffer(nullptr, maxVertices * 3, GL_STREAM_DRAW)
   {
     vertexArray.addAttribute("color", GL_FLOAT, 4);
     vertexArray.addAttribute("position", GL_FLOAT, 2);
@@ -36,6 +36,7 @@ namespace graphics
     if (vertexCount + cp.size() < maxVertices)
     {
       list.push_back(cp);
+      vertexCount += cp.size();
       return true;
     }
     return false;
@@ -47,6 +48,7 @@ namespace graphics
     vertexCount = 0;
   }
 
+  // emulate GL_TRIANGLE_FAN sort of behavior but with one draw call
   void CenteredPolyBatch::renderAll()
   {
     // load CPs into buffers
@@ -71,18 +73,19 @@ namespace graphics
         vData[vIndex++] = vertex.y;
       }
 
-      // do index buffer
-      for (unsigned int cpVertex = 1; cpVertex < cp.size() - 2; ++cpVertex)
+      // do index buffer - this is the tricky part
+      for (unsigned int cpVertex = 1; cpVertex < cp.size() - 1; ++cpVertex)
       {
-        iData[iIndex++] = iVertexNumber + 0;
+        // triangle
+        iData[iIndex++] = iVertexNumber; // central vertex
         iData[iIndex++] = iVertexNumber + cpVertex;
         iData[iIndex++] = iVertexNumber + cpVertex + 1;
       }
 
       // last triangle in index buffer
-      iData[iIndex++] = 0;
-      iData[iIndex++] = cp.size() - 1; // last vertex
-      iData[iIndex++] = 1;             // first non-center vertex
+      iData[iIndex++] = iVertexNumber;                 // central vertex
+      iData[iIndex++] = iVertexNumber + cp.size() - 1; // last vertex
+      iData[iIndex++] = iVertexNumber + 1;             // first non-center vertex
 
       // prepare for next cp
       iVertexNumber += cp.size();
@@ -95,7 +98,7 @@ namespace graphics
       iData[iIndex] = 0;
 
 
-    // load buffers into GL buffer objects
+    // load array data into GL buffer objects
     indexBuffer.updateData(iData, iLength);
     vertexBuffer.updateData(vData, vLength * sizeof(float));
 

@@ -18,16 +18,18 @@ namespace graphics
 {
 
   Renderer::Renderer()
-  : quadShader("resources/shaders/MotLB_generic.glsl"),
-    quadBatch(200, quadShader)
+  : shaderProgram("resources/shaders/MotLB_generic.glsl"),
+    tBatch(800, shaderProgram)
+//    cpBatch(800, shaderProgram),
+//    quadBatch(200, shaderProgram)
   {
     glm::mat4 projMatrix = glm::ortho(
         0.0f, static_cast<float>(Values::BATTLE_WIDTH),
         0.0f, static_cast<float>(Values::BATTLE_HEIGHT),
        -1.0f, 1.0f);
 
-    quadShader.bind();
-    quadShader.setUniformMat4f("u_projMatrix", projMatrix);
+    shaderProgram.bind();
+    shaderProgram.setUniformMat4f("u_projMatrix", projMatrix);
   }
 
   Renderer::~Renderer()
@@ -51,13 +53,23 @@ namespace graphics
   void Renderer::renderAndClearAll()
   {
     clearScreen();
-    quadBatch.renderAll();
-    quadBatch.clearAll();
+//    cpBatch.renderAll();
+//    cpBatch.clearAll();
+//    quadBatch.renderAll();
+//    quadBatch.clearAll();
+    tBatch.renderAndClearAll();
+  }
+
+  void Renderer::addCenteredPoly(const Values::CenteredPoly& cp)
+  {
+//    cpBatch.add(cp);
+    tBatch.addCenteredPoly(cp);
   }
 
   void Renderer::addQuad(const Values::Quad& quad)
   {
-    quadBatch.add(quad);
+//    quadBatch.add(quad);
+    tBatch.addQuad(quad);
   }
 
 } /* namespace render */

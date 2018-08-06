@@ -20,6 +20,7 @@ namespace graphics
       static GLuint currentlyBound;
       GLuint ID, numIndices;
       GLenum usage;
+      bool bufferMade;
 
     public:
       IndexBuffer(const GLuint* data, GLuint numIndices, GLenum usage);

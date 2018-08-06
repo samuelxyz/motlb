@@ -47,6 +47,7 @@ namespace graphics
   void VertexBuffer::updateData(const void* data, GLsizeiptr size)
   {
     bind();
+//    forceBind();
     if (size > bufferSize)
     {
       glBufferData(GL_ARRAY_BUFFER, size, data, usage);
