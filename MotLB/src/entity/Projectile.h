@@ -13,6 +13,7 @@ namespace entity
 
   class Unit;
 
+  // single hit
   class Projectile: public Entity
   {
     public:
@@ -22,6 +23,7 @@ namespace entity
       virtual ~Projectile();
 
       virtual void update() override;
+      virtual void render(graphics::Renderer& renderer) const override;
 
     protected:
 
@@ -31,7 +33,19 @@ namespace entity
       void checkHit();
       virtual void hit(Unit&);
 
+      virtual void move() override;
       virtual void checkContainment() override;
+
+    private:
+
+      enum class Mode
+      {
+        FLYING,
+        FADE_OUT
+      } mode;
+      unsigned int renderLength;
+
+      void checkFading();
 
   };
 

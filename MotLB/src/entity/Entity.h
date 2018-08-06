@@ -38,7 +38,9 @@ namespace entity
       virtual ~Entity();
 
       virtual void update();
-      virtual void render(graphics::Renderer& renderer);
+      virtual void render(graphics::Renderer& renderer) const;
+
+      bool isActive() const { return active; }
 
       static const Values::Color& getTeamColor(Team team);
 
@@ -47,6 +49,7 @@ namespace entity
       Battle* battle;
       Team team;
       geometry::Vec2 position, velocity;
+      bool active;
 
       virtual void move();
       virtual void checkContainment() = 0;

@@ -17,7 +17,6 @@ namespace entity
       geometry::Vec2 position, geometry::Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity),
     box(position, angle, -10, 10, -10, 10),
-    active(true),
     health(baseHealth),
     attackCooldown(rand() % attackInterval),
     target(nullptr)
@@ -54,7 +53,7 @@ namespace entity
     checkAttack();
   }
 
-  void Unit::render(graphics::Renderer& renderer)
+  void Unit::render(graphics::Renderer& renderer) const
   {
     if (active)
       renderer.addQuad(Values::makeQuad(getTeamColor(team), box));

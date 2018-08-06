@@ -19,7 +19,8 @@ namespace entity
   Entity::Entity(Battle* battle, Team team,
       geometry::Vec2 position, geometry::Vec2 velocity)
   : battle(battle), team(team),
-    position(position), velocity(velocity)
+    position(position), velocity(velocity),
+    active(true)
   {
   }
 
@@ -38,7 +39,7 @@ namespace entity
     position += velocity;
   }
 
-  void Entity::render(graphics::Renderer& renderer)
+  void Entity::render(graphics::Renderer& renderer) const
   {
   }
 

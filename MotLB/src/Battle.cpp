@@ -38,8 +38,17 @@ void Battle::update()
 {
   for (auto& u : units)
     u.update();
-  for (auto& p : projectiles)
-    p.update();
+
+  for (size_t i = 0; i < projectiles.size(); )
+  {
+    projectiles[i].update();
+
+    if (!projectiles[i].isActive())
+      projectiles.erase(projectiles.begin() + i);
+    else
+      i++;
+  }
+
   for (auto& p : particles)
     p.update();
 }
@@ -59,25 +68,14 @@ void Battle::renderAll()
 
   renderer.addQuad(Values::makeQuad(backgroundColor, bounds));
 
+  for (auto& p : projectiles)
+    p.render(renderer);
   for (auto& u : units)
     u.render(renderer);
 
+
   renderer.renderAndClearAll();
 }
-
-//void Battle::renderCP()
-//{
-//  Values::CenteredPoly cp =
-//  {
-//      Values::ColoredVertex{{1.0f, 0.5f, 0.0f, 1.0f}, 400.0f, 400.0f},
-//      Values::ColoredVertex{{1.0f, 1.0f, 0.5f, 1.0f}, 800.0f, 800.0f},
-//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 1.0f}, 800.0f, 0.0f  },
-//      Values::ColoredVertex{{1.0f, 1.5f, 0.5f, 1.0f}, 0.0f  , 0.0f  },
-//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 1.0f}, 0.0f  , 800.0f}
-//  };
-//
-//  renderer.addCenteredPoly(cp);
-//}
 
 void Battle::clearAll()
 {

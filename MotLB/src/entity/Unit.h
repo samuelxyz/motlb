@@ -28,7 +28,7 @@ namespace entity
       geometry::Vec2 getAngle() const;
 
       virtual void update() override;
-      virtual void render(graphics::Renderer&) override;
+      virtual void render(graphics::Renderer&) const override;
       void receiveAttack(const double, const geometry::Vec2);
       void receiveImpulse(const geometry::Vec2);
 
@@ -50,7 +50,6 @@ namespace entity
       static constexpr int attackInterval = 30;
 
       geometry::Box box;
-      bool active;
       double health;
       int attackCooldown;
       Unit* target;

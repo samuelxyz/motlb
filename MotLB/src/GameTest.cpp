@@ -5,9 +5,14 @@
  *      Author: Samuel Tan
  */
 
+#include <gl/glew.h>
+#include <GLFW/glfw3.h>
+#include <Unit.h>
+#include <Vec2.h>
+
 #include "Battle.h"
-#include "entity/Unit.h"
 #include "Window.h"
+#include "entity/Projectile.h"
 
 int battleRenderTest()
 {
@@ -21,6 +26,10 @@ int battleRenderTest()
   battle.add(u2);
   entity::Unit u3(&battle, entity::Entity::Team::GREEN, geometry::Vec2(200, 600), geometry::Vec2(), 2);
   battle.add(u3);
+
+  entity::Projectile p1(&battle, entity::Entity::Team::YELLOW,
+      geometry::Vec2(800, 605), geometry::Vec2(-2, 0), 10, 5, true);
+  battle.add(p1);
 
   while (!window.shouldClose())
   {
