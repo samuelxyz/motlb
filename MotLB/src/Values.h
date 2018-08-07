@@ -62,6 +62,13 @@ class Values
     static Color interpolateColors(Color start, Color end, float fraction)
     {
       assert(0.0f <= fraction && fraction <= 1.0f);
+
+      // shortcuts
+      if (fraction == 1.0f)
+        return end;
+      if (fraction == 0.0f)
+        return start;
+
       return Color {
         start.r * (1-fraction) + end.r * fraction,
         start.g * (1-fraction) + end.g * fraction,

@@ -23,8 +23,8 @@ namespace entity
   class Flash: public Particle
   {
     private:
-      std::vector<Unit&> units;
-      unsigned int timer;
+      std::vector<Unit*> units;
+      unsigned int timer; // countdown
       Values::Color centerColor, edgeColor;
 
     public:

@@ -17,7 +17,7 @@ namespace entity
 
   class Unit: public Entity
   {
-      friend class Projectile;
+//      friend class Projectile;
 
     public:
 

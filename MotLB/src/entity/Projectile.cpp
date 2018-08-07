@@ -5,9 +5,18 @@
  *      Author: Samuel Tan
  */
 
-#include "../Battle.h"
-#include "Projectile.h"
+#include <Box.h>
+#include <Entity.h>
+#include <Projectile.h>
+#include <Renderer.h>
+#include <Unit.h>
+#include <Vec2.h>
 #include <array>
+#include <vector>
+
+#include "../Battle.h"
+#include "../Values.h"
+#include "Flash.h"
 
 namespace entity
 {
@@ -89,10 +98,11 @@ namespace entity
 
   void Projectile::checkHit()
   {
-    for (Unit u : battle->getUnits())
-      if (u.isActive() && (friendlyFire || u.getTeam() != team) &&
-          u.getBox().containsAbs(position))
-        hit(u);
+    for (Unit* u : battle->getUnits())
+      if (u && u->isActive() &&
+          (friendlyFire || u->getTeam() != team) &&
+          u->getBox().containsAbs(position))
+        hit(*u);
   }
 
   // only one hit
@@ -100,6 +110,19 @@ namespace entity
   {
     u.receiveAttack(damage, velocity * inertia);
     mode = Mode::FADE_OUT;
+
+    Flash* flash = new Flash
+    (
+        battle, position - 5*velocity, 60,
+//        Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
+//        Values::Color{ 1.0f, 0.8f, 0.8f, 0.1f },
+        Values::Color{ 1.0f, 1.0f, 1.0f, 1.0f },
+        Values::Color{ 0.8f, 0.8f, 1.0f, 0.0f },
+        30
+    );
+
+    battle->add(flash);
+
   }
 
   void Projectile::move()
@@ -110,7 +133,7 @@ namespace entity
 
   void Projectile::checkContainment()
   {
-    if (!((*battle).getBounds().containsAbs(position)))
+    if (!(battle->getBounds().containsAbs(position)))
       mode = Mode::FADE_OUT;
   }
 

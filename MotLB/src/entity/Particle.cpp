@@ -24,16 +24,19 @@ namespace entity
 
   void Particle::update()
   {
-    Entity::update();
-
     radius += dr;
     if (radius <= 0)
-      battle->remove(*this);
+    {
+      active = false;
+      return;
+    }
+
+    Entity::update();
   }
 
   void Particle::checkContainment()
   {
     if (!((*battle).getBounds().containsAbs(position)))
-      battle->remove(*this);
+      active = false;
   }
 }

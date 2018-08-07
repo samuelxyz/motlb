@@ -19,7 +19,6 @@
 
 class Battle
 {
-
   public:
 
     Battle();
@@ -30,29 +29,30 @@ class Battle
     void update();
 
     void renderAll();
-    void renderCP();
-    void renderQuad();
 
-    void add(entity::Projectile&);
-    void add(entity::Particle&);
-    void add(entity::Unit&);
+    // TODO: make sure these are all heap allocated
+    void add(entity::Projectile*);
+    void add(entity::Particle*);
+    void add(entity::Unit*);
 
-    void remove(entity::Projectile&);
-    void remove(entity::Particle&);
-    void remove(entity::Unit&);
+    bool remove(entity::Projectile*);
+    bool remove(entity::Particle*);
+    bool remove(entity::Unit*);
 
     void clearAll();
 
     const geometry::Box& getBounds() const;
 
-    std::vector<entity::Unit>& getUnits();
+    std::vector<entity::Unit*>& getUnits();
 
   private:
 
     const geometry::Box bounds;
-    std::vector<entity::Particle> particles;
-    std::vector<entity::Projectile> projectiles;
-    std::vector<entity::Unit> units;
+
+    // heap allocated
+    std::vector<entity::Particle*> particles;
+    std::vector<entity::Projectile*> projectiles;
+    std::vector<entity::Unit*> units;
 
     graphics::Renderer renderer;
 

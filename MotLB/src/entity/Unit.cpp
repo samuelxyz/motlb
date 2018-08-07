@@ -68,23 +68,23 @@ namespace entity
   {
     bool targetsExist = false;
 
-    for (Unit& u : battle->getUnits())
+    for (Unit* u : battle->getUnits())
     {
-      if (u.team != team && u.active)
+      if (u->team != team && u->active)
       {
         targetsExist = true;
 
         if (target)
         {
           // candidate already found. Is this one closer?
-          if (rayTo(u) < rayTo(*target))
+          if (rayTo(*u) < rayTo(*target))
           {
-            target = &u;
+            target = u;
           }
         }
         else // target == nullptr
         {
-          target = &u; // this is the first candidate. We'll start here
+          target = u; // this is the first candidate. We'll start here
         }
       }
     }
@@ -134,9 +134,9 @@ namespace entity
 
   void Unit::checkCollision()
   {
-    for (Unit& u : battle->getUnits())
-      if (u.active && &u != this && rayTo(u).getLength() < MAX_INTERACTION_DISTANCE)
-        doCollision(u);
+    for (Unit* u : battle->getUnits())
+      if (u->active && u != this && rayTo(*u).getLength() < MAX_INTERACTION_DISTANCE)
+        doCollision(*u);
   }
 
   void Unit::doCollision(Unit& u)
@@ -175,16 +175,16 @@ namespace entity
   void Unit::attack()
   {
     geometry::Vec2 attackPoint(box.toAbs(geometry::Vec2(15)));
-    for (Unit& u : battle->getUnits())
+    for (Unit* u : battle->getUnits())
     {
-      if (u.team != team && u.active &&
-          rayTo(u).getLength() < MAX_INTERACTION_DISTANCE &&
-          u.box.containsAbs(attackPoint))
+      if (u->team != team && u->active &&
+          rayTo(*u).getLength() < MAX_INTERACTION_DISTANCE &&
+          u->box.containsAbs(attackPoint))
       {
         geometry::Vec2 impulse(knockback);
         impulse.rotateBy(box.angle);
 
-        u.receiveAttack(attackStrength, impulse);
+        u->receiveAttack(attackStrength, impulse);
       }
     }
   }
