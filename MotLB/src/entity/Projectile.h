@@ -13,15 +13,17 @@ namespace entity
 
   class Unit;
 
+  // single hit
   class Projectile: public Entity
   {
     public:
 
-      Projectile(Battle*, Team, Vec2 position, Vec2 velocity,
+      Projectile(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity,
           double damage, double knockback, double friendlyFire);
       virtual ~Projectile();
 
       virtual void update() override;
+      virtual void render(graphics::Renderer& renderer) const override;
 
     protected:
 
@@ -31,7 +33,19 @@ namespace entity
       void checkHit();
       virtual void hit(Unit&);
 
+      virtual void move() override;
       virtual void checkContainment() override;
+
+    private:
+
+      enum class Mode
+      {
+        FLYING,
+        FADE_OUT
+      } mode;
+      int renderLength;
+
+      void checkFading();
 
   };
 

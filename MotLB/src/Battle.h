@@ -10,14 +10,15 @@
 
 #include <vector>
 
-#include "Box.h"
 #include "entity/Particle.h"
 #include "entity/Projectile.h"
 #include "entity/Unit.h"
+#include "geometry/Box.h"
+#include "graphics/Renderer.h"
+#include "Values.h"
 
 class Battle
 {
-
   public:
 
     Battle();
@@ -25,31 +26,42 @@ class Battle
 
     void run();
     void stop();
+    void update();
 
-    template <class... Args>
-    void add(entity::Entity::Type, Args&&...);
+    void renderAll();
 
-    void remove(entity::Projectile&);
-    void remove(entity::Particle&);
-    void remove(entity::Unit&);
+    // TODO: make sure these are all heap allocated
+    void add(entity::Projectile*);
+    void add(entity::Particle*);
+    void add(entity::Unit*);
 
-//    // dummy for Entity.checkContainment()
-//    void remove(entity::Entity&);
+    bool remove(entity::Projectile*);
+    bool remove(entity::Particle*);
+    bool remove(entity::Unit*);
 
     void clearAll();
 
-    const Box& getBounds() const;
+    const geometry::Box& getBounds() const;
 
-    std::vector<entity::Unit>& getUnits();
+    std::vector<entity::Unit*>& getUnits();
 
   private:
 
-    const Box bounds;
-    std::vector<entity::Particle> particles;
-    std::vector<entity::Projectile> projectiles;
-    std::vector<entity::Unit> units;
-    void update();
-    void render();
+    const geometry::Box bounds;
+
+    // heap allocated
+    std::vector<entity::Particle*> particles;
+    std::vector<entity::Projectile*> projectiles;
+    std::vector<entity::Unit*> units;
+
+    graphics::Renderer renderer;
+
+    static constexpr Values::Color backgroundColor
+    {
+//      1.0f, 0.94f, 0.7f, 1.0f
+      0.7f, 0.7f, 0.7f, 1.0f
+    };
+
 };
 
 #endif /* BATTLE_H_ */

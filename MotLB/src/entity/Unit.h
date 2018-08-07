@@ -8,8 +8,8 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
+#include "../geometry/Box.h"
 #include "Entity.h"
-#include "../Box.h"
 #include "Projectile.h"
 
 namespace entity
@@ -17,37 +17,37 @@ namespace entity
 
   class Unit: public Entity
   {
-      friend class Projectile;
-
     public:
 
-      Unit(Battle*, Team, Vec2 position, Vec2 velocity, double angle);
+      Unit(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, double angle);
       virtual ~Unit();
 
-      Vec2 getPosition();
-      Vec2 getAngle();
+      geometry::Vec2 getPosition() const { return box.position; }
+      geometry::Vec2 getAngle() const { return box.angle; }
+      const geometry::Box& getBox() const { return box; }
 
       virtual void update() override;
-      void receiveAttack(double, Vec2);
-      void receiveImpulse(Vec2);
+      virtual void render(graphics::Renderer&) const override;
+      void receiveAttack(const double, const geometry::Vec2);
+      void receiveImpulse(const geometry::Vec2);
+
+      static constexpr double MAX_INTERACTION_DISTANCE = 50.0;
 
     protected:
 
-      static constexpr double // measurements are per tick
-        inertia = 10,
-        acceleration = 0.1,
-        topSpeed = 1,
-        rotationSpeed = 0.1,
+      double
+        inertia,
+        acceleration,
+        topSpeed,
+        rotationSpeed,
 
-        baseHealth = 100,
-        attackStrength = 10,
-        knockback = 10
+        baseHealth,
+        attackStrength,
+        knockback;
 
-        ;
-      static constexpr int attackInterval = 20;
+      int attackInterval;
 
-      Box* box;
-      bool active;
+      geometry::Box box;
       double health;
       int attackCooldown;
       Unit* target;
@@ -59,7 +59,7 @@ namespace entity
       void checkCollision();
       void checkAttack();
 
-      double idealSpeed();
+      virtual double idealSpeed() const;
       void doCollision(Unit& u);
 
       virtual void move() override;
@@ -67,7 +67,7 @@ namespace entity
 
       virtual void attack();
 
-
+      geometry::Vec2 rayTo(const Unit& other) const;
   };
 
 } /* namespace entity */

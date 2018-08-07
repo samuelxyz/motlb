@@ -7,18 +7,23 @@
 
 #include "Battle.h"
 
-#include "Vec2.h"
+#include <stddef.h>
+#include <iterator>
+
+#include "geometry/Vec2.h"
+#include "Values.h"
+
+constexpr Values::Color Battle::backgroundColor;
 
 Battle::Battle()
-  : bounds(Vec2(), Vec2(800, 800))
+  : bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
+    particles(), projectiles(), units(),
+    renderer()
 {
-  // TODO Auto-generated constructor stub
-
 }
 
 Battle::~Battle()
 {
-  // TODO Auto-generated destructor stub
 }
 
 void Battle::run()
@@ -29,83 +34,170 @@ void Battle::stop()
 {
 }
 
-template <class... Args>
-void Battle::add(entity::Entity::Type type, Args&&... args)
+void Battle::update()
 {
-  switch (type)
+  for (size_t i = 0; i < units.size(); )
   {
-    case entity::Entity::Type::PARTICLE:
-      particles.emplace_back(args...); //???
-      break;
-    case entity::Entity::Type::PROJECTILE:
-      projectiles.emplace_back(args...);
-      break;
-    case entity::Entity::Type::UNIT:
-      units.emplace_back(args...);
-      break;
+    if (units[i] == nullptr)
+    {
+      units.erase(units.begin() + i);
+    }
+    else
+    {
+      units[i]->update();
+      i++;
+    }
   }
+
+  for (size_t i = 0; i < projectiles.size(); )
+  {
+    if (projectiles[i] == nullptr)
+    {
+      projectiles.erase(projectiles.begin() + i);
+    }
+    else
+    {
+      projectiles[i]->update();
+
+      if (!projectiles[i]->isActive())
+      {
+        delete projectiles[i];
+        projectiles.erase(projectiles.begin() + i);
+      }
+      else
+      {
+        i++;
+      }
+    }
+  }
+
+  for (size_t i = 0; i < particles.size(); )
+  {
+    if (particles[i] == nullptr)
+    {
+      particles.erase(particles.begin() + i);
+    }
+    else
+    {
+      particles[i]->update();
+
+      if (!particles[i]->isActive())
+      {
+        delete particles[i];
+        particles.erase(particles.begin() + i);
+      }
+      else
+      {
+        i++;
+      }
+    }
+  }
+}
+
+void Battle::renderAll()
+{
+//  Values::CenteredPoly cp =
+//  {
+//      Values::ColoredVertex{{1.0f, 0.5f, 0.0f, 0.5f}, 400.0f, 400.0f},
+//      Values::ColoredVertex{{1.0f, 1.0f, 0.5f, 0.5f}, 800.0f, 800.0f},
+//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 0.5f}, 800.0f, 0.0f  },
+//      Values::ColoredVertex{{1.0f, 1.5f, 0.5f, 0.5f}, 0.0f  , 0.0f  },
+//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 0.5f}, 0.0f  , 800.0f}
+//  };
+//
+//  renderer.addCenteredPoly(cp);
+
+  renderer.addQuad(Values::makeQuad(backgroundColor, bounds));
+
+  for (auto* p : particles)
+    p->render(renderer);
+  for (auto* p : projectiles)
+    p->render(renderer);
+  for (auto* u : units)
+    u->render(renderer);
+
+  renderer.renderAndClearAll();
 }
 
 void Battle::clearAll()
 {
+  for (auto* p : particles)
+    delete p;
+  for (auto* p : projectiles)
+    delete p;
+  for (auto* u : units)
+    delete u;
+
   particles.clear();
   projectiles.clear();
   units.clear();
 }
 
-Box const& Battle::getBounds() const
+void Battle::add(entity::Projectile* p)
 {
-  return bounds;
+  projectiles.push_back(p);
 }
 
-void Battle::update()
+void Battle::add(entity::Particle* p)
 {
-  for (auto& u : units)
-    u.update();
-  for (auto& p : projectiles)
-    p.update();
-  for (auto& p : particles)
-    p.update();
+  particles.push_back(p);
 }
 
-void Battle::remove(entity::Particle& particle)
+void Battle::add(entity::Unit* u)
+{
+  units.push_back(u);
+}
+
+bool Battle::remove(entity::Particle* p)
 {
   // std::find?
   for (size_t i = 0; i < particles.size(); i++)
   {
-    if (&(particles[i]) == &particle)
+    if (particles[i] == p)
     {
+      delete p; // same as delete particles[i]
       particles.erase(particles.begin() + i);
-      return;
+      return true;
     }
   }
+  return false;
 }
 
-void Battle::remove(entity::Projectile& p)
+bool Battle::remove(entity::Projectile* p)
 {
   for (size_t i = 0; i < projectiles.size(); i++)
-    if (&projectiles[i] == &p)
+  {
+    if (projectiles[i] == p)
     {
+      delete p;
       projectiles.erase(projectiles.begin() + i);
-      return;
+      return true;
     }
+  }
+  return false;
 }
 
-void Battle::remove(entity::Unit& u)
+bool Battle::remove(entity::Unit* u)
 {
   for (size_t i = 0; i < units.size(); i++)
-    if (&units[i] == &u)
+  {
+    if (units[i] == u)
     {
+      delete u;
       units.erase(units.begin() + i);
-      return;
+      return true;
     }
+  }
+  return false;
 }
 
-std::vector<entity::Unit>& Battle::getUnits()
+const geometry::Box& Battle::getBounds() const
+{
+  return bounds;
+}
+
+std::vector<entity::Unit*>& Battle::getUnits()
 {
   return units;
 }
 
-void Battle::render()
-{
-}

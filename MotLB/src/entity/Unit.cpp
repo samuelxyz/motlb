@@ -14,31 +14,31 @@ namespace entity
 {
 
   Unit::Unit(Battle* battle, Team team,
-      Vec2 position, Vec2 velocity, double angle)
+      geometry::Vec2 position, geometry::Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity),
-    box(new Box(position, -10, 10, -10, 10, angle)),
-    active(true),
+
+    // const members
+    inertia(10),
+    acceleration(0.1),
+    topSpeed(1),
+    rotationSpeed(0.1),
+
+    baseHealth(100),
+    attackStrength(20),
+    knockback(20),
+
+    attackInterval(30),
+
+    // non-const
+    box(position, angle, -10, 10, -10, 10),
     health(baseHealth),
-    attackCooldown(rand() % attackInterval), // TODO: random
+    attackCooldown(Values::random() * attackInterval),
     target(nullptr)
   {
-    // TODO Auto-generated constructor stub
-
   }
 
   Unit::~Unit()
   {
-    delete box;
-  }
-
-  Vec2 Unit::getPosition()
-  {
-    return box->position;
-  }
-
-  Vec2 Unit::getAngle()
-  {
-    return box->angle;
   }
 
   void Unit::update()
@@ -57,9 +57,15 @@ namespace entity
     checkAttack();
   }
 
+  void Unit::render(graphics::Renderer& renderer) const
+  {
+    if (active)
+      renderer.addQuad(Values::makeQuad(getTeamColor(team), box));
+  }
+
   void Unit::move()
   {
-    box->position += velocity;
+    box.position += velocity;
   }
 
   bool Unit::checkActive()
@@ -74,33 +80,26 @@ namespace entity
 
   void Unit::updateTarget()
   {
-    bool targetsExist = false;
+    target = nullptr;
 
-    for (Unit& u : battle->getUnits())
+    for (Unit* u : battle->getUnits())
     {
-      if (u.team != team && u.active)
+      if (u->team != team && u->active)
       {
-        targetsExist = true;
-
-        if (target)
+        if (target == nullptr)
         {
-          // candidate already exists. Is this one closer?
-          if ((u.getPosition() - getPosition()) <
-              (target->getPosition() - getPosition()))
-          {
-            target = &u;
-
-          }
+          target = u; // this is the first candidate. We'll start here
         }
-        else // target == nullptr
+        else
         {
-          target = &u; // this is the first candidate. We'll start here
+          // candidate already found. Is this one closer?
+          if (rayTo(*u) < rayTo(*target))
+          {
+            target = u;
+          }
         }
       }
     }
-
-    if (!targetsExist)
-      target = nullptr;
   }
 
   void Unit::rotate()
@@ -108,24 +107,34 @@ namespace entity
     if (!target)
       return;
 
+    // idk whether things mess up
+    // because of how 2pi == 0 when dealing with angles
+    // so i did this
+
     double targetAngle =
-        (target->getPosition() - getPosition()).getAngle();
+        rayTo(*target).getAngle();
+    if (targetAngle < 0)
+      targetAngle += Values::TWO_PI;
+
+    double currentAngle = box.angle;
+    if (currentAngle < 0)
+      currentAngle += Values::TWO_PI;
 
     double maxAbs = rotationSpeed;
 
     double rot = // clamp so abs(rot) < rotationSpeed
         std::max(-maxAbs,
-            std::min(maxAbs, targetAngle - box->angle));
+            std::min(maxAbs, targetAngle - currentAngle));
 
-    box->angle += rot;
+    box.angle += rot;
   }
 
   void Unit::accelerate()
   {
-    Vec2 idealVelocity;
-    idealVelocity.setPolar(idealSpeed(), box->angle);
+    geometry::Vec2 idealVelocity;
+    idealVelocity.setPolar(idealSpeed(), box.angle);
 
-    Vec2 dV = idealVelocity - velocity;
+    geometry::Vec2 dV = idealVelocity - velocity;
     if (dV.getLength() > acceleration)
       dV.scaleTo(acceleration);
 
@@ -134,28 +143,24 @@ namespace entity
 
   void Unit::checkCollision()
   {
-    for (Unit u : battle->getUnits())
-      if (u.active && &u != this)
-        doCollision(u);
+    for (Unit* u : battle->getUnits())
+      if (u->active && u != this && rayTo(*u).getLength() < MAX_INTERACTION_DISTANCE)
+        doCollision(*u);
   }
 
   void Unit::doCollision(Unit& u)
   {
-    if (!Box::overlaps(*box, *(u.box)))
-      return;
-
-    Vec2 dx = Box::collide(*box, *(u.box));
-    if (!dx.getLength())
+    geometry::Vec2 dx = geometry::Box::collide(box, u.box);
+    if (dx.isZero())
       return;
 
     double totalI = inertia + u.inertia;
 
-    box->position -= dx * (inertia / totalI);
-    u.box->position += dx * (inertia / totalI);
+    box.position -= dx * (inertia / totalI);
+    u.box.position += dx * (inertia / totalI);
 
     checkContainment();
     u.checkContainment();
-
   }
 
   void Unit::checkAttack()
@@ -171,27 +176,48 @@ namespace entity
 
   void Unit::checkContainment()
   {
-    box->position += battle->getBounds().contain(*box);
+    box.position += battle->getBounds().contain(box);
+//    const geometry::Box& bounds = battle->getBounds();
+//    box.position += bounds.contain(box);
   }
 
   void Unit::attack()
   {
+    geometry::Vec2 attackPoint(box.toAbs(geometry::Vec2(15)));
+    for (Unit* u : battle->getUnits())
+    {
+      if (u->team != team && u->active &&
+          rayTo(*u).getLength() < MAX_INTERACTION_DISTANCE &&
+          u->box.containsAbs(attackPoint))
+      {
+        geometry::Vec2 impulse(knockback);
+        impulse.rotateBy(box.angle);
+
+        u->receiveAttack(attackStrength, impulse);
+      }
+    }
   }
 
-  double Unit::idealSpeed()
+  double Unit::idealSpeed() const
   {
     return (target)? topSpeed : 0;
   }
 
-  void Unit::receiveAttack(double damage, Vec2 impulse)
+  void Unit::receiveAttack(const double damage, const geometry::Vec2 impulse)
   {
     health -= damage;
     receiveImpulse(impulse);
   }
 
-  void Unit::receiveImpulse(Vec2 impulse)
+  void Unit::receiveImpulse(const geometry::Vec2 impulse)
   {
     velocity += (1/inertia) * impulse;
   }
 
+  geometry::Vec2 Unit::rayTo(const Unit& other) const
+  {
+    return (other.getPosition() - getPosition());
+  }
+
 } /* namespace entity */
+

@@ -16,8 +16,8 @@ namespace entity
   {
     public:
 
-      Particle(Battle*, Team, Vec2 position,
-          Vec2 velocity, double size, double lifetime);
+      Particle(Battle*, Team, geometry::Vec2 position,
+          geometry::Vec2 velocity, double radius, unsigned int lifetime);
       virtual ~Particle();
 
       virtual void update() override;
@@ -26,10 +26,9 @@ namespace entity
 
       virtual void checkContainment() override;
 
-    private:
-      double size;
+      double radius;
       double lifetime;
-      double dSize;
+      double dr;
 
   };
 }
