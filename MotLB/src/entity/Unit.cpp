@@ -16,6 +16,20 @@ namespace entity
   Unit::Unit(Battle* battle, Team team,
       geometry::Vec2 position, geometry::Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity),
+
+    // const members
+    inertia(10),
+    acceleration(0.1),
+    topSpeed(1),
+    rotationSpeed(0.1),
+
+    baseHealth(100),
+    attackStrength(20),
+    knockback(20),
+
+    attackInterval(30),
+
+    // non-const
     box(position, angle, -10, 10, -10, 10),
     health(baseHealth),
     attackCooldown(rand() % attackInterval),

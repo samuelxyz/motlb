@@ -17,8 +17,6 @@ namespace entity
 
   class Unit: public Entity
   {
-//      friend class Projectile;
-
     public:
 
       Unit(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, double angle);
@@ -37,17 +35,17 @@ namespace entity
 
     protected:
 
-      static constexpr double // measurements are per tick
-        inertia = 10,
-        acceleration = 0.1,
-        topSpeed = 1,
-        rotationSpeed = 0.1,
+      double
+        inertia,
+        acceleration,
+        topSpeed,
+        rotationSpeed,
 
-        baseHealth = 100,
-        attackStrength = 20,
-        knockback = 20;
+        baseHealth,
+        attackStrength,
+        knockback;
 
-      static constexpr int attackInterval = 30;
+      int attackInterval;
 
       geometry::Box box;
       double health;
@@ -61,7 +59,7 @@ namespace entity
       void checkCollision();
       void checkAttack();
 
-      double idealSpeed() const;
+      virtual double idealSpeed() const;
       void doCollision(Unit& u);
 
       virtual void move() override;

@@ -43,7 +43,7 @@ namespace entity
         FLYING,
         FADE_OUT
       } mode;
-      unsigned int renderLength;
+      int renderLength;
 
       void checkFading();
 

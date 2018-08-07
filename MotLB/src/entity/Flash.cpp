@@ -43,7 +43,8 @@ namespace entity
   {
     // figure out what shape the flash should be
 
-    const unsigned int numPoints = radius * 6;
+    const unsigned int numPoints = radius * 3;
+    constexpr double rStep = 2;
 
     geometry::Vec2* points = new geometry::Vec2[numPoints];
     for (unsigned int i = 0; i < numPoints; ++i)
@@ -51,12 +52,12 @@ namespace entity
 
     geometry::Vec2* directions = new geometry::Vec2[numPoints];
     for (unsigned int i = 0; i < numPoints; ++i)
-      directions[i].setPolar(1, Values::TWO_PI * i/numPoints);
+      directions[i].setPolar(rStep, Values::TWO_PI * i/numPoints);
 
     for (unsigned int i = 0; i < numPoints; ++i)
     {
       // simulate ray
-      for (double r = 0; r < radius; ++r)
+      for (double r = 0; r < radius; r += rStep)
       {
         // for breaking out of nested (ray) loop
         bool terminateRay = false;

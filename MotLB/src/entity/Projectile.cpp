@@ -26,6 +26,7 @@ namespace entity
   : Entity(battle, team, position, velocity),
     damage(damage), inertia(inertia),
     friendlyFire(friendlyFire),
+
     mode(Mode::FLYING),
     renderLength(0)
   {
@@ -122,7 +123,6 @@ namespace entity
     );
 
     battle->add(flash);
-
   }
 
   void Projectile::move()
