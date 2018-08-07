@@ -32,7 +32,7 @@ namespace entity
     // non-const
     box(position, angle, -10, 10, -10, 10),
     health(baseHealth),
-    attackCooldown(rand() % attackInterval),
+    attackCooldown(Values::random() * attackInterval),
     target(nullptr)
   {
   }

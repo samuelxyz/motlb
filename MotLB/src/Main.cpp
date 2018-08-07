@@ -9,6 +9,7 @@
 
 #include "geometry/Box.h"
 #include "geometry/Vec2.h"
+#include "Values.h"
 
 //int uniformShaderTest();
 //int vertexColorShaderTest();
@@ -70,5 +71,6 @@ int main()
   //  std::srand(static_cast<unsigned int>(std::time(0)));
   //  boxTest();
 
+  Values::initRand();
   return battleRenderTest();
 }

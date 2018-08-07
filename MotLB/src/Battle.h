@@ -56,7 +56,11 @@ class Battle
 
     graphics::Renderer renderer;
 
-    static constexpr Values::Color backgroundColor { 1.0f, 0.94f, 0.7f, 1.0f };
+    static constexpr Values::Color backgroundColor
+    {
+//      1.0f, 0.94f, 0.7f, 1.0f
+      0.7f, 0.7f, 0.7f, 1.0f
+    };
 
 };
 

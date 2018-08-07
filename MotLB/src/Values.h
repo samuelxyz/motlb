@@ -8,7 +8,13 @@
 #ifndef VALUES_H_
 #define VALUES_H_
 
-#include "geometry/Box.h"
+#include <Box.h>
+#include <Vec2.h>
+#include <array>
+#include <cassert>
+#include <cstdlib>
+#include <ctime>
+#include <vector>
 
 class Values
 {
@@ -75,6 +81,22 @@ class Values
         start.b * (1-fraction) + end.b * fraction,
         start.a * (1-fraction) + end.a * fraction
       };
+    }
+
+    static double random()
+    {
+      return static_cast<double>(rand())/RAND_MAX;
+    }
+
+    static double random(double min, double max)
+    {
+      double intervalSize = max-min;
+      return min + (random() * intervalSize);
+    }
+
+    static void initRand()
+    {
+      srand(time(nullptr));
     }
 };
 

@@ -44,7 +44,7 @@ namespace entity
     // figure out what shape the flash should be
 
     const unsigned int numPoints = radius * 3;
-    constexpr double rStep = 2;
+    constexpr double rStepMax = 6;
 
     geometry::Vec2* points = new geometry::Vec2[numPoints];
     for (unsigned int i = 0; i < numPoints; ++i)
@@ -52,14 +52,14 @@ namespace entity
 
     geometry::Vec2* directions = new geometry::Vec2[numPoints];
     for (unsigned int i = 0; i < numPoints; ++i)
-      directions[i].setPolar(rStep, Values::TWO_PI * i/numPoints);
+      directions[i].setPolar(1, Values::TWO_PI * i/numPoints);
 
     for (unsigned int i = 0; i < numPoints; ++i)
     {
       // simulate ray
-      for (double r = 0; r < radius; r += rStep)
+      for (double r = 0; r < radius;)
       {
-        // for breaking out of nested (ray) loop
+        // for breaking out of nested loop (stop this ray)
         bool terminateRay = false;
         for (Unit* u : units)
         {
@@ -73,7 +73,9 @@ namespace entity
         if (terminateRay)
           break;
 
-        points[i] += directions[i];
+        double rStep = std::min(rStepMax, radius-r);
+        points[i] += rStep * directions[i];
+        r += rStep;
       }
     }
 
@@ -118,7 +120,7 @@ namespace entity
     {
       if (u->isActive() &&
           (u->getPosition() - position).getLength() <
-            Unit::MAX_INTERACTION_DISTANCE + radius &&
+            u->getBox().getLongestRadius() + radius &&
           !u->getBox().containsAbs(position))
         units.push_back(u);
     }

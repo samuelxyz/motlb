@@ -31,6 +31,7 @@ namespace geometry
 
       double getWidth() const;
       double getHeight() const;
+      double getLongestRadius() const;
 
       geometry::Vec2 toRelative(geometry::Vec2 absPoint) const;
       geometry::Vec2 toAbs(geometry::Vec2 relPoint) const;

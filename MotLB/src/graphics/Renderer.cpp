@@ -19,7 +19,7 @@ namespace graphics
 
   Renderer::Renderer()
   : shaderProgram("resources/shaders/MotLB_generic.glsl"),
-    tBatch(800, shaderProgram)
+    tBatch(2000, shaderProgram)
 //    cpBatch(800, shaderProgram),
 //    quadBatch(200, shaderProgram)
   {

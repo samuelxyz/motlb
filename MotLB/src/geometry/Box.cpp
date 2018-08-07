@@ -149,6 +149,14 @@ namespace geometry
     return yMax - yMin;
   }
 
+  double Box::getLongestRadius() const
+  {
+    double longerX = std::max(abs(xMax), abs(xMin));
+    double longerY = std::max(abs(yMax), abs(yMin));
+
+    return hypot(longerX, longerY);
+  }
+
   geometry::Vec2 geometry::Box::collide(const Box& standOn, const Box& giveWay)
   {
     geometry::Vec2 v1 = standOn.collideOneWay(giveWay);
