@@ -39,15 +39,15 @@ namespace entity
     geometry::Vec2 forward;
     forward.setPolar(4, box.angle);
 
-    geometry::Vec2 right;
+    geometry::Vec2 right(forward);
     right.rotateBy(-Values::HALF_PI);
 
     std::array<geometry::Vec2, 4> corners
     {
-      box.position + forward,
-      box.position + right,
-      box.position - 2*forward,
-      box.position - right
+      box.position + 0.5*forward + forward,
+      box.position + 0.5*forward + right,
+      box.position + 0.5*forward - 2*forward,
+      box.position + 0.5*forward - right
     };
 
     Values::Quad quad;
@@ -55,7 +55,7 @@ namespace entity
     {
       quad[i] =
       {
-          { 0.0f, 0.0f, 0.0f, 0.5f },
+          { 0.0f, 0.0f, 0.0f, 0.2f },
           static_cast<float>(corners[i].getX()),
           static_cast<float>(corners[i].getY())
       };

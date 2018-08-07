@@ -19,7 +19,7 @@ namespace geometry
     xMin(xMin), xMax(xMax),
     yMin(yMin), yMax(yMax)
   {
-    std::cout << "Initialized: " << *this << std::endl;
+//    std::cout << "Initialized: " << *this << std::endl;
   }
 
   Box::Box(geometry::Vec2 corner1, geometry::Vec2 corner2)
