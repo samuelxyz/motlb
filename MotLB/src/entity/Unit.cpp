@@ -80,15 +80,17 @@ namespace entity
 
   void Unit::updateTarget()
   {
-    bool targetsExist = false;
+    target = nullptr;
 
     for (Unit* u : battle->getUnits())
     {
       if (u->team != team && u->active)
       {
-        targetsExist = true;
-
-        if (target)
+        if (target == nullptr)
+        {
+          target = u; // this is the first candidate. We'll start here
+        }
+        else
         {
           // candidate already found. Is this one closer?
           if (rayTo(*u) < rayTo(*target))
@@ -96,15 +98,8 @@ namespace entity
             target = u;
           }
         }
-        else // target == nullptr
-        {
-          target = u; // this is the first candidate. We'll start here
-        }
       }
     }
-
-    if (!targetsExist)
-      target = nullptr;
   }
 
   void Unit::rotate()

@@ -28,6 +28,13 @@ int battleRenderTest()
   battle.add(u2);
   entity::Unit* u3 = new entity::Unit(&battle, entity::Entity::Team::GREEN, geometry::Vec2(200, 600), geometry::Vec2(), 2);
   battle.add(u3);
+
+  for (int i = 0; i < 6; i++)
+  {
+    entity::Unit* ul = new entity::Unit(&battle, entity::Entity::Team::RED, geometry::Vec2(100, 100 + 100 * i), geometry::Vec2(), 0);
+    battle.add(ul);
+  }
+
   entity::Gunner* u4 = new entity::Gunner(&battle, entity::Entity::Team::YELLOW, geometry::Vec2(400, 400), geometry::Vec2(), 5);
   battle.add(u4);
 

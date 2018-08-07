@@ -31,6 +31,9 @@ namespace entity
 
   void Gunner::render(graphics::Renderer& renderer) const
   {
+    if (!active)
+      return;
+
     Unit::render(renderer);
 
     geometry::Vec2 forward;
