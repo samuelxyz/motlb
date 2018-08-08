@@ -18,6 +18,7 @@ Window::Window() : Window(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT, "MotLB", 
 }
 
 Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
+: title(title)
 {
 
 #ifdef MOTLB_DEBUG /////////////////////////
@@ -32,14 +33,19 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
 #endif /////////////////////////////////////
 
   glfwWindowHint(GLFW_SAMPLES, 4);
+  glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+  glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
   /* Create a windowed mode window and its OpenGL context */
   window = glfwCreateWindow(width, height, title, monitor, NULL);
   if (!window)
   {
     glfwTerminate();
-    assert(false);
+    assert(false && "GLFW window creation failed");
   }
+
+  glfwSetWindowPos(window, 50, 50);
+  glfwShowWindow(window);
 
   /* Make the window's context current */
   glfwMakeContextCurrent(window);
@@ -83,6 +89,11 @@ void Window::swapBuffers() const
 bool Window::shouldClose() const
 {
   return glfwWindowShouldClose(window);
+}
+
+void Window::setTitleMessage(const std::string& msg)
+{
+  glfwSetWindowTitle(window, (title + msg).c_str());
 }
 
 #ifdef MOTLB_DEBUG /////////////////////////

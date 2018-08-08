@@ -10,11 +10,13 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <string>
 
 class Window
 {
   private:
     GLFWwindow* window;
+    std::string title;
 
   public:
     Window();
@@ -23,6 +25,8 @@ class Window
 
     bool shouldClose() const;
     void swapBuffers() const;
+
+    void setTitleMessage(const std::string& msg);
 
     static void printGLFWError(int error, const char* description);
     static void APIENTRY printGLDebug(GLenum source, GLenum type, GLuint id,

@@ -44,11 +44,11 @@ namespace entity
     // figure out what shape the flash should be
 
 #ifdef MOTLB_DEBUG
-    const unsigned int numPoints = radius * 3;
+    const unsigned int numPoints = radius;
     constexpr double rStepMax = 6;
 #else
-    const unsigned int numPoints = radius * 6;
-    constexpr double rStepMax = 4;
+    const unsigned int numPoints = radius * 3;
+    constexpr double rStepMax = 2;
 #endif
 
     geometry::Vec2* points = new geometry::Vec2[numPoints];
