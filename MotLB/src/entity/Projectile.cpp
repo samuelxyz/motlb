@@ -114,7 +114,7 @@ namespace entity
 
     Flash* flash = new Flash
     (
-        battle, position - 5*velocity, Values::random(40, 70),
+        battle, position - 5*velocity, Values::random(30, 50),
 //        Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
 //        Values::Color{ 1.0f, 0.8f, 0.8f, 0.1f },
         Values::Color{ 1.0f, 1.0f, 1.0f, 1.0f },

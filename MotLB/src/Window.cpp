@@ -75,17 +75,22 @@ Window::~Window()
   glfwTerminate();
 }
 
+void Window::swapBuffers() const
+{
+  glfwSwapBuffers(window);
+}
+
+bool Window::shouldClose() const
+{
+  return glfwWindowShouldClose(window);
+}
+
 #ifdef MOTLB_DEBUG /////////////////////////
 
   void Window::printGLFWError(int error, const char* description)
   {
     fprintf(stderr, "[GLFW Error] %s\n", description);
   }
-
-void Window::swapBuffers() const
-{
-  glfwSwapBuffers(window);
-}
 
   void APIENTRY Window::printGLDebug(GLenum source, GLenum type, GLuint id,
       GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
@@ -95,8 +100,3 @@ void Window::swapBuffers() const
 }
 
 #endif /////////////////////////////////////
-
-bool Window::shouldClose() const
-{
-  return glfwWindowShouldClose(window);
-}
