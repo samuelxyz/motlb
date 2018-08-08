@@ -21,10 +21,15 @@ Battle::Battle(Window* window)
 : window(window),
   bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
   particles(), projectiles(), units(),
-  renderer()
+  renderer(),
+  selectedTeam(entity::Entity::Team::RED),
+  selectedUnitType(UnitType::UNIT),
+  selectedAction(BattleAction::SINGLE),
+  paused(true)
 {
   if (window)
     window->setBattle(this);
+  updateWindowTitle();
 }
 
 Battle::~Battle()
@@ -41,6 +46,9 @@ void Battle::stop()
 
 void Battle::update()
 {
+  if (paused)
+    return;
+
   for (size_t i = 0; i < units.size(); )
   {
     if (units[i] == nullptr)
@@ -200,6 +208,64 @@ void Battle::handleKeypress(int key, int action)
 {
   // TODO
 //  std::cout << "Key " << key << " " << action << std::endl;
+
+  if (action == GLFW_PRESS)
+  {
+    switch (key)
+    {
+      case GLFW_KEY_SPACE:
+        paused = !paused;
+        break;
+
+      case GLFW_KEY_1:
+        selectedTeam = entity::Entity::Team::RED;
+        break;
+      case GLFW_KEY_2:
+        selectedTeam = entity::Entity::Team::GREEN;
+        break;
+      case GLFW_KEY_3:
+        selectedTeam = entity::Entity::Team::BLUE;
+        break;
+      case GLFW_KEY_4:
+        selectedTeam = entity::Entity::Team::YELLOW;
+        break;
+
+      case GLFW_KEY_Q:
+        selectedUnitType = UnitType::UNIT;
+        break;
+      case GLFW_KEY_W:
+        selectedUnitType = UnitType::GUNNER;
+        break;
+
+      case GLFW_KEY_A:
+        selectedAction = BattleAction::DELETE;
+        break;
+      case GLFW_KEY_S:
+        selectedAction = BattleAction::SINGLE;
+        break;
+      case GLFW_KEY_D:
+        selectedAction = BattleAction::LINE;
+        break;
+
+      default:
+        break;
+    }
+  }
+//  else if (action == GLFW_RELEASE)
+//  {
+//    switch (key)
+//    {
+//      case GLFW_KEY_SPACE:
+//        paused = !paused;
+//        break;
+//
+//      default:
+//        break;
+//    }
+//  }
+
+  updateWindowTitle();
+
 }
 
 void Battle::handleMouseClick(int button, int action, double x, double y)
@@ -218,3 +284,82 @@ std::vector<entity::Unit*>& Battle::getUnits()
   return units;
 }
 
+void Battle::updateWindowTitle()
+{
+  if (window)
+  {
+    std::string msg(": ");
+
+    if (paused)
+      msg += "[Paused]";
+    else
+      msg += "[Running]";
+
+    msg += " Mode: ";
+    if (selectedAction == BattleAction::DELETE)
+    {
+      msg += "Click to delete a unit";
+    }
+    else
+    {
+      if (selectedAction == BattleAction::SINGLE)
+        msg += "Click to place a ";
+      else if (selectedAction == BattleAction::LINE)
+        msg += "Click twice and scroll to place ";
+
+      switch (selectedTeam)
+      {
+        case entity::Entity::Team::RED:
+          msg += "red ";
+          break;
+        case entity::Entity::Team::GREEN:
+          msg += "green ";
+          break;
+        case entity::Entity::Team::BLUE:
+          msg += "blue ";
+          break;
+        case entity::Entity::Team::YELLOW:
+          msg += "yellow ";
+          break;
+        default:
+          msg += "[unknown team] ";
+          break;
+      }
+
+      if (selectedAction == BattleAction::SINGLE)
+      {
+        // singular noun
+        switch (selectedUnitType)
+        {
+          case UnitType::UNIT:
+            msg += "unit";
+            break;
+          case UnitType::GUNNER:
+            msg += "gunner";
+            break;
+          default:
+            msg += "[unknown unit type]";
+            break;
+        }
+      }
+      else if (selectedAction == BattleAction::LINE)
+      {
+        // plural noun
+        switch (selectedUnitType)
+        {
+          case UnitType::UNIT:
+            msg += "units";
+            break;
+          case UnitType::GUNNER:
+            msg += "gunners";
+            break;
+          default:
+            msg += "[unknown unit types]";
+            break;
+        }
+      }
+    }
+
+    window->setTitleMessage(msg);
+  }
+}

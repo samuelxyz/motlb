@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "Values.h"
+#include "entity/Entity.h"
 
 class Window;
 
@@ -52,6 +53,10 @@ class Battle
 
   private:
 
+    void updateWindowTitle();
+
+  private:
+
     Window* window;
     const geometry::Box bounds;
 
@@ -61,6 +66,21 @@ class Battle
     std::vector<entity::Unit*> units;
 
     graphics::Renderer renderer;
+
+    entity::Entity::Team selectedTeam;
+    enum class UnitType
+    {
+        UNIT,
+        GUNNER
+    } selectedUnitType;
+    enum class BattleAction
+    {
+        SINGLE,
+        LINE,
+        DELETE
+    } selectedAction;
+
+    bool paused;
 
     static constexpr Values::Color backgroundColor
     {

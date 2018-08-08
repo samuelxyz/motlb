@@ -19,20 +19,20 @@ Window::Window() : Window(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT, "MotLB", 
 }
 
 Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
-: title(title)
+: title(title),
+  battle(nullptr)
 {
 
-#ifdef MOTLB_DEBUG /////////////////////////
+#ifdef MOTLB_DEBUG
   glfwSetErrorCallback(printGLFWError);
-#endif /////////////////////////////////////
+#endif
 
   /* Initialize the library */
   assert(glfwInit());
 
-#ifdef MOTLB_DEBUG /////////////////////////
+#ifdef MOTLB_DEBUG
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-#endif /////////////////////////////////////
-
+#endif
   glfwWindowHint(GLFW_SAMPLES, 4);
   glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
   glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
@@ -116,7 +116,9 @@ void Window::handleMouseButton(GLFWwindow* window, int button, int action,
   {
     double x, y;
     glfwGetCursorPos(window, &x, &y);
-    y = Values::BATTLE_HEIGHT - y;
+    y = Values::BATTLE_HEIGHT - y; // GLFW y-axis is positive downward
+                                   // but MOTLB is positive upward
+
     battle->handleMouseClick(button, action, x, y);
   }
 }

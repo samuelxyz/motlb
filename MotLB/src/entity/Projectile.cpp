@@ -55,7 +55,7 @@ namespace entity
     right.rotateBy(-Values::HALF_PI);
 
     Values::Color bodyColor { 1.0f, 1.0f, 1.0f, 1.0f };
-    Values::Color tailColor { 1.0f, 1.0f, 1.0f, 0.5f };
+    Values::Color tailColor { 1.0f, 1.0f, 1.0f, 0.2f };
 
     std::array<geometry::Vec2, 4> corners
     {
