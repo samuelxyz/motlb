@@ -20,7 +20,7 @@ int battleRenderTest()
 {
   Window window;
 
-  Battle battle;
+  Battle battle(&window);
 
   entity::Unit* u1 = new entity::Unit(&battle, entity::Entity::Team::BLUE, geometry::Vec2(600, 600), geometry::Vec2(), 1);
   battle.add(u1);

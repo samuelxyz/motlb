@@ -12,11 +12,14 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
+class Battle;
+
 class Window
 {
   private:
     GLFWwindow* window;
     std::string title;
+    Battle* battle;
 
   public:
     Window();
@@ -26,11 +29,14 @@ class Window
     bool shouldClose() const;
     void swapBuffers() const;
 
+    void setBattle(Battle*);
     void setTitleMessage(const std::string& msg);
 
     static void printGLFWError(int error, const char* description);
     static void APIENTRY printGLDebug(GLenum source, GLenum type, GLuint id,
           GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+    static void handleKey(GLFWwindow*, int key, int scancode, int action, int mods);
+    static void handleMouseButton(GLFWwindow*, int button, int action, int mods);
 
     GLFWwindow* getGLFWwindow() const { return window; }
 };

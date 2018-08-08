@@ -8,20 +8,22 @@
 #ifndef BATTLE_H_
 #define BATTLE_H_
 
+#include <Box.h>
+#include <Particle.h>
+#include <Projectile.h>
+#include <Renderer.h>
+#include <Unit.h>
 #include <vector>
 
-#include "entity/Particle.h"
-#include "entity/Projectile.h"
-#include "entity/Unit.h"
-#include "geometry/Box.h"
-#include "graphics/Renderer.h"
 #include "Values.h"
+
+class Window;
 
 class Battle
 {
   public:
 
-    Battle();
+    Battle(Window*);
     ~Battle();
 
     void run();
@@ -41,12 +43,16 @@ class Battle
 
     void clearAll();
 
+    void handleKeypress(int key, int action);
+    void handleMouseClick(int button, int action, double x, double y);
+
     const geometry::Box& getBounds() const;
 
     std::vector<entity::Unit*>& getUnits();
 
   private:
 
+    Window* window;
     const geometry::Box bounds;
 
     // heap allocated

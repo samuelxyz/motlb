@@ -7,19 +7,24 @@
 
 #include "Battle.h"
 
+#include <Entity.h>
 #include <stddef.h>
+#include <Vec2.h>
 #include <iterator>
+#include <iostream>
 
-#include "geometry/Vec2.h"
-#include "Values.h"
+#include "Window.h"
 
 constexpr Values::Color Battle::backgroundColor;
 
-Battle::Battle()
-  : bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
-    particles(), projectiles(), units(),
-    renderer()
+Battle::Battle(Window* window)
+: window(window),
+  bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
+  particles(), projectiles(), units(),
+  renderer()
 {
+  if (window)
+    window->setBattle(this);
 }
 
 Battle::~Battle()
@@ -189,6 +194,18 @@ bool Battle::remove(entity::Unit* u)
     }
   }
   return false;
+}
+
+void Battle::handleKeypress(int key, int action)
+{
+  // TODO
+//  std::cout << "Key " << key << " " << action << std::endl;
+}
+
+void Battle::handleMouseClick(int button, int action, double x, double y)
+{
+  // TODO
+//  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
 }
 
 const geometry::Box& Battle::getBounds() const

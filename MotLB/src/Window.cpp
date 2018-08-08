@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <iostream>
 
+#include "Battle.h"
 #include "Values.h"
 
 Window::Window() : Window(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT, "MotLB", nullptr)
@@ -44,6 +45,13 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
     assert(false && "GLFW window creation failed");
   }
 
+  glfwSetWindowUserPointer(window, this);
+
+  glfwSetKeyCallback(window, handleKey);
+  glfwSetMouseButtonCallback(window, handleMouseButton);
+
+  glfwSetCursor(window, glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR));
+
   glfwSetWindowPos(window, 50, 50);
   glfwShowWindow(window);
 
@@ -73,7 +81,6 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   glLineWidth(1);
 
   glEnable(GL_MULTISAMPLE);
-
 }
 
 Window::~Window()
@@ -89,6 +96,34 @@ void Window::swapBuffers() const
 bool Window::shouldClose() const
 {
   return glfwWindowShouldClose(window);
+}
+
+void Window::handleKey(GLFWwindow* window, int key, int scancode, int action,
+    int mods)
+{
+  Battle* battle = ((Window*)glfwGetWindowUserPointer(window))->battle;
+  if (battle)
+  {
+    battle->handleKeypress(key, action);
+  }
+}
+
+void Window::handleMouseButton(GLFWwindow* window, int button, int action,
+    int mods)
+{
+  Battle* battle = ((Window*)glfwGetWindowUserPointer(window))->battle;
+  if (battle)
+  {
+    double x, y;
+    glfwGetCursorPos(window, &x, &y);
+    y = Values::BATTLE_HEIGHT - y;
+    battle->handleMouseClick(button, action, x, y);
+  }
+}
+
+void Window::setBattle(Battle* b)
+{
+  battle = b;
 }
 
 void Window::setTitleMessage(const std::string& msg)
