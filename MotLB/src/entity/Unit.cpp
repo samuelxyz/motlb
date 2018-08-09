@@ -21,7 +21,7 @@ namespace entity
     inertia(10),
     acceleration(0.1),
     topSpeed(1),
-    rotationSpeed(0.1),
+    rotationSpeed(0.03),
 
     baseHealth(100),
     attackStrength(20),
@@ -134,9 +134,13 @@ namespace entity
     geometry::Vec2 idealVelocity;
     idealVelocity.setPolar(idealSpeed(), box.angle);
 
+    double accel(acceleration);
+    if (target == nullptr) // coast to a stop
+      accel /= 10;
+
     geometry::Vec2 dV = idealVelocity - velocity;
-    if (dV.getLength() > acceleration)
-      dV.scaleTo(acceleration);
+    if (dV.getLength() > accel)
+      dV.scaleTo(accel);
 
     velocity += dV;
   }
