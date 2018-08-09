@@ -28,11 +28,6 @@ class Values
     struct Color
     {
         float r, g, b, a;
-
-//        Color(float r=0.0f, float g=0.0f, float b=0.0f, float a=0.0f)
-//        : r(r), g(g), b(b), a(a)
-//        {
-//        }
     };
 
     struct ColoredVertex
@@ -41,9 +36,21 @@ class Values
         float x, y;
     };
 
+    // For initialization: Shape s {{ }}; or Shape s = { }; because of how std::array is
     typedef std::array<ColoredVertex, 3> Triangle;
     typedef std::array<ColoredVertex, 4> Quad; // shape with four corners
     typedef std::vector<ColoredVertex> CenteredPoly; // shape with corners > 4
+
+    static ColoredVertex makeCV(const Color& color, const geometry::Vec2& position)
+    {
+      ColoredVertex cv
+      {
+        color,
+        static_cast<float>(position.getX()),
+        static_cast<float>(position.getY())
+      };
+      return cv;
+    }
 
     static Quad makeQuad(const Color& color, const geometry::Box& box)
     {

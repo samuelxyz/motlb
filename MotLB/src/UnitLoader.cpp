@@ -26,11 +26,36 @@ UnitLoader::UnitLoader(Battle& battle)
 
 UnitLoader::~UnitLoader()
 {
-  clearAll();
+  clearStagedUnits();
 }
 
 void UnitLoader::render(graphics::Renderer& renderer)
 {
+  if (!lineStarted)
+    return;
+
+  // draw line/bar thing
+
+  constexpr double halfThickness = 5;
+
+  geometry::Vec2 para(v2 - v1);
+  para.scaleTo(halfThickness);
+  geometry::Vec2 perp(facing);
+  perp.scaleTo(halfThickness);
+
+  Values::Color barColor { 1.0f, 1.0f, 1.0f, 0.3f };
+
+  Values::Quad quad
+  {{
+    Values::makeCV( barColor, v1 - para + perp ),
+    Values::makeCV( barColor, v1 - para - perp ),
+    Values::makeCV( barColor, v2 + para - perp ),
+    Values::makeCV( barColor, v2 + para + perp )
+  }};
+
+  renderer.addQuad(quad);
+
+  // render unit previews
   for (entity::Unit* u : stagedUnits)
   {
     if (u) // make() returns nullptr if battle.selectedUnitType is unknown
@@ -40,29 +65,18 @@ void UnitLoader::render(graphics::Renderer& renderer)
   // draw arrow
 
   geometry::Vec2 midpoint = (v1 + v2) * 0.5;
-  geometry::Vec2 perp(facing);
   perp.scaleTo(30);
-  geometry::Vec2 para(perp);
   para.scaleTo(20);
-  para.rotateBy(Values::HALF_PI);
 
-  std::array<geometry::Vec2, 3> corners
-  {
-    midpoint + 1.5*perp,
-    midpoint + perp + para,
-    midpoint + perp - para
-  };
+  Values::Color triColor(
+      entity::Entity::getTeamColor(battle.selectedTeam));
 
-  Values::Triangle tri;
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    tri[i] =
-    {
-        entity::Entity::getTeamColor(battle.selectedTeam),
-        static_cast<float>(corners[i].getX()),
-        static_cast<float>(corners[i].getY())
-    };
-  }
+  Values::Triangle tri
+  {{
+    Values::makeCV( triColor, midpoint + perp * 1.5  ),
+    Values::makeCV( triColor, midpoint + perp + para ),
+    Values::makeCV( triColor, midpoint + perp - para )
+  }};
 
   renderer.addTriangle(tri);
 }
@@ -95,7 +109,7 @@ void UnitLoader::decrement()
 void UnitLoader::refresh()
 {
   if (stagedUnits.size())
-    clearAll();
+    clearStagedUnits();
 
   if (count == 0)
     return;
@@ -124,26 +138,28 @@ void UnitLoader::refresh()
 
 void UnitLoader::addAndClearAll()
 {
+  if (!lineStarted)
+    return;
+
   // TODO synchronization?
   for (entity::Unit* u : stagedUnits)
   {
     battle.add(u);
   }
-  clearAll();
+
+  stagedUnits.clear();
+  count = 1;
   alreadyClicked = false;
   lineStarted = false;
 }
 
-void UnitLoader::clearAll()
+void UnitLoader::cancel()
 {
-  // not touching lineStarted or alreadyClicked
-  // because this method is called from refresh()
+  if (!lineStarted)
+    return;
 
-  for (entity::Unit* u : stagedUnits)
-  {
-    delete u;
-  }
-  stagedUnits.clear();
+  clearStagedUnits();
+  addAndClearAll();
 }
 
 void UnitLoader::processClick(geometry::Vec2 position)
@@ -158,7 +174,7 @@ void UnitLoader::processClick(geometry::Vec2 position)
     }
     else
     {
-      clearAll();
+      clearStagedUnits();
       lineStarted = false;
       alreadyClicked = true;
       v1 = position;
@@ -222,4 +238,16 @@ void UnitLoader::startLine(geometry::Vec2 start, geometry::Vec2 end)
   count = 1;
 
   refresh();
+}
+
+void UnitLoader::clearStagedUnits()
+{
+  // not touching lineStarted or alreadyClicked
+  // because this method is called from refresh()
+
+  for (entity::Unit* u : stagedUnits)
+  {
+    delete u;
+  }
+  stagedUnits.clear();
 }

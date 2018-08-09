@@ -32,7 +32,7 @@ class UnitLoader
     void decrement();
     void refresh();
     void addAndClearAll();
-    void clearAll();
+    void cancel();
 
     void processClick(geometry::Vec2 position);
     bool isLineStarted();
@@ -41,6 +41,7 @@ class UnitLoader
     entity::Unit* make(geometry::Vec2 position);
     entity::Unit* make(geometry::Vec2 position, double angle);
     void startLine(geometry::Vec2 start, geometry::Vec2 end);
+    void clearStagedUnits();
 
     Battle& battle;
     std::vector<entity::Unit*> stagedUnits;

@@ -139,6 +139,8 @@ void Battle::renderAll()
       u->render(renderer);
   }
 
+  unitLoader.render(renderer);
+
   renderer.renderAndClearAll();
 }
 
@@ -273,6 +275,11 @@ void Battle::handleKeypress(int key, int action)
       default:
         break;
     }
+
+    if (selectedAction != BattleAction::LINE && unitLoader.isLineStarted())
+    {
+      unitLoader.cancel();
+    }
   }
 //  else if (action == GLFW_RELEASE)
 //  {
@@ -298,7 +305,10 @@ void Battle::handleMouseClick(int button, int action, double x, double y)
 {
 //  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
   if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT)
+  {
     unitLoader.processClick(geometry::Vec2(x, y));
+    updateWindowTitle();
+  }
 }
 
 const geometry::Box& Battle::getBounds() const
@@ -315,7 +325,7 @@ void Battle::updateWindowTitle()
 {
   if (window)
   {
-    std::string msg(": ");
+    std::string msg(" ");
 
     if (paused)
       msg += "[Paused]";
@@ -330,7 +340,7 @@ void Battle::updateWindowTitle()
     else if (unitLoader.isLineStarted() &&
         selectedAction == BattleAction::LINE) // special case
     {
-      msg += ": [] to adjust, \\ to flip, Enter to confirm";
+      msg += "[ ] to adjust, \\ to flip, Enter to confirm";
     }
     else
     {
