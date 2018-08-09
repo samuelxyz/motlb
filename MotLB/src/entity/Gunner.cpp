@@ -42,24 +42,15 @@ namespace entity
     geometry::Vec2 right(forward);
     right.rotateBy(-Values::HALF_PI);
 
-    std::array<geometry::Vec2, 4> corners
-    {
-      box.position + 0.5*forward + forward,
-      box.position + 0.5*forward + right,
-      box.position + 0.5*forward - 2*forward,
-      box.position + 0.5*forward - right
-    };
+    Values::Color color = { 0.0f, 0.0f, 0.0f, 0.2f };
 
-    Values::Quad quad;
-    for (unsigned int i = 0; i < corners.size(); ++i)
-    {
-      quad[i] =
-      {
-          { 0.0f, 0.0f, 0.0f, 0.2f },
-          static_cast<float>(corners[i].getX()),
-          static_cast<float>(corners[i].getY())
-      };
-    }
+    Values::Quad quad
+    {{
+      Values::makeCV( color, box.position + 0.5*forward + forward   ),
+      Values::makeCV( color, box.position + 0.5*forward + right     ),
+      Values::makeCV( color, box.position + 0.5*forward - 2*forward ),
+      Values::makeCV( color, box.position + 0.5*forward - right     )
+    }};
 
     renderer.addQuad(quad);
   }

@@ -70,11 +70,9 @@ namespace entity
     for (unsigned int i = 0; i < corners.size(); i++)
     {
       if (i == 2u)
-        quad[i] = { tailColor, static_cast<float>(corners[i].getX()),
-            static_cast<float>(corners[i].getY()) };
+        quad[i] = Values::makeCV(tailColor, corners[i]);
       else
-        quad[i] = { bodyColor, static_cast<float>(corners[i].getX()),
-            static_cast<float>(corners[i].getY()) };
+        quad[i] = Values::makeCV(bodyColor, corners[i]);
     }
 
     renderer.addQuad(quad);

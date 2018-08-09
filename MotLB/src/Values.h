@@ -61,12 +61,7 @@ class Values
 
       for (unsigned int i = 0; i < 4; i++)
       {
-        quad[i] =
-        {
-            color,
-            static_cast<float>(vertices[i].getX()),
-            static_cast<float>(vertices[i].getY())
-        };
+        quad[i] = makeCV( color, vertices[i]);
       }
 
       return quad;
@@ -74,7 +69,7 @@ class Values
 
     static Color interpolateColors(Color start, Color end, float fraction)
     {
-      assert(0.0f <= fraction && fraction <= 1.0f);
+      assert(0.0f <= fraction && fraction <= 1.0f && "Values::interpolateColors()");
 
       // shortcuts
       if (fraction == 1.0f)

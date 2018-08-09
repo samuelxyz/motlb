@@ -93,22 +93,18 @@ namespace entity
     Values::Color eColor(edgeColor);
     eColor.a = edgeColor.a * timer/lifetime;
 
-    cp.push_back(
-    {
-      cColor,
-      static_cast<float>(position.getX()),
-      static_cast<float>(position.getY())
-    });
+    cp.push_back( Values::makeCV(
+        cColor,
+        position
+    ));
 
     for (unsigned int i = 0; i < numPoints; ++i)
     {
-      cp.push_back(
-      {
-        Values::interpolateColors(cColor, eColor,
-            static_cast<float>((points[i] - position).getLength() / radius) ),
-        static_cast<float>(points[i].getX()),
-        static_cast<float>(points[i].getY())
-      });
+      cp.push_back( Values::makeCV(
+          Values::interpolateColors(cColor, eColor,
+              static_cast<float>((points[i] - position).getLength() / radius) ),
+          points[i]
+      ));
     }
 
     renderer.addCenteredPoly(cp);
