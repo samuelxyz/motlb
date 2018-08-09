@@ -6,6 +6,7 @@
  */
 
 #include <cstdio>
+#include <cmath>
 
 #include "Unit.h"
 #include "../Battle.h"
@@ -113,18 +114,22 @@ namespace entity
 
     double targetAngle =
         rayTo(*target).getAngle();
-    if (targetAngle < 0)
-      targetAngle += Values::TWO_PI;
 
     double currentAngle = box.angle;
-    if (currentAngle < 0)
-      currentAngle += Values::TWO_PI;
+
+    double dr = targetAngle - currentAngle;
+    dr = fmod(dr, Values::TWO_PI); // modulo % doesn't work on doubles
+
+    if (dr > Values::PI)
+      dr -= Values::TWO_PI;
+    else if (dr < -Values::PI)
+      dr += Values::TWO_PI;
 
     double maxAbs = rotationSpeed;
 
     double rot = // clamp so abs(rot) < rotationSpeed
         std::max(-maxAbs,
-            std::min(maxAbs, targetAngle - currentAngle));
+            std::min(maxAbs, dr));
 
     box.angle += rot;
   }
@@ -162,6 +167,10 @@ namespace entity
 
     box.position -= dx * (inertia / totalI);
     u.box.position += dx * (inertia / totalI);
+
+    geometry::Vec2 dp = (u.inertia * u.velocity) - (inertia * velocity);
+    receiveImpulse(0.5 * dp);
+    u.receiveImpulse(-0.5 * dp);
 
     checkContainment();
     u.checkContainment();
