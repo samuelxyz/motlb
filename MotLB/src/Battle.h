@@ -9,14 +9,15 @@
 #define BATTLE_H_
 
 #include <Box.h>
+#include <Entity.h>
 #include <Particle.h>
 #include <Projectile.h>
 #include <Renderer.h>
 #include <Unit.h>
 #include <vector>
 
+#include "UnitLoader.h"
 #include "Values.h"
-#include "entity/Entity.h"
 
 class Window;
 
@@ -66,6 +67,9 @@ class Battle
     std::vector<entity::Unit*> units;
 
     graphics::Renderer renderer;
+
+    friend class UnitLoader;
+    UnitLoader unitLoader;
 
     entity::Entity::Team selectedTeam;
     enum class UnitType

@@ -40,6 +40,7 @@ namespace graphics
       TriangleBatch(unsigned int maxVertices, ShaderProgram& sp);
       ~TriangleBatch();
 
+      bool addTriangle(const Values::Triangle&);
       bool addQuad(const Values::Quad&);
       bool addCenteredPoly(const Values::CenteredPoly&);
 

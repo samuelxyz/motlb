@@ -34,6 +34,31 @@ namespace graphics
     delete[] vData;
   }
 
+  bool TriangleBatch::addTriangle(const Values::Triangle& tri)
+  {
+    if (vertexCount + 3 > maxVertices)
+      return false;
+
+    for (const Values::ColoredVertex& vertex : tri)
+    {
+      vData[vIndex++] = vertex.color.r;
+      vData[vIndex++] = vertex.color.g;
+      vData[vIndex++] = vertex.color.b;
+      vData[vIndex++] = vertex.color.a;
+
+      vData[vIndex++] = vertex.x;
+      vData[vIndex++] = vertex.y;
+    }
+
+    iData[iIndex++] = vertexCount + 0;
+    iData[iIndex++] = vertexCount + 1;
+    iData[iIndex++] = vertexCount + 2;
+
+    vertexCount += 3;
+
+    return true;
+  }
+
   bool TriangleBatch::addQuad(const Values::Quad& quad)
   {
     if (vertexCount + 4 > maxVertices)

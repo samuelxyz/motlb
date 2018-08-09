@@ -161,6 +161,10 @@ Vec2::Vec2(double x, double y): x(x), y(y)
 
   void Vec2::scaleTo(double targetLength)
   {
+    // special case
+    if (isZero())
+      x = targetLength;
+
     *this *= (targetLength / getLength());
     checkRounding();
   }

@@ -7,11 +7,11 @@
 
 #include "Battle.h"
 
-#include <Entity.h>
+#include <GLFW/glfw3.h>
 #include <stddef.h>
 #include <Vec2.h>
 #include <iterator>
-#include <iostream>
+#include <string>
 
 #include "Window.h"
 
@@ -22,6 +22,7 @@ Battle::Battle(Window* window)
   bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
   particles(), projectiles(), units(),
   renderer(),
+  unitLoader(*this),
   selectedTeam(entity::Entity::Team::RED),
   selectedUnitType(UnitType::UNIT),
   selectedAction(BattleAction::SINGLE),
@@ -123,11 +124,20 @@ void Battle::renderAll()
   renderer.addQuad(Values::makeQuad(backgroundColor, bounds));
 
   for (auto* p : particles)
-    p->render(renderer);
+  {
+    if (p)
+      p->render(renderer);
+  }
   for (auto* p : projectiles)
-    p->render(renderer);
+  {
+    if (p)
+      p->render(renderer);
+  }
   for (auto* u : units)
-    u->render(renderer);
+  {
+    if (u)
+      u->render(renderer);
+  }
 
   renderer.renderAndClearAll();
 }
@@ -247,6 +257,19 @@ void Battle::handleKeypress(int key, int action)
         selectedAction = BattleAction::LINE;
         break;
 
+      case GLFW_KEY_LEFT_BRACKET:
+        unitLoader.decrement();
+        break;
+      case GLFW_KEY_RIGHT_BRACKET:
+        unitLoader.increment();
+        break;
+      case GLFW_KEY_BACKSLASH:
+        unitLoader.flip();
+        break;
+      case GLFW_KEY_ENTER:
+        unitLoader.addAndClearAll();
+        break;
+
       default:
         break;
     }
@@ -264,14 +287,18 @@ void Battle::handleKeypress(int key, int action)
 //    }
 //  }
 
+  if (selectedAction == BattleAction::LINE)
+    unitLoader.refresh();
+
   updateWindowTitle();
 
 }
 
 void Battle::handleMouseClick(int button, int action, double x, double y)
 {
-  // TODO
 //  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
+  if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT)
+    unitLoader.processClick(geometry::Vec2(x, y));
 }
 
 const geometry::Box& Battle::getBounds() const
@@ -300,12 +327,17 @@ void Battle::updateWindowTitle()
     {
       msg += "Click to delete a unit";
     }
+    else if (unitLoader.isLineStarted() &&
+        selectedAction == BattleAction::LINE) // special case
+    {
+      msg += ": [] to adjust, \\ to flip, Enter to confirm";
+    }
     else
     {
       if (selectedAction == BattleAction::SINGLE)
         msg += "Click to place a ";
       else if (selectedAction == BattleAction::LINE)
-        msg += "Click twice and scroll to place ";
+        msg += "Click twice to place a line of ";
 
       switch (selectedTeam)
       {

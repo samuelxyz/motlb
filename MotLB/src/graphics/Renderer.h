@@ -35,8 +35,9 @@ namespace graphics
 
       void renderAndClearAll();
 
-      void addCenteredPoly(const Values::CenteredPoly&);
+      void addTriangle(const Values::Triangle&);
       void addQuad(const Values::Quad&);
+      void addCenteredPoly(const Values::CenteredPoly&);
 
     private:
       ShaderProgram shaderProgram;

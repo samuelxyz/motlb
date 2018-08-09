@@ -60,16 +60,21 @@ namespace graphics
     tBatch.renderAndClearAll();
   }
 
-  void Renderer::addCenteredPoly(const Values::CenteredPoly& cp)
+  void Renderer::addTriangle(const Values::Triangle& tri)
   {
-//    cpBatch.add(cp);
-    tBatch.addCenteredPoly(cp);
+    tBatch.addTriangle(tri);
   }
 
   void Renderer::addQuad(const Values::Quad& quad)
   {
 //    quadBatch.add(quad);
     tBatch.addQuad(quad);
+  }
+
+  void Renderer::addCenteredPoly(const Values::CenteredPoly& cp)
+  {
+//    cpBatch.add(cp);
+    tBatch.addCenteredPoly(cp);
   }
 
 } /* namespace render */
