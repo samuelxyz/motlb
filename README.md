@@ -3,6 +3,10 @@
 
 Basically I'm learning C++ by coding a game. This game was originally my final project for AP Computer Science in high school, and I wrote the first version in Java.
 
+## New comments:
+
+Keyboard controls are used for now; I'm undecided on whether I'll ever add graphical controls. (wxWidgets maybe?)
+
 ## Original description:
 
 This is a game about little boxes, "units," that fight each other in teams.
