@@ -26,7 +26,7 @@ namespace entity
     protected:
 //      virtual void checkContainment() override;
       virtual void hit(Unit&) override;
-      void explode();
+      virtual void explode() override;
 
       int smokeRadius;
 

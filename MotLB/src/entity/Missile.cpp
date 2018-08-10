@@ -58,6 +58,8 @@ namespace entity
     Projectile::update();
 
     ++timer;
+
+    // make smoke
     if (mode == Mode::FLYING)
     {
       Values::Color start {0.0f, 0.0f, 0.0f, 0.1f};
@@ -135,6 +137,11 @@ namespace entity
   void Missile::hit(Unit& u)
   {
     u.receiveAttack(damage, velocity * inertia);
+    explode();
+  }
+
+  void Missile::explode()
+  {
     mode = Mode::FADE_OUT;
 
     Flash* flash = new Flash

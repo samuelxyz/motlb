@@ -34,6 +34,7 @@ namespace entity
 
       void checkHit();
       virtual void hit(Unit&);
+      virtual void explode();
 
       virtual void move() override;
       virtual void checkContainment() override;

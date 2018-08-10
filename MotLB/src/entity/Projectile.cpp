@@ -111,6 +111,11 @@ namespace entity
   void Projectile::hit(Unit& u)
   {
     u.receiveAttack(damage, velocity * inertia);
+    explode();
+  }
+
+  void Projectile::explode()
+  {
     mode = Mode::FADE_OUT;
 
     Flash* flash = new Flash
@@ -135,7 +140,7 @@ namespace entity
   void Projectile::checkContainment()
   {
     if (!(battle->getBounds().containsAbs(position)))
-      mode = Mode::FADE_OUT;
+      explode();
   }
 
 } /* namespace entity */

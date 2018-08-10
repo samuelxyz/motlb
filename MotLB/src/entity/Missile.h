@@ -27,6 +27,7 @@ namespace entity
       double rotationSpeed;
       int timer;
       virtual void hit(Unit&) override;
+      virtual void explode() override;
   };
 
 } /* namespace entity */
