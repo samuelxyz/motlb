@@ -9,6 +9,7 @@
 #include <Renderer.h>
 #include <Unit.h>
 #include <Flash.h>
+#include <Smoke.h>
 #include "../Battle.h"
 
 namespace entity
@@ -57,14 +58,19 @@ namespace entity
     Projectile::update();
 
     ++timer;
-//    if (timer % 5 == 0)
-//    {
-//      Values::Color center { 1.0f, 1.0f, 0.8f, 0.4f };
-//      Values::Color edge { 1.0f, 1.0f, 1.0f, 0.0f};
-//      geometry::Vec2 v(velocity);
-//      v.scaleTo(-8);
-//      battle->add(new Flash(battle, position + v, 20, -1, center, edge, 2));
-//    }
+    if (mode == Projectile::Mode::FLYING)
+    {
+      Values::Color start {0.0f, 0.0f, 0.0f, 0.1f};
+      Values::Color end {0.1f, 0.1f, 0.1f, 0.0f};
+
+      geometry::Vec2 dx(velocity);
+      dx.scaleTo(-8);
+      geometry::Vec2 vel;
+      vel.setPolar(0.1, Values::random(0, Values::TWO_PI));
+
+      battle->add(new Smoke(battle, position + dx, vel,
+          6, -0.15, Values::random(-0.1, 0.1), 24, start, end));
+    }
   }
 
   void Missile::render(graphics::Renderer& renderer) const
@@ -76,12 +82,12 @@ namespace entity
     right.rotateBy(-Values::HALF_PI);
 
     Values::Color baseColor { 1.0f, 1.0f, 0.0f, 1.0f };
-    Values::Color tailColor { 1.0f, 0.0f, 0.0f, 0.2f };
+    Values::Color tailColor { 1.0f, 0.6f, 0.3f, 0.8f };
 
     Values::Triangle flame
     {{
-      Values::makeCV(baseColor, position - 6 * forward + 3 * right),
-      Values::makeCV(baseColor, position - 6 * forward - 3 * right),
+      Values::makeCV(baseColor, position - 6 * forward + 2.5 * right),
+      Values::makeCV(baseColor, position - 6 * forward - 2.5 * right),
       Values::makeCV(tailColor, position - (6 + 0.5*renderLength) * forward)
     }};
 
@@ -97,8 +103,8 @@ namespace entity
     {{
       Values::makeCV(bodyColor, position + 5 * forward + 3 * right),
       Values::makeCV(bodyColor, position + 5 * forward - 3 * right),
-      Values::makeCV(bodyColor, position - 3 * forward - 3 * right),
-      Values::makeCV(bodyColor, position - 3 * forward + 3 * right)
+      Values::makeCV(bodyColor, position - 4 * forward - 3 * right),
+      Values::makeCV(bodyColor, position - 4 * forward + 3 * right)
     }};
 
     renderer.addQuad(body);

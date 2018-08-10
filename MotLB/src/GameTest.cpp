@@ -44,7 +44,7 @@ int battleRenderTest()
 //      geometry::Vec2(800, 605), geometry::Vec2(-3, 0), 10, 5, u3);
 //  battle.add(p2);
 
-  entity::Launcher* u5 = new entity::Launcher(&battle, entity::Entity::Team::YELLOW, geometry::Vec2(600, 200), geometry::Vec2(), 2);
+  entity::Launcher* u5 = new entity::Launcher(&battle, entity::Entity::Team::BLUE, geometry::Vec2(600, 200), geometry::Vec2(), 2);
   battle.add(u5);
 
   while (!window.shouldClose())
