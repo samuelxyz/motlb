@@ -8,15 +8,13 @@
 #include "UnitLoader.h"
 
 #include <Box.h>
+#include <Cannon.h>
 #include <Entity.h>
-#include <Gunner.h>
 #include <Launcher.h>
 #include <Renderer.h>
-#include <Vec2.h>
-#include <array>
 
-#include "Values.h"
 #include "Battle.h"
+#include "Values.h"
 
 UnitLoader::UnitLoader(Battle& battle)
 : battle(battle), stagedUnits(), count(1),
@@ -224,6 +222,8 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
       return new entity::Gunner(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::LAUNCHER:
       return new entity::Launcher(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+    case Battle::UnitType::CANNON:
+          return new entity::Cannon(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     default:
       return nullptr; // battle can handle this
   }

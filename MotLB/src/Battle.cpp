@@ -250,6 +250,9 @@ void Battle::handleKeypress(int key, int action)
       case GLFW_KEY_E:
         selectedUnitType = UnitType::LAUNCHER;
         break;
+      case GLFW_KEY_R:
+        selectedUnitType = UnitType::CANNON;
+        break;
 
       case GLFW_KEY_A:
         selectedAction = BattleAction::DELETE;
@@ -384,6 +387,9 @@ void Battle::updateWindowTitle()
           case UnitType::LAUNCHER:
             msg += "launcher";
             break;
+          case UnitType::CANNON:
+            msg += "cannon";
+            break;
           default:
             msg += "[unknown unit type]";
             break;
@@ -402,6 +408,9 @@ void Battle::updateWindowTitle()
             break;
           case UnitType::LAUNCHER:
             msg += "launchers";
+            break;
+          case UnitType::CANNON:
+            msg += "cannons";
             break;
           default:
             msg += "[unknown unit types]";
