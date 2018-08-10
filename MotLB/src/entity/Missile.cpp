@@ -58,7 +58,7 @@ namespace entity
     Projectile::update();
 
     ++timer;
-    if (mode == Projectile::Mode::FLYING)
+    if (mode == Mode::FLYING)
     {
       Values::Color start {0.0f, 0.0f, 0.0f, 0.1f};
       Values::Color end {0.1f, 0.1f, 0.1f, 0.0f};
@@ -93,7 +93,7 @@ namespace entity
 
     renderer.addTriangle(flame);
 
-    if (mode == Projectile::Mode::FADE_OUT)
+    if (mode == Mode::FADE_OUT)
       return;
 
     // body

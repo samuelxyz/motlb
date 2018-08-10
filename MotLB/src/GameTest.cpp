@@ -5,9 +5,11 @@
  *      Author: Samuel Tan
  */
 
-#include <Entity.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#include <Cannon.h>
+#include <Entity.h>
 #include <Launcher.h>
 #include <Vec2.h>
 
@@ -46,6 +48,9 @@ int battleRenderTest()
 
   entity::Launcher* u5 = new entity::Launcher(&battle, entity::Entity::Team::BLUE, geometry::Vec2(600, 200), geometry::Vec2(), 2);
   battle.add(u5);
+
+  entity::Cannon* u6 = new entity::Cannon(&battle, entity::Entity::Team::GREEN, geometry::Vec2(20, 780), geometry::Vec2(), 4.5);
+  battle.add(u6);
 
   while (!window.shouldClose())
   {

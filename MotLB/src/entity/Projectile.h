@@ -21,7 +21,7 @@ namespace entity
     public:
 
       Projectile(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity,
-          double damage, double knockback, double friendlyFire);
+          double damage, double knockback, bool friendlyFire);
       virtual ~Projectile();
 
       virtual void update() override;
@@ -48,8 +48,7 @@ namespace entity
 
     private:
 
-
-      void checkFading();
+      void doFading();
 
   };
 

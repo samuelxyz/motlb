@@ -22,7 +22,7 @@ namespace entity
 {
 
   Projectile::Projectile(Battle* battle, Team team, geometry::Vec2 position,
-      geometry::Vec2 velocity, double damage, double inertia, double friendlyFire)
+      geometry::Vec2 velocity, double damage, double inertia, bool friendlyFire)
   : Entity(battle, team, position, velocity),
     damage(damage), inertia(inertia),
     friendlyFire(friendlyFire),
@@ -41,7 +41,7 @@ namespace entity
     // should be no need for %active checks -
     // inactive projectiles are automatically removed by the %battle
 
-    checkFading();
+    doFading();
     move();
     checkContainment();
     checkHit();
@@ -79,7 +79,7 @@ namespace entity
 
   }
 
-  void Projectile::checkFading()
+  void Projectile::doFading()
   {
     switch (mode)
     {
@@ -97,6 +97,9 @@ namespace entity
 
   void Projectile::checkHit()
   {
+    if (mode == Mode::FADE_OUT)
+      return;
+
     for (Unit* u : battle->getUnits())
       if (u && u->isActive() &&
           (friendlyFire || u->getTeam() != team) &&

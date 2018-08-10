@@ -83,7 +83,7 @@ namespace entity
       projPos += projVec;
 
     Projectile* p = new Projectile(battle, Entity::Team::NEUTRAL,
-        projPos, projVec, attackStrength, knockback, true);
+        projPos, projVec, attackStrength, knockback/projVel, true);
     battle->add(p);
   }
 
