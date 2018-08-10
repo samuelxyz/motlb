@@ -19,7 +19,8 @@ namespace entity
       Unit* target)
   : Projectile(battle, team, position, velocity, damage, inertia, false),
     target(target),
-    rotationSpeed(0.05)
+    rotationSpeed(0.05),
+    timer(0)
   {
   }
 
@@ -54,6 +55,16 @@ namespace entity
     }
 
     Projectile::update();
+
+    ++timer;
+//    if (timer % 5 == 0)
+//    {
+//      Values::Color center { 1.0f, 1.0f, 0.8f, 0.4f };
+//      Values::Color edge { 1.0f, 1.0f, 1.0f, 0.0f};
+//      geometry::Vec2 v(velocity);
+//      v.scaleTo(-8);
+//      battle->add(new Flash(battle, position + v, 20, -1, center, edge, 2));
+//    }
   }
 
   void Missile::render(graphics::Renderer& renderer) const
@@ -122,7 +133,7 @@ namespace entity
 
     Flash* flash = new Flash
     (
-        battle, position - 2*velocity, Values::random(30, 50),
+        battle, position - 2*velocity, Values::random(30, 50), 0,
         Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
         Values::Color{ 1.0f, 0.8f, 0.8f, 0.1f },
 //        Values::Color{ 1.0f, 1.0f, 1.0f, 1.0f },

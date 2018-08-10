@@ -28,7 +28,7 @@ namespace entity
       Values::Color centerColor, edgeColor;
 
     public:
-      Flash(Battle*, geometry::Vec2 position, double radius,
+      Flash(Battle*, geometry::Vec2 position, double radius, double dr,
           Values::Color centerColor, Values::Color edgeColor, unsigned int lifetime);
       virtual ~Flash();
 

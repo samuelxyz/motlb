@@ -10,6 +10,7 @@
 #include <Box.h>
 #include <Entity.h>
 #include <Gunner.h>
+#include <Launcher.h>
 #include <Renderer.h>
 #include <Vec2.h>
 #include <array>
@@ -221,6 +222,8 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
       return new entity::Unit(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::GUNNER:
       return new entity::Gunner(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+    case Battle::UnitType::LAUNCHER:
+      return new entity::Launcher(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     default:
       return nullptr; // battle can handle this
   }

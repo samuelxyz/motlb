@@ -15,12 +15,13 @@
 namespace entity
 {
 
-  Flash::Flash(Battle* battle, geometry::Vec2 position, double radius,
+  Flash::Flash(Battle* battle, geometry::Vec2 position, double radius, double dr,
       Values::Color centerColor, Values::Color edgeColor, unsigned int lifetime)
   : Particle(battle, Entity::Team::NEUTRAL, position, geometry::Vec2(), radius, lifetime),
     units(), timer(lifetime),
     centerColor(centerColor), edgeColor(edgeColor)
   {
+    this->dr = dr;
   }
 
   Flash::~Flash()
@@ -36,6 +37,8 @@ namespace entity
       return;
     }
 
+    radius += dr;
+
     findRelevantUnits();
   }
 
@@ -50,6 +53,9 @@ namespace entity
     const unsigned int numPoints = radius * 3;
     constexpr double rStepMax = 2;
 #endif
+
+    if (numPoints < 3)
+      return;
 
     geometry::Vec2* points = new geometry::Vec2[numPoints];
     for (unsigned int i = 0; i < numPoints; ++i)
