@@ -10,6 +10,7 @@
 #include <Gunner.h>
 
 #include <Projectile.h>
+#include "Missile.h"
 #include <Vec2.h>
 #include <Entity.h>
 
@@ -41,6 +42,11 @@ int battleRenderTest()
 //  entity::Projectile* p1 = new entity::Projectile(&battle, entity::Entity::Team::YELLOW,
 //      geometry::Vec2(800, 605), geometry::Vec2(-2, 0), 10, 5, true);
 //  battle.add(p1);
+
+  entity::Missile* p2 = new entity::Missile(&battle, entity::Entity::Team::YELLOW,
+      geometry::Vec2(800, 605), geometry::Vec2(-3, 0), 10, 5, u3);
+
+  battle.add(p2);
 
   while (!window.shouldClose())
   {

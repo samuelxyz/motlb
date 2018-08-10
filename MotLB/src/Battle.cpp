@@ -218,7 +218,6 @@ bool Battle::remove(entity::Unit* u)
 
 void Battle::handleKeypress(int key, int action)
 {
-  // TODO
 //  std::cout << "Key " << key << " " << action << std::endl;
 
   if (action == GLFW_PRESS)

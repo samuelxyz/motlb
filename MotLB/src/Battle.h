@@ -34,7 +34,6 @@ class Battle
 
     void renderAll();
 
-    // TODO: make sure these are all heap allocated
     void add(entity::Projectile*);
     void add(entity::Particle*);
     void add(entity::Unit*);

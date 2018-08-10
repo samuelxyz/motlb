@@ -8,9 +8,11 @@
 #ifndef PROJECTILE_H_
 #define PROJECTILE_H_
 
+#include <Entity.h>
+#include <Vec2.h>
+
 namespace entity
 {
-
   class Unit;
 
   // single hit
@@ -36,6 +38,8 @@ namespace entity
       virtual void move() override;
       virtual void checkContainment() override;
 
+      int renderLength;
+
     private:
 
       enum class Mode
@@ -43,7 +47,6 @@ namespace entity
         FLYING,
         FADE_OUT
       } mode;
-      int renderLength;
 
       void checkFading();
 
