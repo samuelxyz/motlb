@@ -38,15 +38,16 @@ namespace entity
       virtual void move() override;
       virtual void checkContainment() override;
 
-      int renderLength;
-
-    private:
-
       enum class Mode
       {
         FLYING,
         FADE_OUT
       } mode;
+
+      int renderLength;
+
+    private:
+
 
       void checkFading();
 

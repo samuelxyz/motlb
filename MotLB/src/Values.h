@@ -30,6 +30,16 @@ class Values
         float r, g, b, a;
     };
 
+//    const Color& operator*(const double& d, const Color& c)
+//    {
+//      return Color { c.r * d, c.g * d, c.b * d, c.a * d };
+//    }
+//
+//    const Color& operator*(const Color& c, const double& d)
+//    {
+//      return d * c;
+//    }
+
     struct ColoredVertex
     {
         Color color;

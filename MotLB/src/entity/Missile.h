@@ -25,6 +25,7 @@ namespace entity
     protected:
       Unit* target;
       double rotationSpeed;
+      virtual void hit(Unit&) override;
 
   };
 

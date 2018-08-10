@@ -8,6 +8,8 @@
 #include <Missile.h>
 #include <Renderer.h>
 #include <Unit.h>
+#include <Flash.h>
+#include "../Battle.h"
 
 namespace entity
 {
@@ -67,35 +69,68 @@ namespace entity
 
     Values::Triangle flame
     {{
-      Values::makeCV(baseColor, position - 5 * forward + 3 * right),
-      Values::makeCV(baseColor, position - 5 * forward - 3 * right),
-      Values::makeCV(tailColor, position - (5 + 0.5*renderLength) * forward)
+      Values::makeCV(baseColor, position - 6 * forward + 3 * right),
+      Values::makeCV(baseColor, position - 6 * forward - 3 * right),
+      Values::makeCV(tailColor, position - (6 + 0.5*renderLength) * forward)
     }};
 
     renderer.addTriangle(flame);
 
+    if (mode == Projectile::Mode::FADE_OUT)
+      return;
+
     // body
-    Values::Color bodyColor { 0.0f, 0.0f, 0.0f, 1.0f };
+    Values::Color bodyColor(Entity::getTeamColor(team));
 
     Values::Quad body
     {{
       Values::makeCV(bodyColor, position + 5 * forward + 3 * right),
       Values::makeCV(bodyColor, position + 5 * forward - 3 * right),
-      Values::makeCV(bodyColor, position - 5 * forward - 3 * right),
-      Values::makeCV(bodyColor, position - 5 * forward + 3 * right)
+      Values::makeCV(bodyColor, position - 3 * forward - 3 * right),
+      Values::makeCV(bodyColor, position - 3 * forward + 3 * right)
     }};
 
     renderer.addQuad(body);
 
-    Values::Color noseColor(Entity::getTeamColor(team));
     Values::Triangle nosecone
     {{
-      Values::makeCV(noseColor, position + 5 * forward + 3 * right),
-      Values::makeCV(noseColor, position + 5 * forward - 3 * right),
-      Values::makeCV(noseColor, position + 10 * forward)
+      Values::makeCV(bodyColor, position + 5 * forward + 3 * right),
+      Values::makeCV(bodyColor, position + 5 * forward - 3 * right),
+      Values::makeCV(bodyColor, position + 10 * forward)
     }};
 
     renderer.addTriangle(nosecone);
+
+    // nozzle can be invisible?  i t ' s   A R T
+//    // nozzle
+//    Values::Color nozzleColor { 0.4f, 0.4f, 0.4f, 1.0f };
+//    Values::Quad nozzle
+//    {{
+//      Values::makeCV(nozzleColor, position - 3 * forward + 3 * right),
+//      Values::makeCV(nozzleColor, position - 3 * forward - 3 * right),
+//      Values::makeCV(nozzleColor, position - 6 * forward - 3 * right),
+//      Values::makeCV(nozzleColor, position - 6 * forward + 3 * right),
+//    }};
+//
+//    renderer.addQuad(nozzle);
+  }
+
+  void Missile::hit(Unit& u)
+  {
+    u.receiveAttack(damage, velocity * inertia);
+    mode = Mode::FADE_OUT;
+
+    Flash* flash = new Flash
+    (
+        battle, position - 2*velocity, Values::random(30, 50),
+        Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
+        Values::Color{ 1.0f, 0.8f, 0.8f, 0.1f },
+//        Values::Color{ 1.0f, 1.0f, 1.0f, 1.0f },
+//        Values::Color{ 0.8f, 0.8f, 1.0f, 0.0f },
+        30
+    );
+
+    battle->add(flash);
   }
 
 } /* namespace entity */

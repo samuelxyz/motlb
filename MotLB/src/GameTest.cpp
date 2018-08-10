@@ -5,14 +5,11 @@
  *      Author: Samuel Tan
  */
 
+#include <Entity.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <Gunner.h>
-
-#include <Projectile.h>
-#include "Missile.h"
+#include <Launcher.h>
 #include <Vec2.h>
-#include <Entity.h>
 
 #include "Battle.h"
 #include "Window.h"
@@ -43,10 +40,12 @@ int battleRenderTest()
 //      geometry::Vec2(800, 605), geometry::Vec2(-2, 0), 10, 5, true);
 //  battle.add(p1);
 
-  entity::Missile* p2 = new entity::Missile(&battle, entity::Entity::Team::YELLOW,
-      geometry::Vec2(800, 605), geometry::Vec2(-3, 0), 10, 5, u3);
+//  entity::Missile* p2 = new entity::Missile(&battle, entity::Entity::Team::YELLOW,
+//      geometry::Vec2(800, 605), geometry::Vec2(-3, 0), 10, 5, u3);
+//  battle.add(p2);
 
-  battle.add(p2);
+  entity::Launcher* u5 = new entity::Launcher(&battle, entity::Entity::Team::YELLOW, geometry::Vec2(600, 200), geometry::Vec2(), 2);
+  battle.add(u5);
 
   while (!window.shouldClose())
   {
