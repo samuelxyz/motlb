@@ -9,6 +9,7 @@
 #include <Cannonball.h>
 #include <Entity.h>
 #include <Renderer.h>
+#include <Smoke.h>
 #include <vector>
 
 #include "../Battle.h"
@@ -72,6 +73,24 @@ namespace entity
     Cannonball* c = new Cannonball(battle, Entity::Team::NEUTRAL,
         projPos, projVec, attackStrength, knockback/projVel);
     battle->add(c);
+
+    // smoke
+    geometry::Vec2 smokePos(projPos);
+    geometry::Vec2 dxSmoke(projVec);
+    dxSmoke.scaleTo(4);
+    for (unsigned int i = 0; i < 5; ++i)
+    {
+      smokePos += dxSmoke;
+      geometry::Vec2 smokeVel;
+      smokeVel.setPolar(Values::random(), Values::random() * Values::TWO_PI);
+      smokeVel += velocity;
+
+      battle->add(new Smoke(battle, smokePos, smokeVel, i+6, 0,
+          Values::random(-0.1, 0.1), 30,
+          Values::Color { 0.0f, 0.0f, 0.0f, 0.1f },
+          Values::Color { 0.0f, 0.0f, 0.0f, 0.0f }
+      ));
+    }
   }
 
 } /* namespace entity */

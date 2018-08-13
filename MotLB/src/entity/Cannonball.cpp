@@ -81,13 +81,13 @@ namespace entity
 
     // visual effects
 
-    Flash* flash = new Flash(battle, position, 30, 2, Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
+    Flash* flash = new Flash(battle, position, 30, 1.5, Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
         Values::Color{ 1.0f, 0.8f, 0.8f, 0.6f }, 40);
 
     battle->add(flash);
 
     // make smoke ring
-    const unsigned int smokeCount = 50;
+    const unsigned int smokeCount = 40;
     for (unsigned int i = 0; i < smokeCount; ++i)
     {
       double angle = Values::TWO_PI * i/smokeCount;
@@ -97,14 +97,15 @@ namespace entity
       );
 
       geometry::Vec2 dx;
-      dx.setPolar(Values::random(30, 35), angle + randAngle);
+      dx.setPolar(Values::random(20, 40), angle + randAngle);
       geometry::Vec2 vel(dx);
-      vel.scaleTo(Values::random(1.5, 2.5));
+      vel.scaleTo(Values::random(0.5, 1.5));
 
       battle->add(new Smoke(battle, position + dx, vel,
-          Values::random(15, 25), -0.5, Values::random(-0.02, 0.02), Values::random(40, 60),
+          Values::random(8, 25), Values::random(-0.1, 0.1),
+          Values::random(-0.1, 0.1), Values::random(50, 80),
           Values::Color{0.0f, 0.0f, 0.0f, 0.4f},
-          Values::Color{0.0f, 0.0f, 0.0f, 0.1f}
+          Values::Color{0.0f, 0.0f, 0.0f, 0.0f}
       ));
     }
 
