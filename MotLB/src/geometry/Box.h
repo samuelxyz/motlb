@@ -23,6 +23,7 @@ namespace geometry
       Box(geometry::Vec2 position, double angle, double xMin, double xMax,
           double yMin, double yMax);
       Box(geometry::Vec2 corner1, geometry::Vec2 corner2);
+      Box(const Box& source, double scale = 1.0);
 
       friend std::ostream& operator<<(std::ostream& out, const Box&);
 
@@ -38,6 +39,7 @@ namespace geometry
       bool containsAbs(geometry::Vec2 absPoint) const;
       void absCorners(std::array<geometry::Vec2, 4>& toFill) const;
 
+      geometry::Vec2 randomInteriorPos() const;
       geometry::Vec2 toClosestEdge(geometry::Vec2 absPoint) const; // rel directions
       static geometry::Vec2 collide(const Box& standOn, const Box& giveWay);
       geometry::Vec2 contain(const Box& target) const;

@@ -67,6 +67,8 @@ namespace entity
 
       virtual void attack();
 
+      void makePoof() const;
+
       geometry::Vec2 rayTo(const Unit& other) const;
   };
 

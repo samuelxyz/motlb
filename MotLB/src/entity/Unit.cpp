@@ -10,6 +10,8 @@
 
 #include "Unit.h"
 #include "../Battle.h"
+#include "Smoke.h"
+#include "Values.h"
 
 namespace entity
 {
@@ -71,10 +73,11 @@ namespace entity
 
   bool Unit::checkActive()
   {
-    if (health <= 0)
+    if (active && health <= 0)
     {
       active = false;
       health = 0;
+      makePoof();
     }
     return active;
   }
@@ -225,6 +228,38 @@ namespace entity
   void Unit::receiveImpulse(const geometry::Vec2 impulse)
   {
     velocity += (1/inertia) * impulse;
+  }
+
+  void Unit::makePoof() const
+  {
+    const unsigned int numSmokes = box.getWidth() * box.getHeight() / 100;
+    constexpr double posLimit = 0.8;
+    for (unsigned int i = 0; i < numSmokes; ++i)
+    {
+      geometry::Vec2 pos = geometry::Box(box, posLimit).randomInteriorPos();
+
+      geometry::Vec2 baseVel(velocity);
+      if (baseVel.getLength() > 2)
+        baseVel.scaleTo(2);
+
+      geometry::Vec2 randVel;
+      randVel.setPolar(Values::random(), Values::random() * Values::TWO_PI);
+
+      double spin = Values::random(-0.1, 0.1);
+
+      double radius = 0.8 * Values::random(std::min(box.getWidth(), box.getHeight()),
+          box.getLongestRadius());
+      double dr = Values::random() * 0.2;
+
+      unsigned int lifetime = Values::random(20, 50);
+
+      Values::Color startColor = Entity::getTeamColor(team);
+      startColor.a = 0.5f;
+      Values::Color endColor(startColor);
+      endColor.a = 0.0f;
+
+      battle->add(new Smoke(battle, pos, baseVel + randVel, radius, dr, spin, lifetime, startColor, endColor));
+    }
   }
 
   geometry::Vec2 Unit::rayTo(const Unit& other) const

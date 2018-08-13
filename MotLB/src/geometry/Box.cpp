@@ -5,10 +5,13 @@
  *      Author: xinyi
  */
 
-#include "Box.h"
-
+#include <Box.h>
+#include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
+
+#include "../Values.h"
 
 namespace geometry
 {
@@ -28,6 +31,15 @@ namespace geometry
     xMax(std::max(corner1.getX(), corner2.getX()) - position.getX()),
     yMin(std::min(corner1.getY(), corner2.getY()) - position.getY()),
     yMax(std::max(corner1.getY(), corner2.getY()) - position.getY())
+  {
+  }
+
+  Box::Box(const Box& source, double scale /*= 1.0*/)
+  : position(source.position), angle(source.angle),
+    xMin(source.xMin * scale),
+    xMax(source.xMax * scale),
+    yMin(source.yMin * scale),
+    yMax(source.yMax * scale)
   {
   }
 
@@ -67,6 +79,13 @@ namespace geometry
     {
       c = toAbs(c);
     }
+  }
+
+  geometry::Vec2 Box::randomInteriorPos() const
+  {
+    double x = Values::random(xMin, xMax);
+    double y = Values::random(yMin, yMax);
+    return toAbs({ x, y });
   }
 
   geometry::Vec2 Box::toClosestEdge(geometry::Vec2 point) const
