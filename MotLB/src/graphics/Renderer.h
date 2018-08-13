@@ -41,8 +41,6 @@ namespace graphics
 
     private:
       ShaderProgram shaderProgram;
-//      CenteredPolyBatch cpBatch;
-//      QuadBatch quadBatch;
       TriangleBatch tBatch;
   };
 

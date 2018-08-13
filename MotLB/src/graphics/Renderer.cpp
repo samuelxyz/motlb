@@ -19,9 +19,7 @@ namespace graphics
 
   Renderer::Renderer()
   : shaderProgram("resources/shaders/MotLB_generic.glsl"),
-    tBatch(10000, shaderProgram)
-//    cpBatch(800, shaderProgram),
-//    quadBatch(200, shaderProgram)
+    tBatch(50000, shaderProgram)
   {
     glm::mat4 projMatrix = glm::ortho(
         0.0f, static_cast<float>(Values::BATTLE_WIDTH),
@@ -53,10 +51,6 @@ namespace graphics
   void Renderer::renderAndClearAll()
   {
     clearScreen();
-//    cpBatch.renderAll();
-//    cpBatch.clearAll();
-//    quadBatch.renderAll();
-//    quadBatch.clearAll();
     tBatch.renderAndClearAll();
   }
 
@@ -67,13 +61,11 @@ namespace graphics
 
   void Renderer::addQuad(const Values::Quad& quad)
   {
-//    quadBatch.add(quad);
     tBatch.addQuad(quad);
   }
 
   void Renderer::addCenteredPoly(const Values::CenteredPoly& cp)
   {
-//    cpBatch.add(cp);
     tBatch.addCenteredPoly(cp);
   }
 
