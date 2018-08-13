@@ -25,6 +25,7 @@ namespace entity
     projVel = 3;
     standoffDistance = 400;
     attackInterval = 100;
+    attackCooldown = Values::random() * attackInterval;
   }
 
   Launcher::~Launcher()

@@ -24,11 +24,8 @@ namespace entity
       virtual void render(graphics::Renderer& renderer) const override;
 
     protected:
-//      virtual void checkContainment() override;
       virtual void hit(Unit&) override;
       virtual void explode() override;
-
-      int smokeRadius;
 
   };
 

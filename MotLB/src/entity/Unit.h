@@ -59,7 +59,7 @@ namespace entity
       void updateTarget();
       void rotate();
       void accelerate();
-      void checkCollision();
+      void checkCollisions();
       void checkAttack();
 
       virtual double idealSpeed() const;

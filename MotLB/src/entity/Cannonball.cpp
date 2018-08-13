@@ -27,8 +27,7 @@ namespace entity
 
   Cannonball::Cannonball(Battle* battle, Team team, geometry::Vec2 position,
       geometry::Vec2 velocity, double damage, double inertia)
-  : Projectile(battle, team, position, velocity, damage, inertia, true),
-    smokeRadius(50)
+  : Projectile(battle, team, position, velocity, damage, inertia, true)
   {
   }
 

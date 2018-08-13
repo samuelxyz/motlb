@@ -54,7 +54,7 @@ namespace entity
     rotate();
     accelerate();
     move();
-    checkCollision();
+    checkCollisions();
     checkContainment();
 
     checkAttack();
@@ -172,8 +172,8 @@ namespace entity
     idealVelocity.setPolar(idealSpeed(), box.angle);
 
     double accel(acceleration);
-    if (target == nullptr) // coast to a stop
-      accel /= 10;
+//    if (target == nullptr) // coast to a stop
+//      accel /= 10;
 
     geometry::Vec2 dV = idealVelocity - velocity;
     if (dV.getLength() > accel)
@@ -182,7 +182,7 @@ namespace entity
     velocity += dV;
   }
 
-  void Unit::checkCollision()
+  void Unit::checkCollisions()
   {
     for (Unit* u : battle->getUnits())
       if (u->active && u != this && rayTo(*u).getLength() < MAX_INTERACTION_DISTANCE)

@@ -27,6 +27,7 @@ namespace entity
     knockback = 50;
     projVel = 6;
     attackInterval = 200;
+    attackCooldown = Values::random() * attackInterval;
 
     standoffDistance = 400;
   }
