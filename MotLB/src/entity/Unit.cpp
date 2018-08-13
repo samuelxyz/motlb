@@ -66,6 +66,35 @@ namespace entity
       renderer.addQuad(Values::makeQuad(getTeamColor(team), box));
   }
 
+  void Unit::receiveAttack(const double damage, const geometry::Vec2 impulse)
+  {
+    health -= damage;
+    receiveImpulse(impulse);
+  }
+
+  void Unit::receiveImpulse(const geometry::Vec2 impulse)
+  {
+    velocity += (1/inertia) * impulse;
+  }
+
+  void Unit::resurrect()
+  {
+    if (!active)
+    {
+      active = true;
+      heal();
+    }
+  }
+
+  void Unit::heal()
+  {
+    if (active && health < baseHealth)
+    {
+      health = baseHealth;
+      makePoof();
+    }
+  }
+
   void Unit::move()
   {
     box.position += velocity;
@@ -193,8 +222,8 @@ namespace entity
   void Unit::checkContainment()
   {
     box.position += battle->getBounds().contain(box);
-//    const geometry::Box& bounds = battle->getBounds();
-//    box.position += bounds.contain(box);
+    //    const geometry::Box& bounds = battle->getBounds();
+    //    box.position += bounds.contain(box);
   }
 
   void Unit::attack()
@@ -217,17 +246,6 @@ namespace entity
   double Unit::idealSpeed() const
   {
     return (target)? topSpeed : 0;
-  }
-
-  void Unit::receiveAttack(const double damage, const geometry::Vec2 impulse)
-  {
-    health -= damage;
-    receiveImpulse(impulse);
-  }
-
-  void Unit::receiveImpulse(const geometry::Vec2 impulse)
-  {
-    velocity += (1/inertia) * impulse;
   }
 
   void Unit::makePoof() const

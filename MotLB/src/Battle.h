@@ -28,10 +28,7 @@ class Battle
     Battle(Window*);
     ~Battle();
 
-    void run();
-    void stop();
     void update();
-
     void renderAll();
 
     void add(entity::Projectile*);
@@ -43,6 +40,8 @@ class Battle
     bool remove(entity::Unit*);
 
     void clearAll();
+    void resurrectAllIfDead();
+    void healAllIfAlive();
 
     void handleKeypress(int key, int action);
     void handleMouseClick(int button, int action, double x, double y);

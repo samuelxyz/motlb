@@ -37,14 +37,6 @@ Battle::~Battle()
 {
 }
 
-void Battle::run()
-{
-}
-
-void Battle::stop()
-{
-}
-
 void Battle::update()
 {
   if (paused)
@@ -158,6 +150,20 @@ void Battle::clearAll()
   units.clear();
 }
 
+void Battle::resurrectAllIfDead()
+{
+  for (auto* u : units)
+    if (u)
+      u->resurrect();
+}
+
+void Battle::healAllIfAlive()
+{
+  for (auto* u : units)
+    if (u)
+      u->heal();
+}
+
 void Battle::add(entity::Projectile* p)
 {
   projectiles.push_back(p);
@@ -262,6 +268,16 @@ void Battle::handleKeypress(int key, int action)
         break;
       case GLFW_KEY_D:
         selectedAction = BattleAction::LINE;
+        break;
+
+      case GLFW_KEY_Z:
+        resurrectAllIfDead();
+        break;
+      case GLFW_KEY_X:
+        healAllIfAlive();
+        break;
+      case GLFW_KEY_C:
+        clearAll();
         break;
 
       case GLFW_KEY_LEFT_BRACKET:

@@ -31,6 +31,9 @@ namespace entity
       void receiveAttack(const double, const geometry::Vec2);
       void receiveImpulse(const geometry::Vec2);
 
+      void resurrect();
+      void heal();
+
       static constexpr double MAX_INTERACTION_DISTANCE = 50.0;
 
     protected:
