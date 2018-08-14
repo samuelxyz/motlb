@@ -280,6 +280,8 @@ void Battle::handleKeypress(int key, int action)
         break;
       case GLFW_KEY_D:
         selectedAction = BattleAction::LINE;
+        if (unitLoader.isLineStarted())
+          unitLoader.cancel();
         break;
 
       case GLFW_KEY_Z:
