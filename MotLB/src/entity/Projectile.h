@@ -27,6 +27,8 @@ namespace entity
       virtual void update() override;
       virtual void render(graphics::Renderer& renderer) const override;
 
+      friend class Shield;
+
     protected:
 
       double damage, inertia;
@@ -35,6 +37,7 @@ namespace entity
       void checkHit();
       virtual void hit(Unit&);
       virtual void explode();
+      virtual void rebound(double normalAngle, double randomAngle);
 
       virtual void move() override;
       virtual void checkContainment() override;
@@ -44,6 +47,14 @@ namespace entity
         FLYING,
         FADE_OUT
       } mode;
+
+      enum class BlockingBehavior
+      {
+          EXPLODE_AND_REBOUND,
+          REBOUND_ONLY,
+          EXPLODE_ONLY,
+          UNBLOCKABLE
+      } blockingBehavior;
 
       int renderLength;
 

@@ -23,6 +23,7 @@ namespace entity
     rotationSpeed(0.05),
     timer(0)
   {
+    blockingBehavior = BlockingBehavior::EXPLODE_ONLY;
   }
 
   Missile::~Missile()

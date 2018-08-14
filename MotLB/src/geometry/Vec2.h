@@ -25,6 +25,7 @@ namespace geometry
       friend Vec2 operator-(const Vec2& v1, const Vec2& v2);
       friend Vec2 operator*(const Vec2& v, double d);
       friend Vec2 operator*(double d, const Vec2& v);
+      friend double operator*(const Vec2& v1, const Vec2& v2);
       friend std::ostream& operator<<(std::ostream& out, const Vec2 v);
       Vec2& operator+=(const Vec2& rhs);
       Vec2& operator-=(const Vec2& rhs);

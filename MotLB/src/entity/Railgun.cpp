@@ -39,7 +39,7 @@ namespace entity
     geometry::Box hitArea(getPosition(), box.angle, 0, 800, -3, 3);
     for (Unit* u : battle->getUnits())
     {
-      if (u->isActive() && !box.collide(hitArea, u->getBox()).isZero() && !(u == this))
+      if (u->isActive() && u != this && !box.collide(hitArea, u->getBox()).isZero())
       {
         // hit u
         geometry::Vec2 impulse;

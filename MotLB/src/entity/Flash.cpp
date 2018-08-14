@@ -8,7 +8,10 @@
 #include <Box.h>
 #include <Entity.h>
 #include <Flash.h>
+#include <Projectile.h>
 #include <Renderer.h>
+#include <ShieldEffect.h>
+#include <algorithm>
 
 #include "../Battle.h"
 
@@ -67,17 +70,32 @@ namespace entity
 
     for (unsigned int i = 0; i < numPoints; ++i)
     {
-      // simulate ray
       for (double r = 0; r < radius;)
       {
         // for breaking out of nested loop (stop this ray)
         bool terminateRay = false;
+
+        // units will block the ray
         for (Unit* u : units)
         {
           if (u && u->getBox().containsAbs(points[i]))
           {
             terminateRay = true;
             break;
+          }
+        }
+
+        // ShieldEffects can also block light
+        for (Projectile* p : battle->getProjectiles())
+        {
+          if (p && p->isActive())
+          {
+            ShieldEffect* se = dynamic_cast<ShieldEffect*>(p);
+            if (se && se->getBox().containsAbs(points[i]))
+            {
+              terminateRay = true;
+              break;
+            }
           }
         }
 

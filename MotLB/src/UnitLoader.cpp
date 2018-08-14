@@ -14,6 +14,7 @@
 #include <Launcher.h>
 #include <Railgun.h>
 #include <Renderer.h>
+#include <Shield.h>
 
 #include "Battle.h"
 #include "Values.h"
@@ -230,6 +231,8 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
       return new entity::Railgun (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::GIANT:
       return new entity::Giant   (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+    case Battle::UnitType::SHIELD:
+      return new entity::Shield  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     default:
       return nullptr; // battle can handle this
   }

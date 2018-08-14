@@ -265,6 +265,9 @@ void Battle::handleKeypress(int key, int action)
       case GLFW_KEY_Y:
         selectedUnitType = UnitType::GIANT;
         break;
+      case GLFW_KEY_U:
+        selectedUnitType = UnitType::SHIELD;
+        break;
 
       case GLFW_KEY_A:
         selectedAction = BattleAction::DELETE;
@@ -337,6 +340,11 @@ std::vector<entity::Unit*>& Battle::getUnits()
   return units;
 }
 
+std::vector<entity::Projectile*>& Battle::getProjectiles()
+{
+  return projectiles;
+}
+
 void Battle::updateWindowTitle()
 {
   if (window)
@@ -407,6 +415,9 @@ void Battle::updateWindowTitle()
           case UnitType::GIANT:
             msg += "giant";
             break;
+          case UnitType::SHIELD:
+            msg += "shield";
+            break;
           default:
             msg += "[unknown unit type]";
             break;
@@ -434,6 +445,9 @@ void Battle::updateWindowTitle()
             break;
           case UnitType::GIANT:
             msg += "giants";
+            break;
+          case UnitType::SHIELD:
+            msg += "shields";
             break;
           default:
             msg += "[unknown unit type]s";

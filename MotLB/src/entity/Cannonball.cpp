@@ -29,6 +29,7 @@ namespace entity
       geometry::Vec2 velocity, double damage, double inertia)
   : Projectile(battle, team, position, velocity, damage, inertia, true)
   {
+    blockingBehavior = BlockingBehavior::REBOUND_ONLY;
   }
 
   Cannonball::~Cannonball()
@@ -47,7 +48,7 @@ namespace entity
 
   void Cannonball::render(graphics::Renderer& renderer) const
   {
-    if (mode == Mode::FADE_OUT)
+    if (mode == Mode::FADE_OUT || !active)
       return;
 
     constexpr double radius = 6;

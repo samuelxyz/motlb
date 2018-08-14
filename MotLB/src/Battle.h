@@ -49,6 +49,7 @@ class Battle
     const geometry::Box& getBounds() const;
 
     std::vector<entity::Unit*>& getUnits();
+    std::vector<entity::Projectile*>& getProjectiles();
 
   private:
 
@@ -77,7 +78,8 @@ class Battle
         LAUNCHER,
         CANNON,
         RAILGUN,
-        GIANT
+        GIANT,
+        SHIELD
     } selectedUnitType;
     enum class BattleAction
     {

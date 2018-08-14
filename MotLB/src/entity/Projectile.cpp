@@ -28,6 +28,7 @@ namespace entity
     friendlyFire(friendlyFire),
 
     mode(Mode::FLYING),
+    blockingBehavior(BlockingBehavior::EXPLODE_AND_REBOUND),
     renderLength(0)
   {
   }
@@ -129,6 +130,30 @@ namespace entity
     );
 
     battle->add(flash);
+  }
+
+  void Projectile::rebound(double normalAngle, double randomAngle)
+  {
+    if (blockingBehavior == BlockingBehavior::EXPLODE_AND_REBOUND ||
+        blockingBehavior == BlockingBehavior::EXPLODE_ONLY)
+    {
+      explode(); // explode and rebound will need to make a replacement projectile
+    }
+    if (blockingBehavior == BlockingBehavior::EXPLODE_AND_REBOUND ||
+        blockingBehavior == BlockingBehavior::REBOUND_ONLY)
+    {
+      geometry::Vec2 vel(velocity);
+      vel.rotateBy(-normalAngle);
+      vel.setRect(-vel.getX(), vel.getY());
+      vel.rotateBy(normalAngle + randomAngle);
+
+      if (blockingBehavior == BlockingBehavior::EXPLODE_AND_REBOUND)
+        battle->add(new Projectile(battle, team, position, vel, damage, inertia, friendlyFire));
+        // should do the renderLength thing by itself so thats cool
+
+      else if (blockingBehavior == BlockingBehavior::REBOUND_ONLY)
+        velocity = vel;
+    }
   }
 
   void Projectile::move()
