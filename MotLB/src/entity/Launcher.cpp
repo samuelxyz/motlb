@@ -68,9 +68,6 @@ namespace entity
 
   void Launcher::attack()
   {
-    if (!target)
-      return;
-
     geometry::Vec2 projVec;
     projVec.setPolar(projVel, box.angle);
 

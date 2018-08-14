@@ -61,9 +61,6 @@ namespace entity
 
   void Cannon::attack()
   {
-    if (!target)
-      return;
-
     geometry::Vec2 projVec;
     projVec.setPolar(projVel, box.angle);
 

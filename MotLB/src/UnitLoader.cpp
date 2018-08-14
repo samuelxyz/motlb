@@ -11,6 +11,7 @@
 #include <Cannon.h>
 #include <Entity.h>
 #include <Launcher.h>
+#include <Railgun.h>
 #include <Renderer.h>
 
 #include "Battle.h"
@@ -217,13 +218,15 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
   switch (battle.selectedUnitType)
   {
     case Battle::UnitType::UNIT:
-      return new entity::Unit(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+      return new entity::Unit    (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::GUNNER:
-      return new entity::Gunner(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+      return new entity::Gunner  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::LAUNCHER:
       return new entity::Launcher(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::CANNON:
-          return new entity::Cannon(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+      return new entity::Cannon  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+    case Battle::UnitType::RAILGUN:
+      return new entity::Railgun (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     default:
       return nullptr; // battle can handle this
   }

@@ -75,7 +75,8 @@ class Battle
         UNIT,
         GUNNER,
         LAUNCHER,
-        CANNON
+        CANNON,
+        RAILGUN
     } selectedUnitType;
     enum class BattleAction
     {

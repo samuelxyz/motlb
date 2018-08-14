@@ -72,9 +72,6 @@ namespace entity
 
   void Gunner::attack()
   {
-    if (!target)
-      return;
-
     geometry::Vec2 projVec;
     projVec.setPolar(projVel, box.angle);
 

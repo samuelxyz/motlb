@@ -11,6 +11,7 @@
 #include <Cannon.h>
 #include <Entity.h>
 #include <Launcher.h>
+#include <Railgun.h>
 #include <Vec2.h>
 
 #include "Battle.h"
@@ -51,6 +52,9 @@ int battleRenderTest()
 
   entity::Cannon* u6 = new entity::Cannon(&battle, entity::Entity::Team::GREEN, geometry::Vec2(20, 780), geometry::Vec2(), 4.5);
   battle.add(u6);
+
+  entity::Railgun* u7 = new entity::Railgun(&battle, entity::Entity::Team::BLUE, geometry::Vec2(20, 20), geometry::Vec2(), 1);
+  battle.add(u7);
 
   while (!window.shouldClose())
   {

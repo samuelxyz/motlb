@@ -214,7 +214,8 @@ namespace entity
 
     if (attackCooldown <= 0)
     {
-      attack();
+      if (target)
+        attack();
       attackCooldown = attackInterval;
     }
   }
