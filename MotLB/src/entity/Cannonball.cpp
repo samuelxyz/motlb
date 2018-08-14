@@ -111,7 +111,7 @@ namespace entity
 
     // hit & damage surrounding units
 
-    constexpr double attackRadius = 60;
+    constexpr double attackRadius = 100;
     const double impulse = velocity.getLength() * inertia;
     for (Unit* u : battle->getUnits())
     {
