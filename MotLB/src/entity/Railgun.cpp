@@ -48,7 +48,7 @@ namespace entity
 
         // make flash
         geometry::Vec2 dx;
-        dx.setPolar(u->getBox().getLongestRadius() + 0.01, -box.angle);
+        dx.setPolar(-(u->getBox().getLongestRadius() + 0.01), box.angle);
 
         battle->add(new Flash
         (
