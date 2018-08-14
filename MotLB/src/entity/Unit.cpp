@@ -195,12 +195,22 @@ namespace entity
     if (dx.isZero())
       return;
 
+    // move out of overlap
     double totalI = inertia + u.inertia;
 
     box.position -= dx * (inertia / totalI);
     u.box.position += dx * (inertia / totalI);
 
+    // figure out momentum stuff
     geometry::Vec2 dp = (u.inertia * u.velocity) - (inertia * velocity);
+
+    // inelastic-ish
+    double maxSpeed = std::max(velocity.getLength(), u.velocity.getLength());
+    double dv = 0.5 * dp.getLength() / std::min(inertia, u.inertia);
+    if (dv > maxSpeed)
+      dp.scaleTo(2 * std::min(inertia, u.inertia));
+
+    // change velocities, momentum is conserved
     receiveImpulse(0.5 * dp);
     u.receiveImpulse(-0.5 * dp);
 
@@ -222,9 +232,13 @@ namespace entity
 
   void Unit::checkContainment()
   {
-    box.position += battle->getBounds().contain(box);
-    //    const geometry::Box& bounds = battle->getBounds();
-    //    box.position += bounds.contain(box);
+    geometry::Vec2 dx = battle->getBounds().contain(box);
+    box.position += dx;
+
+    if (dx.getX())
+      velocity.setRect(0, velocity.getY());
+    if (dx.getY())
+      velocity.setRect(velocity.getX(), 0);
   }
 
   void Unit::attack()

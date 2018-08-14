@@ -268,6 +268,9 @@ void Battle::handleKeypress(int key, int action)
       case GLFW_KEY_U:
         selectedUnitType = UnitType::SHIELD;
         break;
+      case GLFW_KEY_I:
+        selectedUnitType = UnitType::RACER;
+        break;
 
       case GLFW_KEY_A:
         selectedAction = BattleAction::DELETE;
@@ -418,6 +421,9 @@ void Battle::updateWindowTitle()
           case UnitType::SHIELD:
             msg += "shield";
             break;
+          case UnitType::RACER:
+            msg += "racer";
+            break;
           default:
             msg += "[unknown unit type]";
             break;
@@ -448,6 +454,9 @@ void Battle::updateWindowTitle()
             break;
           case UnitType::SHIELD:
             msg += "shields";
+            break;
+          case UnitType::RACER:
+            msg += "racers";
             break;
           default:
             msg += "[unknown unit type]s";
