@@ -10,6 +10,7 @@
 #include <Box.h>
 #include <Cannon.h>
 #include <Entity.h>
+#include <Giant.h>
 #include <Launcher.h>
 #include <Railgun.h>
 #include <Renderer.h>
@@ -227,6 +228,8 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
       return new entity::Cannon  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::RAILGUN:
       return new entity::Railgun (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+    case Battle::UnitType::GIANT:
+      return new entity::Giant   (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     default:
       return nullptr; // battle can handle this
   }

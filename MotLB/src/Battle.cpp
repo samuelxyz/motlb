@@ -262,6 +262,9 @@ void Battle::handleKeypress(int key, int action)
       case GLFW_KEY_T:
         selectedUnitType = UnitType::RAILGUN;
         break;
+      case GLFW_KEY_Y:
+        selectedUnitType = UnitType::GIANT;
+        break;
 
       case GLFW_KEY_A:
         selectedAction = BattleAction::DELETE;
@@ -304,19 +307,8 @@ void Battle::handleKeypress(int key, int action)
     {
       unitLoader.cancel();
     }
-  }
-//  else if (action == GLFW_RELEASE)
-//  {
-//    switch (key)
-//    {
-//      case GLFW_KEY_SPACE:
-//        paused = !paused;
-//        break;
-//
-//      default:
-//        break;
-//    }
-//  }
+
+  } // if (action == GLFW_PRESS)
 
   if (selectedAction == BattleAction::LINE)
     unitLoader.refresh();
@@ -412,6 +404,9 @@ void Battle::updateWindowTitle()
           case UnitType::RAILGUN:
             msg += "railgun";
             break;
+          case UnitType::GIANT:
+            msg += "giant";
+            break;
           default:
             msg += "[unknown unit type]";
             break;
@@ -436,6 +431,9 @@ void Battle::updateWindowTitle()
             break;
           case UnitType::RAILGUN:
             msg += "railguns";
+            break;
+          case UnitType::GIANT:
+            msg += "giants";
             break;
           default:
             msg += "[unknown unit type]s";
