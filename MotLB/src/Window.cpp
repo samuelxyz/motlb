@@ -8,8 +8,11 @@
 #include "Window.h"
 
 #include <cassert>
+
+#ifdef MOTLB_DEBUG
 #include <cstdio>
 #include <iostream>
+#endif
 
 #include "Battle.h"
 #include "Values.h"

@@ -18,7 +18,7 @@ namespace entity
 
   ShieldEffect::ShieldEffect(Battle* battle, geometry::Vec2 velocity, geometry::Box& shape, Values::Color startColor, Values::Color endColor,
       unsigned int lifetime)
-  : Particle(battle, Entity::Team::NEUTRAL, shape.position, velocity, 1.0, lifetime),
+  : Particle(battle, Entity::Team::NEUTRAL, shape.position, velocity, lifetime, Values::Depth::EMBLEMS),
     box(shape), startColor(startColor), endColor(endColor), timer(0)
   {
   }
@@ -42,7 +42,7 @@ namespace entity
   {
     Values::Color color = Values::interpolateColors(
         startColor, endColor, static_cast<double>(timer)/lifetime);
-    renderer.addQuad(Values::makeQuad(color, box, Values::Depth::EMBLEMS));
+    renderer.addQuad(Values::makeQuad(color, box, depth));
   }
 
   geometry::Vec2 ShieldEffect::getPosition() const
