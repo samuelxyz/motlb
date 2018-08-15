@@ -52,8 +52,8 @@ namespace entity
     {{
       Values::makeCV( color, box.position + 3*forward + 3*right, Values::Depth::EMBLEMS ),
       Values::makeCV( color, box.position + 3*forward - 3*right, Values::Depth::EMBLEMS ),
-      Values::makeCV( color, box.position - 6*forward - 3*right, Values::Depth::EMBLEMS ),
-      Values::makeCV( color, box.position - 6*forward + 3*right, Values::Depth::EMBLEMS )
+      Values::makeCV( color, box.position - 7*forward - 3*right, Values::Depth::EMBLEMS ),
+      Values::makeCV( color, box.position - 7*forward + 3*right, Values::Depth::EMBLEMS )
     }};
     renderer.addQuad(quad);
 
@@ -61,7 +61,7 @@ namespace entity
     {{
       Values::makeCV( color, box.position + 3*forward + 3*right, Values::Depth::EMBLEMS ),
       Values::makeCV( color, box.position + 3*forward - 3*right, Values::Depth::EMBLEMS ),
-      Values::makeCV( color, box.position + 7*forward, Values::Depth::EMBLEMS)
+      Values::makeCV( color, box.position + 8*forward, Values::Depth::EMBLEMS)
     }};
     renderer.addTriangle(tri);
 
