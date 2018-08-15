@@ -316,7 +316,29 @@ void Battle::handleKeypress(int key, int action)
       unitLoader.cancel();
     }
 
-  } // if (action == GLFW_PRESS)
+  }
+  else if (action == GLFW_REPEAT) // these keys activate on both press and repeat
+  {
+    switch (key)
+    {
+      case GLFW_KEY_Z:
+        resurrectAllIfDead();
+        break;
+      case GLFW_KEY_X:
+        healAllIfAlive();
+        break;
+
+      case GLFW_KEY_LEFT_BRACKET:
+        unitLoader.decrement();
+        break;
+      case GLFW_KEY_RIGHT_BRACKET:
+        unitLoader.increment();
+        break;
+
+      default:
+        break;
+    }
+  }
 
   if (selectedAction == BattleAction::LINE)
     unitLoader.refresh();
