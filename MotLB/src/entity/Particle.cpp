@@ -13,8 +13,8 @@ namespace entity
 {
   Particle::Particle(Battle* battle, Team team, geometry::Vec2 position,
       geometry::Vec2 velocity, unsigned int lifetime, float depth)
-  : Entity(battle, team, position, velocity),
-    depth(depth), lifetime(lifetime), age(0)
+  : Entity(battle, team, position, velocity, depth),
+    lifetime(lifetime), age(0)
   {
   }
 

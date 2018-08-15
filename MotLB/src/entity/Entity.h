@@ -34,7 +34,7 @@ namespace entity
         YELLOW  = 4,
       };
 
-      Entity(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity);
+      Entity(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, float depth);
       virtual ~Entity();
 
       virtual void update();
@@ -43,6 +43,7 @@ namespace entity
       bool isActive() const { return active; }
       Team getTeam() const { return team; }
 
+      const float getDepth() { return depth; }
       static const Values::Color& getTeamColor(Team team);
 
     protected:
@@ -51,6 +52,7 @@ namespace entity
       Team team;
       geometry::Vec2 position, velocity;
       bool active;
+      const float depth;
 
       virtual void move();
       virtual void checkContainment() = 0;

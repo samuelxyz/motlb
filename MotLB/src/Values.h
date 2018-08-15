@@ -29,12 +29,13 @@ class Values
     { // kind of like a namespace substitution hack workaround thingy
       static constexpr float
       BACKGROUND  = 0.0f,
-      LOWER_SMOKE = 0.2f, // problem is that transparent things
-      UPPER_SMOKE = 0.2f, // also write to the depth buffer hmm
+      PROJECTILES = 0.1f,
       FLASHES     = 0.2f,
-      UNITS       = 0.2f,
-      EMBLEMS     = 0.2f,
-      PROJECTILES = 0.2f,
+      LOWER_SMOKE = 0.3f,
+      UNITS       = 0.4f,
+      EMBLEMS     = 0.5f,
+      UPPER_SMOKE = 0.6f,
+      ABOVE_SMOKE = 0.7f,
       TOP         = 1.0f;
     };
 

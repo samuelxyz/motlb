@@ -22,11 +22,9 @@ namespace entity
 
       virtual void update() override;
 
-      const float depth;
-
     protected:
-
       virtual void checkContainment() override;
+
       unsigned int lifetime, age;
 
 

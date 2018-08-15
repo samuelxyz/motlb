@@ -22,8 +22,9 @@ namespace entity
 {
 
   Projectile::Projectile(Battle* battle, Team team, geometry::Vec2 position,
-      geometry::Vec2 velocity, double damage, double inertia, bool friendlyFire)
-  : Entity(battle, team, position, velocity),
+      geometry::Vec2 velocity, double damage, double inertia, bool friendlyFire,
+      float depth /*= Values::Depth::PROJECTILES*/)
+  : Entity(battle, team, position, velocity, depth),
     damage(damage), inertia(inertia),
     friendlyFire(friendlyFire),
 
@@ -71,9 +72,9 @@ namespace entity
     for (unsigned int i = 0; i < corners.size(); i++)
     {
       if (i == 2u)
-        quad[i] = Values::makeCV(tailColor, corners[i], Values::Depth::PROJECTILES);
+        quad[i] = Values::makeCV(tailColor, corners[i], depth);
       else
-        quad[i] = Values::makeCV(bodyColor, corners[i], Values::Depth::PROJECTILES);
+        quad[i] = Values::makeCV(bodyColor, corners[i], depth);
     }
 
     renderer.addQuad(quad);

@@ -110,7 +110,7 @@ namespace entity
     Values::Color eColor(edgeColor);
     eColor.a = edgeColor.a * 1.0f - static_cast<float>(age)/lifetime;
 
-    cp.push_back( Values::makeCV(cColor, position, Values::Depth::FLASHES));
+    cp.push_back( Values::makeCV(cColor, position, depth));
 
     for (unsigned int i = 0; i < numPoints; ++i)
     {

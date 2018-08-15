@@ -8,6 +8,7 @@
 #include "Battle.h"
 
 #include <GLFW/glfw3.h>
+#include <Missile.h>
 #include <stddef.h>
 #include <Vec2.h>
 #include <iterator>
@@ -116,20 +117,20 @@ void Battle::renderAll()
   renderer.addQuad(Values::makeQuad(backgroundColor, bounds, Values::Depth::BACKGROUND));
 
   for (auto* p : particles)
-  {
-    if (p)
+    if (p && p->getDepth() < Values::Depth::UNITS)
       p->render(renderer);
-  }
   for (auto* p : projectiles)
-  {
-    if (p)
+    if (p && p->getDepth() < Values::Depth::UNITS)
       p->render(renderer);
-  }
   for (auto* u : units)
-  {
     if (u)
       u->render(renderer);
-  }
+  for (auto* p : particles)
+    if (p && p->getDepth() >= Values::Depth::UNITS)
+      p->render(renderer);
+  for (auto* p : projectiles)
+    if (p && p->getDepth() >= Values::Depth::UNITS)
+      p->render(renderer);
 
   unitLoader.render(renderer);
 

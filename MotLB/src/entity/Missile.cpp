@@ -18,7 +18,7 @@ namespace entity
   Missile::Missile(Battle* battle, Team team, geometry::Vec2 position,
       geometry::Vec2 velocity, double damage, double inertia,
       Unit* target)
-  : Projectile(battle, team, position, velocity, damage, inertia, false),
+  : Projectile(battle, team, position, velocity, damage, inertia, false, Values::Depth::ABOVE_SMOKE),
     target(target),
     rotationSpeed(0.05),
     timer(0)
@@ -67,7 +67,7 @@ namespace entity
       Values::Color end {0.1f, 0.1f, 0.1f, 0.0f};
 
       geometry::Vec2 dx(velocity);
-      dx.scaleTo(-8);
+      dx.scaleTo(-13);
       geometry::Vec2 vel;
       vel.setPolar(0.1, Values::random(0, Values::TWO_PI));
 
@@ -90,50 +90,42 @@ namespace entity
 
     Values::Triangle flame
     {{
-      Values::makeCV(baseColor, position - 6 * forward + 2.5 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(baseColor, position - 6 * forward - 2.5 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(tailColor, position - (6 + 0.5*renderLength) * forward, Values::Depth::PROJECTILES)
+      Values::makeCV(baseColor, position - 11 * forward + 2.5 * right, depth),
+      Values::makeCV(baseColor, position - 11 * forward - 2.5 * right, depth),
+      Values::makeCV(tailColor, position - (11 + 0.5*renderLength) * forward, depth)
     }};
 
     renderer.addTriangle(flame);
 
+    // don't draw the body if it's exploded - duh
     if (mode == Mode::FADE_OUT)
       return;
 
-    // body
     Values::Color bodyColor(Entity::getTeamColor(team));
 
     Values::Quad body
     {{
-      Values::makeCV(bodyColor, position + 5 * forward + 3 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(bodyColor, position + 5 * forward - 3 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(bodyColor, position - 4 * forward - 3 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(bodyColor, position - 4 * forward + 3 * right, Values::Depth::PROJECTILES)
+      Values::makeCV(bodyColor, position + 3 * right, depth),
+      Values::makeCV(bodyColor, position - 3 * right, depth),
+      Values::makeCV(bodyColor, position - 9 * forward - 3 * right, depth),
+      Values::makeCV(bodyColor, position - 9 * forward + 3 * right, depth)
     }};
 
     renderer.addQuad(body);
 
+    // don't draw the nosecone if it's going to be in a unit - hackish but looks better
+    for (Unit* u : battle->getUnits())
+      if (u->isActive() && u->getBox().containsAbs(position + velocity))
+        return;
+
     Values::Triangle nosecone
     {{
-      Values::makeCV(bodyColor, position + 5 * forward + 3 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(bodyColor, position + 5 * forward - 3 * right, Values::Depth::PROJECTILES),
-      Values::makeCV(bodyColor, position + 10 * forward, Values::Depth::PROJECTILES)
+      Values::makeCV(bodyColor, position + 3 * right,   depth),
+      Values::makeCV(bodyColor, position - 3 * right,   depth),
+      Values::makeCV(bodyColor, position + 5 * forward, depth)
     }};
 
     renderer.addTriangle(nosecone);
-
-    // nozzle can be invisible?  i t ' s   A R T
-//    // nozzle
-//    Values::Color nozzleColor { 0.4f, 0.4f, 0.4f, 1.0f };
-//    Values::Quad nozzle
-//    {{
-//      Values::makeCV(nozzleColor, position - 3 * forward + 3 * right),
-//      Values::makeCV(nozzleColor, position - 3 * forward - 3 * right),
-//      Values::makeCV(nozzleColor, position - 6 * forward - 3 * right),
-//      Values::makeCV(nozzleColor, position - 6 * forward + 3 * right),
-//    }};
-//
-//    renderer.addQuad(nozzle);
   }
 
   void Missile::hit(Unit& u)

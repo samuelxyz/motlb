@@ -17,10 +17,10 @@ namespace entity
   constexpr Values::Color Entity::teamColors[];
 
   Entity::Entity(Battle* battle, Team team,
-      geometry::Vec2 position, geometry::Vec2 velocity)
+      geometry::Vec2 position, geometry::Vec2 velocity, float depth)
   : battle(battle), team(team),
     position(position), velocity(velocity),
-    active(true)
+    active(true), depth(depth)
   {
   }
 

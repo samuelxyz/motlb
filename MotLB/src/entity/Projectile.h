@@ -21,7 +21,8 @@ namespace entity
     public:
 
       Projectile(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity,
-          double damage, double knockback, bool friendlyFire);
+          double damage, double knockback, bool friendlyFire,
+          float depth = Values::Depth::PROJECTILES);
       virtual ~Projectile();
 
       virtual void update() override;

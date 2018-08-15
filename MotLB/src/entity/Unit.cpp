@@ -18,7 +18,7 @@ namespace entity
 
   Unit::Unit(Battle* battle, Team team,
       geometry::Vec2 position, geometry::Vec2 velocity, double angle)
-  : Entity(battle, team, position, velocity),
+  : Entity(battle, team, position, velocity, Values::Depth::UNITS),
 
     // const members
     inertia(10),
@@ -63,7 +63,7 @@ namespace entity
   void Unit::render(graphics::Renderer& renderer) const
   {
     if (active)
-      renderer.addQuad(Values::makeQuad(getTeamColor(team), box, Values::Depth::UNITS));
+      renderer.addQuad(Values::makeQuad(getTeamColor(team), box, depth));
   }
 
   void Unit::receiveAttack(const double damage, const geometry::Vec2 impulse)
