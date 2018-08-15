@@ -12,9 +12,9 @@
 namespace entity
 {
   Particle::Particle(Battle* battle, Team team, geometry::Vec2 position,
-      geometry::Vec2 velocity, double radius, unsigned int lifetime)
+      geometry::Vec2 velocity, unsigned int lifetime, float depth)
   : Entity(battle, team, position, velocity),
-    radius(radius), lifetime(lifetime), dr(-radius/lifetime)
+    depth(depth), lifetime(lifetime), age(0)
   {
   }
 
@@ -24,8 +24,8 @@ namespace entity
 
   void Particle::update()
   {
-    radius += dr;
-    if (radius <= 0)
+    ++age;
+    if (age > lifetime)
     {
       active = false;
       return;

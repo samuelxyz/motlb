@@ -24,8 +24,9 @@ namespace entity
   {
     private:
       std::vector<Unit*> units;
-      unsigned int timer; // countdown
       Values::Color centerColor, edgeColor;
+      double radius;
+      double dr;
 
     public:
       Flash(Battle*, geometry::Vec2 position, double radius, double dr,

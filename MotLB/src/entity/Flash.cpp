@@ -20,11 +20,10 @@ namespace entity
 
   Flash::Flash(Battle* battle, geometry::Vec2 position, double radius, double dr,
       Values::Color centerColor, Values::Color edgeColor, unsigned int lifetime)
-  : Particle(battle, Entity::Team::NEUTRAL, position, geometry::Vec2(), radius, lifetime),
-    units(), timer(lifetime),
-    centerColor(centerColor), edgeColor(edgeColor)
+  : Particle(battle, Entity::Team::NEUTRAL, position, geometry::Vec2(), lifetime, Values::Depth::FLASHES),
+    units(),
+    centerColor(centerColor), edgeColor(edgeColor), radius(radius), dr(dr)
   {
-    this->dr = dr;
   }
 
   Flash::~Flash()
@@ -33,13 +32,7 @@ namespace entity
 
   void Flash::update()
   {
-    --timer;
-    if (timer <= 0)
-    {
-      active = false;
-      return;
-    }
-
+    Particle::update();
     radius += dr;
 
     findRelevantUnits();
@@ -113,9 +106,9 @@ namespace entity
     Values::CenteredPoly cp;
 
     Values::Color cColor(centerColor);
-    cColor.a = centerColor.a * timer/lifetime;
+    cColor.a = centerColor.a * 1.0f - static_cast<float>(age)/lifetime;
     Values::Color eColor(edgeColor);
-    eColor.a = edgeColor.a * timer/lifetime;
+    eColor.a = edgeColor.a * 1.0f - static_cast<float>(age)/lifetime;
 
     cp.push_back( Values::makeCV(cColor, position, Values::Depth::FLASHES));
 
@@ -125,7 +118,7 @@ namespace entity
           Values::interpolateColors(cColor, eColor,
               static_cast<float>((points[i] - position).getLength() / radius) ),
           points[i],
-          Values::Depth::FLASHES
+          depth
       ));
     }
 

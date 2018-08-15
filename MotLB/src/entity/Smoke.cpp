@@ -15,16 +15,11 @@ namespace entity
   Smoke::Smoke(Battle* battle, geometry::Vec2 position, geometry::Vec2 velocity,
       double radius, double dr, double spin, unsigned int lifetime,
       Values::Color start, Values::Color end, float depth)
-  : Particle(battle, Entity::Team::NEUTRAL, position, velocity, radius, lifetime),
-    start(start), end(end),
+  : Particle(battle, Entity::Team::NEUTRAL, position, velocity, lifetime, depth),
+    startColor(start), endColor(end),
     corners(),
-    age(0),
-    spin(spin),
-    depth(depth)
+    radius(radius), dr(dr), spin(spin)
   {
-    // some initialization stuffs, meh
-    this->dr = dr;
-
     if (radius + (dr * lifetime) < 0)
     {
       lifetime = abs(radius/dr);
@@ -35,7 +30,8 @@ namespace entity
     for (unsigned int i = 0; i < numCorners; ++i)
     {
       double angle = Values::TWO_PI * i/numCorners;
-      double randAngle = Values::random(-Values::TWO_PI/numCorners, Values::TWO_PI/numCorners) * 0.3;
+      double randAngle = 0.3 * Values::random(
+          -Values::TWO_PI/numCorners, Values::TWO_PI/numCorners);
 
       geometry::Vec2 v;
       v.setPolar(radius, angle + randAngle);
@@ -49,15 +45,8 @@ namespace entity
 
   void Smoke::update()
   {
-    ++age;
-    if (age > lifetime)
-    {
-      active = false;
-      return;
-    }
-
-    // updates radius with dr
     Particle::update();
+    radius += dr;
 
     for (geometry::Vec2& v : corners)
     {
@@ -68,7 +57,8 @@ namespace entity
 
   void Smoke::render(graphics::Renderer& renderer) const
   {
-    Values::Color color = Values::interpolateColors(start, end, static_cast<double>(age)/lifetime);
+    Values::Color color = Values::interpolateColors(
+        startColor, endColor, static_cast<double>(age)/lifetime);
     Values::CenteredPoly cp;
 
     cp.push_back(Values::makeCV(color, position, depth));

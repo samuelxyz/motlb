@@ -25,11 +25,10 @@ namespace entity
       virtual void render(graphics::Renderer& renderer) const override;
 
     protected:
-      Values::Color start, end;
+      Values::Color startColor, endColor;
       std::vector<geometry::Vec2> corners;
-      unsigned int age;
+      double radius, dr;
       double spin;
-      float depth;
   };
 
 } /* namespace entity */

@@ -17,18 +17,18 @@ namespace entity
     public:
 
       Particle(Battle*, Team, geometry::Vec2 position,
-          geometry::Vec2 velocity, double radius, unsigned int lifetime);
+          geometry::Vec2 velocity, unsigned int lifetime, float depth);
       virtual ~Particle();
 
       virtual void update() override;
 
+      const float depth;
+
     protected:
 
       virtual void checkContainment() override;
+      unsigned int lifetime, age;
 
-      double radius;
-      double lifetime;
-      double dr;
 
   };
 }
