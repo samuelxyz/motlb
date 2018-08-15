@@ -7,16 +7,16 @@
 
 #include <Box.h>
 #include <Entity.h>
-#include <Projectile.h>
+#include <particle/Flash.h>
+#include <projectile/Projectile.h>
 #include <Renderer.h>
-#include <Unit.h>
+#include <unit/Unit.h>
 #include <Vec2.h>
 #include <array>
 #include <vector>
 
 #include "../Battle.h"
 #include "../Values.h"
-#include "Flash.h"
 
 namespace entity
 {

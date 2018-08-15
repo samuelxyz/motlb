@@ -8,8 +8,8 @@
 #ifndef FLASH_H_
 #define FLASH_H_
 
-#include <Particle.h>
-#include <Unit.h>
+#include <particle/Particle.h>
+#include <unit/Unit.h>
 #include <Vec2.h>
 #include <vector>
 

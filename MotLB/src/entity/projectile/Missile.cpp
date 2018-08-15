@@ -5,11 +5,12 @@
  *      Author: Samuel Tan
  */
 
-#include <Missile.h>
+#include <particle/Flash.h>
+#include <particle/Smoke.h>
+#include <projectile/Missile.h>
 #include <Renderer.h>
-#include <Unit.h>
-#include <Flash.h>
-#include <Smoke.h>
+#include <unit/Unit.h>
+
 #include "../Battle.h"
 
 namespace entity

@@ -8,7 +8,7 @@
 #ifndef CANNON_H_
 #define CANNON_H_
 
-#include <Gunner.h>
+#include <unit/Gunner.h>
 #include <Vec2.h>
 
 namespace entity

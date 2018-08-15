@@ -8,7 +8,7 @@
 #include "Battle.h"
 
 #include <GLFW/glfw3.h>
-#include <Missile.h>
+#include <projectile/Missile.h>
 #include <stddef.h>
 #include <Vec2.h>
 #include <iterator>

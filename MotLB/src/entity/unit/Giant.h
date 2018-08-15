@@ -8,7 +8,7 @@
 #ifndef GIANT_H_
 #define GIANT_H_
 
-#include <Unit.h>
+#include <unit/Unit.h>
 
 namespace entity
 {

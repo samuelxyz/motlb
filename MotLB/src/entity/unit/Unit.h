@@ -8,9 +8,9 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
+#include <projectile/Projectile.h>
 #include "../geometry/Box.h"
 #include "Entity.h"
-#include "Projectile.h"
 
 namespace entity
 {

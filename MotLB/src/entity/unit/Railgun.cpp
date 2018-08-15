@@ -5,10 +5,11 @@
  *      Author: Samuel Tan
  */
 
-#include <Railgun.h>
+#include <particle/Flash.h>
+#include <particle/Smoke.h>
+#include <unit/Railgun.h>
+
 #include "../Battle.h"
-#include "Flash.h"
-#include "Smoke.h"
 
 namespace entity
 {

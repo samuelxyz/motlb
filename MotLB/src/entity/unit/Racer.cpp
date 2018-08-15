@@ -6,8 +6,8 @@
  */
 
 #include <Entity.h>
-#include <Racer.h>
 #include <Renderer.h>
+#include <unit/Racer.h>
 #include <Vec2.h>
 
 #include "../Values.h"

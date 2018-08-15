@@ -10,10 +10,10 @@
 
 #include <Box.h>
 #include <Entity.h>
-#include <Particle.h>
-#include <Projectile.h>
+#include <particle/Particle.h>
+#include <projectile/Projectile.h>
 #include <Renderer.h>
-#include <Unit.h>
+#include <unit/Unit.h>
 #include <vector>
 
 #include "UnitLoader.h"

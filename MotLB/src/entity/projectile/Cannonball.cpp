@@ -5,12 +5,12 @@
  *      Author: Samuel Tan
  */
 
-#include <Cannonball.h>
 #include <Entity.h>
-#include <Flash.h>
+#include <particle/Flash.h>
+#include <particle/Smoke.h>
+#include <projectile/Cannonball.h>
 #include <Renderer.h>
-#include <Smoke.h>
-#include <Unit.h>
+#include <unit/Unit.h>
 #include <Vec2.h>
 #include <vector>
 

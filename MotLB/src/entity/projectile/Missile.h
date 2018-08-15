@@ -8,7 +8,7 @@
 #ifndef MISSILE_H_
 #define MISSILE_H_
 
-#include <Projectile.h>
+#include <projectile/Projectile.h>
 
 namespace entity
 {

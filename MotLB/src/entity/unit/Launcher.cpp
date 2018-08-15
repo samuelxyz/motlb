@@ -6,9 +6,9 @@
  */
 
 #include <Entity.h>
-#include <Launcher.h>
-#include <Missile.h>
+#include <projectile/Missile.h>
 #include <Renderer.h>
+#include <unit/Launcher.h>
 #include <Vec2.h>
 
 #include "../Battle.h"

@@ -8,10 +8,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <Cannon.h>
 #include <Entity.h>
-#include <Launcher.h>
-#include <Railgun.h>
+#include <unit/Cannon.h>
+#include <unit/Launcher.h>
+#include <unit/Railgun.h>
 #include <Vec2.h>
 
 #include "Battle.h"

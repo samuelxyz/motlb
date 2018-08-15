@@ -8,7 +8,7 @@
 #ifndef SMOKE_H_
 #define SMOKE_H_
 
-#include <Particle.h>
+#include <particle/Particle.h>
 
 namespace entity
 {

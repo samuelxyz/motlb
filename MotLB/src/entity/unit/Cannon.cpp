@@ -5,11 +5,11 @@
  *      Author: Samuel Tan
  */
 
-#include <Cannon.h>
 #include <Cannonball.h>
 #include <Entity.h>
+#include <particle/Smoke.h>
 #include <Renderer.h>
-#include <Smoke.h>
+#include <unit/Cannon.h>
 #include <vector>
 
 #include "../Battle.h"

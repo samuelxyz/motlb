@@ -8,7 +8,7 @@
 #ifndef SHIELDEFFECT_H_
 #define SHIELDEFFECT_H_
 
-#include <Particle.h>
+#include <particle/Particle.h>
 
 namespace entity
 {

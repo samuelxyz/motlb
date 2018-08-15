@@ -5,7 +5,7 @@
  *      Author: xinyi
  */
 
-#include "Particle.h"
+#include <particle/Particle.h>
 
 #include "..\Battle.h"
 

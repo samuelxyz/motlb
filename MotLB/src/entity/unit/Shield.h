@@ -8,7 +8,7 @@
 #ifndef SHIELD_H_
 #define SHIELD_H_
 
-#include <Unit.h>
+#include <unit/Unit.h>
 #include <Vec2.h>
 
 namespace entity

@@ -8,7 +8,7 @@
 #ifndef CANNONBALL_H_
 #define CANNONBALL_H_
 
-#include <Projectile.h>
+#include <projectile/Projectile.h>
 
 namespace entity
 {

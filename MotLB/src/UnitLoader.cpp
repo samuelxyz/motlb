@@ -8,15 +8,14 @@
 #include "UnitLoader.h"
 
 #include <Box.h>
-#include <Cannon.h>
 #include <Entity.h>
-#include <Giant.h>
-#include <Launcher.h>
-#include <Racer.h>
-#include <Railgun.h>
 #include <Renderer.h>
-#include <Shield.h>
-
+#include <unit/Cannon.h>
+#include <unit/Giant.h>
+#include <unit/Launcher.h>
+#include <unit/Racer.h>
+#include <unit/Railgun.h>
+#include <unit/Shield.h>
 #include "Battle.h"
 #include "Values.h"
 

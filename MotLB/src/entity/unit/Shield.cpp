@@ -6,10 +6,9 @@
  */
 
 #include <Entity.h>
-#include <Shield.h>
+#include <particle/ShieldEffect.h>
+#include <unit/Shield.h>
 #include <vector>
-#include "ShieldEffect.h"
-
 #include "../Battle.h"
 
 namespace entity

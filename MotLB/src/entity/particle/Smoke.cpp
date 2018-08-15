@@ -5,7 +5,7 @@
  *      Author: Samuel Tan
  */
 
-#include <Smoke.h>
+#include <particle/Smoke.h>
 #include <Vec2.h>
 #include <Renderer.h>
 

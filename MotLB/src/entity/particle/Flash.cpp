@@ -7,10 +7,10 @@
 
 #include <Box.h>
 #include <Entity.h>
-#include <Flash.h>
-#include <Projectile.h>
+#include <particle/Flash.h>
+#include <particle/ShieldEffect.h>
+#include <projectile/Projectile.h>
 #include <Renderer.h>
-#include <ShieldEffect.h>
 #include <algorithm>
 
 #include "../Battle.h"

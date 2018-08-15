@@ -7,8 +7,8 @@
 
 #include <Box.h>
 #include <Entity.h>
+#include <particle/ShieldEffect.h>
 #include <Renderer.h>
-#include <ShieldEffect.h>
 #include <Vec2.h>
 
 #include "../Values.h"

@@ -5,7 +5,8 @@
  *      Author: Samuel Tan
  */
 
-#include <Giant.h>
+#include <unit/Giant.h>
+
 #include "../Battle.h"
 
 namespace entity
