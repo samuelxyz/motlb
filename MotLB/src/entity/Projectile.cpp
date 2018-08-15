@@ -71,9 +71,9 @@ namespace entity
     for (unsigned int i = 0; i < corners.size(); i++)
     {
       if (i == 2u)
-        quad[i] = Values::makeCV(tailColor, corners[i]);
+        quad[i] = Values::makeCV(tailColor, corners[i], Values::Depth::PROJECTILES);
       else
-        quad[i] = Values::makeCV(bodyColor, corners[i]);
+        quad[i] = Values::makeCV(bodyColor, corners[i], Values::Depth::PROJECTILES);
     }
 
     renderer.addQuad(quad);

@@ -57,12 +57,12 @@ namespace entity
     Values::CenteredPoly cp;
     Values::Color color { 0.0f, 0.0f, 0.0f, 0.8f };
 
-    cp.push_back(Values::makeCV(color, position));
+    cp.push_back(Values::makeCV(color, position, Values::Depth::PROJECTILES));
     for (unsigned int i = 0; i < numPoints; ++i)
     {
       geometry::Vec2 v;
       v.setPolar(radius, Values::TWO_PI*i/numPoints);
-      cp.push_back(Values::makeCV(color, position + v));
+      cp.push_back(Values::makeCV(color, position + v, Values::Depth::PROJECTILES));
     }
 
     renderer.addCenteredPoly(cp);
@@ -105,7 +105,8 @@ namespace entity
           Values::random(8, 25), Values::random(-0.1, 0.1),
           Values::random(-0.1, 0.1), Values::random(50, 80),
           Values::Color{0.0f, 0.0f, 0.0f, 0.4f},
-          Values::Color{0.0f, 0.0f, 0.0f, 0.0f}
+          Values::Color{0.0f, 0.0f, 0.0f, 0.0f},
+          Values::Depth::UPPER_SMOKE
       ));
     }
 

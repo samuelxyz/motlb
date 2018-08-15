@@ -49,6 +49,7 @@ namespace entity
 
     Unit::render(renderer);
 
+    // draw emblem: dark front side
     double halfWidth = box.getWidth() / 2;
     double halfHeight = box.getHeight() / 2;
 
@@ -56,7 +57,7 @@ namespace entity
         halfWidth * 0.4, halfWidth, -halfHeight, halfHeight);
 
     renderer.addQuad(Values::makeQuad(
-        Values::Color { 0.0f, 0.0f, 0.0f, 0.2f }, shape));
+        Values::Color { 0.0f, 0.0f, 0.0f, 0.2f }, shape, Values::Depth::EMBLEMS));
   }
 
   void Shield::checkBlock()

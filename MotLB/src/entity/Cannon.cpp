@@ -42,10 +42,12 @@ namespace entity
       return;
 
     Unit::render(renderer);
+
+    // draw emblem
     Values::Color color = { 0.0f, 0.0f, 0.0f, 0.2f };
 
     Values::CenteredPoly cp;
-    cp.push_back(Values::makeCV(color, box.position));
+    cp.push_back(Values::makeCV(color, box.position, Values::Depth::EMBLEMS));
 
     constexpr double dotRadius = 6;
     constexpr unsigned int numPoints = 18;
@@ -53,7 +55,7 @@ namespace entity
     {
       geometry::Vec2 v;
       v.setPolar(dotRadius, Values::TWO_PI * i/numPoints);
-      cp.push_back(Values::makeCV(color, box.position + v));
+      cp.push_back(Values::makeCV(color, box.position + v, Values::Depth::EMBLEMS));
     }
 
     renderer.addCenteredPoly(cp);
@@ -86,7 +88,8 @@ namespace entity
       battle->add(new Smoke(battle, smokePos, smokeVel, i+6, 0,
           Values::random(-0.1, 0.1), 30,
           Values::Color { 0.0f, 0.0f, 0.0f, 0.1f },
-          Values::Color { 0.0f, 0.0f, 0.0f, 0.0f }
+          Values::Color { 0.0f, 0.0f, 0.0f, 0.0f },
+          Values::Depth::UPPER_SMOKE
       ));
     }
   }

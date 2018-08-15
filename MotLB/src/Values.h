@@ -25,25 +25,28 @@ class Values
                             TWO_PI  = 6.283185307179586,
                             HALF_PI = 1.570796326794897;
 
+    struct Depth
+    { // kind of like a namespace substitution hack workaround thingy
+      static constexpr float
+      BACKGROUND  = 0.0f,
+      LOWER_SMOKE = 0.2f, // problem is that transparent things
+      UPPER_SMOKE = 0.2f, // also write to the depth buffer hmm
+      FLASHES     = 0.2f,
+      UNITS       = 0.2f,
+      EMBLEMS     = 0.2f,
+      PROJECTILES = 0.2f,
+      TOP         = 1.0f;
+    };
+
     struct Color
     {
         float r, g, b, a;
     };
 
-//    const Color& operator*(const double& d, const Color& c)
-//    {
-//      return Color { c.r * d, c.g * d, c.b * d, c.a * d };
-//    }
-//
-//    const Color& operator*(const Color& c, const double& d)
-//    {
-//      return d * c;
-//    }
-
     struct ColoredVertex
     {
         Color color;
-        float x, y;
+        float x, y, z;
     };
 
     // For initialization: Shape s {{ }}; or Shape s = { }; because of how std::array is
@@ -51,18 +54,19 @@ class Values
     typedef std::array<ColoredVertex, 4> Quad; // shape with four corners
     typedef std::vector<ColoredVertex> CenteredPoly; // shape with corners > 4
 
-    static ColoredVertex makeCV(const Color& color, const geometry::Vec2& position)
+    static ColoredVertex makeCV(const Color& color, const geometry::Vec2& position, float z)
     {
       ColoredVertex cv
       {
         color,
         static_cast<float>(position.getX()),
-        static_cast<float>(position.getY())
+        static_cast<float>(position.getY()),
+        z
       };
       return cv;
     }
 
-    static Quad makeQuad(const Color& color, const geometry::Box& box)
+    static Quad makeQuad(const Color& color, const geometry::Box& box, float z)
     {
       std::array<geometry::Vec2, 4> vertices;
       box.absCorners(vertices);
@@ -71,7 +75,7 @@ class Values
 
       for (unsigned int i = 0; i < 4; i++)
       {
-        quad[i] = makeCV( color, vertices[i]);
+        quad[i] = makeCV( color, vertices[i], z);
       }
 
       return quad;

@@ -76,7 +76,8 @@ namespace entity
           Values::random(5, 10), 0, 0,
           Values::random(30, 60),
           Values::Color { 0.0f, 0.0f, 0.0f, 0.2f },
-          Values::Color { 0.0f, 0.0f, 0.0f, 0.0f }
+          Values::Color { 0.0f, 0.0f, 0.0f, 0.0f },
+          Values::Depth::LOWER_SMOKE
       ));
     }
 
@@ -99,10 +100,10 @@ namespace entity
 
     Unit::render(renderer);
 
-    // double lines
-
+    // draw emblem: double lines
     double boxHalfWidth = box.getWidth() * 0.1;
     double boxHalfHeight = box.getHeight() * 0.3;
+    Values::Color color { 0.0f, 0.0f, 0.0f, 0.2f };
 
     geometry::Vec2 dx;
     dx.setPolar(boxHalfWidth * 2, box.angle + Values::HALF_PI);
@@ -112,8 +113,8 @@ namespace entity
     geometry::Box left  = geometry::Box(box.position - dx, box.angle + Values::HALF_PI,
         -boxHalfWidth, boxHalfWidth, -boxHalfHeight, boxHalfHeight);
 
-    renderer.addQuad(Values::makeQuad(Values::Color { 0.0f, 0.0f, 0.0f, 0.2f }, right));
-    renderer.addQuad(Values::makeQuad(Values::Color { 0.0f, 0.0f, 0.0f, 0.2f }, left ));
+    renderer.addQuad(Values::makeQuad(color, right, Values::Depth::EMBLEMS));
+    renderer.addQuad(Values::makeQuad(color, left,  Values::Depth::EMBLEMS));
   }
 
 } /* namespace entity */

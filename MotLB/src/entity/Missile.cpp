@@ -72,7 +72,8 @@ namespace entity
       vel.setPolar(0.1, Values::random(0, Values::TWO_PI));
 
       battle->add(new Smoke(battle, position + dx, vel,
-          6, -0.15, Values::random(-0.1, 0.1), 24, start, end));
+          6, -0.15, Values::random(-0.1, 0.1), 24, start, end,
+          Values::Depth::UPPER_SMOKE));
     }
   }
 
@@ -89,9 +90,9 @@ namespace entity
 
     Values::Triangle flame
     {{
-      Values::makeCV(baseColor, position - 6 * forward + 2.5 * right),
-      Values::makeCV(baseColor, position - 6 * forward - 2.5 * right),
-      Values::makeCV(tailColor, position - (6 + 0.5*renderLength) * forward)
+      Values::makeCV(baseColor, position - 6 * forward + 2.5 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(baseColor, position - 6 * forward - 2.5 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(tailColor, position - (6 + 0.5*renderLength) * forward, Values::Depth::PROJECTILES)
     }};
 
     renderer.addTriangle(flame);
@@ -104,19 +105,19 @@ namespace entity
 
     Values::Quad body
     {{
-      Values::makeCV(bodyColor, position + 5 * forward + 3 * right),
-      Values::makeCV(bodyColor, position + 5 * forward - 3 * right),
-      Values::makeCV(bodyColor, position - 4 * forward - 3 * right),
-      Values::makeCV(bodyColor, position - 4 * forward + 3 * right)
+      Values::makeCV(bodyColor, position + 5 * forward + 3 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(bodyColor, position + 5 * forward - 3 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(bodyColor, position - 4 * forward - 3 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(bodyColor, position - 4 * forward + 3 * right, Values::Depth::PROJECTILES)
     }};
 
     renderer.addQuad(body);
 
     Values::Triangle nosecone
     {{
-      Values::makeCV(bodyColor, position + 5 * forward + 3 * right),
-      Values::makeCV(bodyColor, position + 5 * forward - 3 * right),
-      Values::makeCV(bodyColor, position + 10 * forward)
+      Values::makeCV(bodyColor, position + 5 * forward + 3 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(bodyColor, position + 5 * forward - 3 * right, Values::Depth::PROJECTILES),
+      Values::makeCV(bodyColor, position + 10 * forward, Values::Depth::PROJECTILES)
     }};
 
     renderer.addTriangle(nosecone);

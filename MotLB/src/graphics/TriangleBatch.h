@@ -21,8 +21,7 @@ namespace graphics
   class TriangleBatch
   {
     public:
-      static constexpr unsigned short FLOATS_PER_QUAD = 24;
-      static constexpr unsigned short FLOATS_PER_VERTEX = 6;
+      static constexpr unsigned short FLOATS_PER_VERTEX = 7;
 
     private:
       const unsigned int maxVertices;

@@ -40,13 +40,15 @@ namespace entity
 
     Unit::render(renderer);
 
+    // draw emblem
     geometry::Vec2 v;
     v.setPolar(5, box.angle);
+
     Values::Color color { 0.0f, 0.0f, 0.0f, 0.2f };
     Values::Triangle tri;
     for (unsigned int i = 0; i < 3; ++i)
     {
-      tri[i] = Values::makeCV(color, getPosition() + v);
+      tri[i] = Values::makeCV(color, getPosition() + v, Values::Depth::EMBLEMS);
       v.rotateBy(Values::TWO_PI / 3);
     }
     renderer.addTriangle(tri);

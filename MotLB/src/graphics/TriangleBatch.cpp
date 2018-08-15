@@ -22,7 +22,7 @@ namespace graphics
     iData(new GLuint[iLength]), vData(new float[vLength])
   {
     vertexArray.addAttribute("color", GL_FLOAT, 4);
-    vertexArray.addAttribute("position", GL_FLOAT, 2);
+    vertexArray.addAttribute("position", GL_FLOAT, 3);
     vertexArray.applyAttributesWithBuffer(vertexBuffer, shaderProgram);
 
     indexBuffer.forceBind();
@@ -48,6 +48,7 @@ namespace graphics
 
       vData[vIndex++] = vertex.x;
       vData[vIndex++] = vertex.y;
+      vData[vIndex++] = vertex.z;
     }
 
     iData[iIndex++] = vertexCount + 0;
@@ -74,6 +75,7 @@ namespace graphics
 
       vData[vIndex++] = vertex.x;
       vData[vIndex++] = vertex.y;
+      vData[vIndex++] = vertex.z;
     }
 
     // do index buffer, two triangles
@@ -107,6 +109,7 @@ namespace graphics
 
       vData[vIndex++] = vertex.x;
       vData[vIndex++] = vertex.y;
+      vData[vIndex++] = vertex.z;
     }
 
     // do index buffer - this is the tricky part

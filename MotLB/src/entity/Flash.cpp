@@ -117,17 +117,15 @@ namespace entity
     Values::Color eColor(edgeColor);
     eColor.a = edgeColor.a * timer/lifetime;
 
-    cp.push_back( Values::makeCV(
-        cColor,
-        position
-    ));
+    cp.push_back( Values::makeCV(cColor, position, Values::Depth::FLASHES));
 
     for (unsigned int i = 0; i < numPoints; ++i)
     {
       cp.push_back( Values::makeCV(
           Values::interpolateColors(cColor, eColor,
               static_cast<float>((points[i] - position).getLength() / radius) ),
-          points[i]
+          points[i],
+          Values::Depth::FLASHES
       ));
     }
 

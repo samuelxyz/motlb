@@ -14,12 +14,13 @@ namespace entity
 
   Smoke::Smoke(Battle* battle, geometry::Vec2 position, geometry::Vec2 velocity,
       double radius, double dr, double spin, unsigned int lifetime,
-      Values::Color start, Values::Color end)
+      Values::Color start, Values::Color end, float depth)
   : Particle(battle, Entity::Team::NEUTRAL, position, velocity, radius, lifetime),
     start(start), end(end),
     corners(),
     age(0),
-    spin(spin)
+    spin(spin),
+    depth(depth)
   {
     // some initialization stuffs, meh
     this->dr = dr;
@@ -70,10 +71,10 @@ namespace entity
     Values::Color color = Values::interpolateColors(start, end, static_cast<double>(age)/lifetime);
     Values::CenteredPoly cp;
 
-    cp.push_back(Values::makeCV(color, position));
+    cp.push_back(Values::makeCV(color, position, depth));
     for (unsigned int i = 0; i < corners.size(); ++i)
     {
-      cp.push_back(Values::makeCV(color, position + corners[i]));
+      cp.push_back(Values::makeCV(color, position + corners[i], depth));
     }
 
     renderer.addCenteredPoly(cp);

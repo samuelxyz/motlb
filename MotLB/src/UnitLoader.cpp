@@ -50,10 +50,10 @@ void UnitLoader::render(graphics::Renderer& renderer)
 
   Values::Quad quad
   {{
-    Values::makeCV( barColor, v1 - para + perp ),
-    Values::makeCV( barColor, v1 - para - perp ),
-    Values::makeCV( barColor, v2 + para - perp ),
-    Values::makeCV( barColor, v2 + para + perp )
+    Values::makeCV( barColor, v1 - para + perp, Values::Depth::BACKGROUND ),
+    Values::makeCV( barColor, v1 - para - perp, Values::Depth::BACKGROUND ),
+    Values::makeCV( barColor, v2 + para - perp, Values::Depth::BACKGROUND ),
+    Values::makeCV( barColor, v2 + para + perp, Values::Depth::BACKGROUND )
   }};
 
   renderer.addQuad(quad);
@@ -76,9 +76,9 @@ void UnitLoader::render(graphics::Renderer& renderer)
 
   Values::Triangle tri
   {{
-    Values::makeCV( triColor, midpoint + perp * 1.5  ),
-    Values::makeCV( triColor, midpoint + perp + para ),
-    Values::makeCV( triColor, midpoint + perp - para )
+    Values::makeCV( triColor, midpoint + perp * 1.5,  Values::Depth::TOP ),
+    Values::makeCV( triColor, midpoint + perp + para, Values::Depth::TOP ),
+    Values::makeCV( triColor, midpoint + perp - para, Values::Depth::TOP )
   }};
 
   renderer.addTriangle(tri);

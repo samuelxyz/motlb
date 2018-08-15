@@ -63,7 +63,7 @@ namespace entity
   void Unit::render(graphics::Renderer& renderer) const
   {
     if (active)
-      renderer.addQuad(Values::makeQuad(getTeamColor(team), box));
+      renderer.addQuad(Values::makeQuad(getTeamColor(team), box, Values::Depth::UNITS));
   }
 
   void Unit::receiveAttack(const double damage, const geometry::Vec2 impulse)
@@ -291,7 +291,8 @@ namespace entity
       Values::Color endColor(startColor);
       endColor.a = 0.0f;
 
-      battle->add(new Smoke(battle, pos, baseVel + randVel, radius, dr, spin, lifetime, startColor, endColor));
+      battle->add(new Smoke(battle, pos, baseVel + randVel, radius, dr,
+          spin, lifetime, startColor, endColor, Values::Depth::LOWER_SMOKE));
     }
   }
 

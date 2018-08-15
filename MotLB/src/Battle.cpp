@@ -113,7 +113,7 @@ void Battle::renderAll()
 //
 //  renderer.addCenteredPoly(cp);
 
-  renderer.addQuad(Values::makeQuad(backgroundColor, bounds));
+  renderer.addQuad(Values::makeQuad(backgroundColor, bounds, Values::Depth::BACKGROUND));
 
   for (auto* p : particles)
   {

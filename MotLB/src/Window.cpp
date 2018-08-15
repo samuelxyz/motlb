@@ -81,6 +81,9 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   glLineWidth(1);
 
   glEnable(GL_MULTISAMPLE);
+
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LEQUAL);
 }
 
 Window::~Window()

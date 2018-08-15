@@ -18,7 +18,7 @@ namespace entity
     public:
       Smoke(Battle*, geometry::Vec2 position, geometry::Vec2 velocity,
           double radius, double dr, double spin, unsigned int lifetime,
-          Values::Color start, Values::Color end);
+          Values::Color start, Values::Color end, float depth);
       virtual ~Smoke();
 
       virtual void update() override;
@@ -29,6 +29,7 @@ namespace entity
       std::vector<geometry::Vec2> corners;
       unsigned int age;
       double spin;
+      float depth;
   };
 
 } /* namespace entity */

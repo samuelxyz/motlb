@@ -36,6 +36,7 @@ namespace entity
 
     Unit::render(renderer);
 
+    // draw emblem
     geometry::Vec2 forward;
     forward.setPolar(4, box.angle);
 
@@ -46,10 +47,10 @@ namespace entity
 
     Values::Quad quad
     {{
-      Values::makeCV( color, box.position + 0.5*forward + forward   ),
-      Values::makeCV( color, box.position + 0.5*forward + right     ),
-      Values::makeCV( color, box.position + 0.5*forward - 2*forward ),
-      Values::makeCV( color, box.position + 0.5*forward - right     )
+      Values::makeCV( color, box.position + 0.5*forward + forward,   Values::Depth::EMBLEMS),
+      Values::makeCV( color, box.position + 0.5*forward + right,     Values::Depth::EMBLEMS),
+      Values::makeCV( color, box.position + 0.5*forward - 2*forward, Values::Depth::EMBLEMS),
+      Values::makeCV( color, box.position + 0.5*forward - right,     Values::Depth::EMBLEMS)
     }};
 
     renderer.addQuad(quad);

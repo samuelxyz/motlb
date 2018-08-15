@@ -40,8 +40,9 @@ namespace entity
 
   void ShieldEffect::render(graphics::Renderer& renderer) const
   {
-    Values::Color color = Values::interpolateColors(startColor, endColor, static_cast<double>(timer)/lifetime);
-    renderer.addQuad(Values::makeQuad(color, box));
+    Values::Color color = Values::interpolateColors(
+        startColor, endColor, static_cast<double>(timer)/lifetime);
+    renderer.addQuad(Values::makeQuad(color, box, Values::Depth::EMBLEMS));
   }
 
   geometry::Vec2 ShieldEffect::getPosition() const

@@ -39,6 +39,7 @@ namespace entity
 
     Unit::render(renderer);
 
+    // draw emblem
     geometry::Vec2 forward;
     forward.setPolar(1, box.angle);
 
@@ -49,18 +50,18 @@ namespace entity
 
     Values::Quad quad
     {{
-      Values::makeCV( color, box.position + 3*forward + 3*right ),
-      Values::makeCV( color, box.position + 3*forward - 3*right ),
-      Values::makeCV( color, box.position - 6*forward - 3*right ),
-      Values::makeCV( color, box.position - 6*forward + 3*right )
+      Values::makeCV( color, box.position + 3*forward + 3*right, Values::Depth::EMBLEMS ),
+      Values::makeCV( color, box.position + 3*forward - 3*right, Values::Depth::EMBLEMS ),
+      Values::makeCV( color, box.position - 6*forward - 3*right, Values::Depth::EMBLEMS ),
+      Values::makeCV( color, box.position - 6*forward + 3*right, Values::Depth::EMBLEMS )
     }};
     renderer.addQuad(quad);
 
     Values::Triangle tri
     {{
-      Values::makeCV( color, box.position + 3*forward + 3*right ),
-      Values::makeCV( color, box.position + 3*forward - 3*right ),
-      Values::makeCV( color, box.position + 7*forward )
+      Values::makeCV( color, box.position + 3*forward + 3*right, Values::Depth::EMBLEMS ),
+      Values::makeCV( color, box.position + 3*forward - 3*right, Values::Depth::EMBLEMS ),
+      Values::makeCV( color, box.position + 7*forward, Values::Depth::EMBLEMS)
     }};
     renderer.addTriangle(tri);
 
