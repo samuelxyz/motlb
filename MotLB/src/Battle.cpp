@@ -8,7 +8,7 @@
 #include "Battle.h"
 
 #include <GLFW/glfw3.h>
-#include <projectile/Missile.h>
+#include <projectile/Projectile.h>
 #include <stddef.h>
 #include <Vec2.h>
 #include <iterator>
@@ -272,6 +272,9 @@ void Battle::handleKeypress(int key, int action)
       case GLFW_KEY_I:
         selectedUnitType = UnitType::RACER;
         break;
+      case GLFW_KEY_O:
+        selectedUnitType = UnitType::ACE;
+        break;
 
       case GLFW_KEY_A:
         selectedAction = BattleAction::DELETE;
@@ -449,6 +452,9 @@ void Battle::updateWindowTitle()
           case UnitType::RACER:
             msg += "racer";
             break;
+          case UnitType::ACE:
+            msg += "ace";
+            break;
           default:
             msg += "[unknown unit type]";
             break;
@@ -482,6 +488,9 @@ void Battle::updateWindowTitle()
             break;
           case UnitType::RACER:
             msg += "racers";
+            break;
+          case UnitType::ACE:
+            msg += "aces";
             break;
           default:
             msg += "[unknown unit type]s";

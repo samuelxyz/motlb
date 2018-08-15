@@ -5,7 +5,7 @@
  *      Author: Samuel Tan
  */
 
-#include <Cannonball.h>
+#include <projectile/Cannonball.h>
 #include <Entity.h>
 #include <particle/Smoke.h>
 #include <Renderer.h>

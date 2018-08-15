@@ -28,7 +28,7 @@ namespace entity
 
       virtual void update() override;
       virtual void render(graphics::Renderer&) const override;
-      void receiveAttack(const double, const geometry::Vec2);
+      virtual void receiveAttack(const double, const geometry::Vec2);
       void receiveImpulse(const geometry::Vec2);
 
       void resurrect();

@@ -80,7 +80,8 @@ class Battle
         RAILGUN,
         GIANT,
         SHIELD,
-        RACER
+        RACER,
+        ACE
     } selectedUnitType;
     enum class BattleAction
     {

@@ -10,12 +10,14 @@
 #include <Box.h>
 #include <Entity.h>
 #include <Renderer.h>
+#include <unit/Ace.h>
 #include <unit/Cannon.h>
 #include <unit/Giant.h>
 #include <unit/Launcher.h>
 #include <unit/Racer.h>
 #include <unit/Railgun.h>
 #include <unit/Shield.h>
+
 #include "Battle.h"
 #include "Values.h"
 
@@ -235,6 +237,8 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
       return new entity::Shield  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     case Battle::UnitType::RACER:
       return new entity::Racer   (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
+    case Battle::UnitType::ACE:
+      return new entity::Ace     (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
     default:
       return nullptr; // battle can handle this
   }
