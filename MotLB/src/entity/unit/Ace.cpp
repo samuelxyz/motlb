@@ -38,7 +38,7 @@ namespace entity
 
     // draw emblem: centered square
     renderer.addQuad(Values::makeQuad(
-        Values::Color { 0.0f, 0.0f, 0.0f, 0.2f }, geometry::Box(box, 0.6), Values::Depth::EMBLEMS));
+        Values::Color { 0.0f, 0.0f, 0.0f, 0.2f }, geometry::Box(box, 0.67), Values::Depth::EMBLEMS));
   }
 
   void Ace::receiveAttack(const double damage,
@@ -57,7 +57,7 @@ namespace entity
     Values::Color edgeColor = centerColor;
     edgeColor.a = 0;
 
-    battle->add(new Flash(battle, position, 60, 0, centerColor, edgeColor, 30));
+    battle->add(new Flash(battle, getPosition(), 120, 0, centerColor, edgeColor, 60));
 
     active = false;
   }

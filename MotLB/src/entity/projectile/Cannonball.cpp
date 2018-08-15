@@ -70,7 +70,7 @@ namespace entity
 
   void Cannonball::hit(Unit& u)
   {
-    u.receiveAttack(damage, inertia * velocity);
+//    u.receiveAttack(damage, inertia * velocity);
     explode();
   }
 
