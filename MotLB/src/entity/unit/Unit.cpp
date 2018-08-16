@@ -235,10 +235,10 @@ namespace entity
     geometry::Vec2 dx = battle->getBounds().contain(box);
     box.position += dx;
 
-    if (dx.getX())
-      velocity.setRect(0, velocity.getY());
-    if (dx.getY())
-      velocity.setRect(velocity.getX(), 0);
+    if (dx.x)
+      velocity.x = 0;
+    if (dx.y)
+      velocity.y = 0;
   }
 
   void Unit::attack()

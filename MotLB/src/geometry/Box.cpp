@@ -27,10 +27,10 @@ namespace geometry
 
   Box::Box(geometry::Vec2 corner1, geometry::Vec2 corner2)
   : position(0.5*(corner1 + corner2)), angle(0),
-    xMin(std::min(corner1.getX(), corner2.getX()) - position.getX()),
-    xMax(std::max(corner1.getX(), corner2.getX()) - position.getX()),
-    yMin(std::min(corner1.getY(), corner2.getY()) - position.getY()),
-    yMax(std::max(corner1.getY(), corner2.getY()) - position.getY())
+    xMin(std::min(corner1.x, corner2.x) - position.x),
+    xMax(std::max(corner1.x, corner2.x) - position.x),
+    yMin(std::min(corner1.y, corner2.y) - position.y),
+    yMax(std::max(corner1.y, corner2.y) - position.y)
   {
   }
 
@@ -96,12 +96,12 @@ namespace geometry
     point = toRelative(point);
 
     // which X side is closer?
-    minDistX = ( abs(xMax - point.getX()) < abs(xMin - point.getX()) )
-        ? xMax - point.getX() : xMin - point.getX(); // signs will reflect direction
+    minDistX = ( abs(xMax - point.x) < abs(xMin - point.x) )
+        ? xMax - point.x : xMin - point.x; // signs will reflect direction
 
     // which Y side is closer?
-    minDistY = ( abs(yMax - point.getY()) < abs(yMin - point.getY()) )
-        ? yMax - point.getY() : yMin - point.getY();
+    minDistY = ( abs(yMax - point.y) < abs(yMin - point.y) )
+        ? yMax - point.y : yMin - point.y;
 
     // is X or Y closer?
     return (abs(minDistX) > abs(minDistY))?
@@ -131,8 +131,8 @@ namespace geometry
 
   bool Box::containsRel(geometry::Vec2 point) const
   {
-    return xMin <= point.getX() && point.getX() <= xMax &&
-        yMin <= point.getY() && point.getY() <= yMax;
+    return xMin <= point.x && point.x <= xMax &&
+        yMin <= point.y && point.y <= yMax;
   }
 
   /*static*/ void Box::relCorners(std::array<geometry::Vec2, 4>& toFill) const
@@ -198,13 +198,13 @@ namespace geometry
 
     // test for overlap along this box's x axis
     double otherXMax = std::max(
-        std::max(corners[0].getX(), corners[1].getX()),
-        std::max(corners[2].getX(), corners[3].getX())
+        std::max(corners[0].x, corners[1].x),
+        std::max(corners[2].x, corners[3].x)
     );
 
     double otherXMin = std::min(
-        std::min(corners[0].getX(), corners[1].getX()),
-        std::min(corners[2].getX(), corners[3].getX())
+        std::min(corners[0].x, corners[1].x),
+        std::min(corners[2].x, corners[3].x)
     );
 
     geometry::Vec2 xMove(
@@ -218,13 +218,13 @@ namespace geometry
 
     // now test along y axis
     double otherYMax = std::max(
-            std::max(corners[0].getY(), corners[1].getY()),
-            std::max(corners[2].getY(), corners[3].getY())
+            std::max(corners[0].y, corners[1].y),
+            std::max(corners[2].y, corners[3].y)
         );
 
     double otherYMin = std::min(
-        std::min(corners[0].getY(), corners[1].getY()),
-        std::min(corners[2].getY(), corners[3].getY())
+        std::min(corners[0].y, corners[1].y),
+        std::min(corners[2].y, corners[3].y)
     );
 
     geometry::Vec2 yMove(
@@ -281,20 +281,20 @@ namespace geometry
 //    geometry::Vec2 finalShortest;
 //
 //    // consider movement +y
-//    finalShortest.setRect(0, yMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, -1)).getY());
+//    finalShortest.setRect(0, yMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, -1)).y);
 //
 //    // -y
-//    candidateShortest.setRect(0, yMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, 1)).getY());
+//    candidateShortest.setRect(0, yMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(0, 1)).y);
 //    if (candidateShortest < finalShortest)
 //      finalShortest = candidateShortest;
 //
 //    // +x
-//    candidateShortest.setRect(xMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(-1, 0)).getX(), 0);
+//    candidateShortest.setRect(xMax - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(-1, 0)).x, 0);
 //    if (candidateShortest < finalShortest)
 //      finalShortest = candidateShortest;
 //
 //    // -x
-//    candidateShortest.setRect(xMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(1, 0)).getX(), 0);
+//    candidateShortest.setRect(xMin - geometry::Vec2::mostExtreme(inCorners, geometry::Vec2(1, 0)).x, 0);
 //    if (candidateShortest < finalShortest)
 //      finalShortest = candidateShortest;
 //
@@ -314,35 +314,35 @@ namespace geometry
       c = toRelative(c);
 
       // x
-      if (c.getX() > xMax)
+      if (c.x > xMax)
       {
-        if (res.getX() > 0)
+        if (res.x > 0)
           return geometry::Vec2(); // can't fit
-        else if (xMax - c.getX() < res.getX())
-          res.setRect(xMax - c.getX(), res.getY());
+        else if (xMax - c.x < res.x)
+          res.x = xMax - c.x;
       }
-      else if (c.getX() < xMin)
+      else if (c.x < xMin)
       {
-        if (res.getX() < 0)
+        if (res.x < 0)
           return geometry::Vec2(); // can't fit
-        else if (xMin - c.getX() > res.getX())
-          res.setRect(xMin - c.getX(), res.getY());
+        else if (xMin - c.x > res.x)
+          res.x = xMin - c.x;
       }
 
       // y
-      if (c.getY() > yMax)
+      if (c.y > yMax)
       {
-        if (res.getY() > 0)
+        if (res.y > 0)
           return geometry::Vec2(); // can't fit
-        if (yMax - c.getY() < res.getY())
-          res.setRect(res.getX(), yMax - c.getY());
+        if (yMax - c.y < res.y)
+          res.y = yMax - c.y;
       }
-      else if (c.getY() < yMin)
+      else if (c.y < yMin)
       {
-        if (res.getY() < 0)
+        if (res.y < 0)
           return geometry::Vec2(); // can't fit
-        if (yMin - c.getY() > res.getY())
-          res.setRect(res.getX(), yMin - c.getY());
+        if (yMin - c.y > res.y)
+          res.y = yMin - c.y;
       }
     }
 

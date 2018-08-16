@@ -21,33 +21,8 @@ namespace graphics
   : programID(glCreateProgram())
   {
 //    parseShaders(filepath);
-    vertexShaderSource = R"rawstring(
-#version 330 core
 
-in vec4 position;
-in vec4 color;
-out vec4 vo_color;
-
-uniform mat4 u_projMatrix;
-
-void main()
-{
-    gl_Position = u_projMatrix * position;
-    vo_color = color;
-}
-)rawstring";
-    fragmentShaderSource = R"rawstring(
-#version 330 core
-
-in vec4 vo_color;
-out vec4 color;
-
-void main()
-{
-    color = vo_color;
-}
-)rawstring";
-
+    writeShaders();
     vertexShaderID = compileShader(GL_VERTEX_SHADER, vertexShaderSource);
     fragmentShaderID = compileShader(GL_FRAGMENT_SHADER, fragmentShaderSource);
 
@@ -140,6 +115,42 @@ void main()
     }
 
     return shader;
+  }
+
+  void ShaderProgram::writeShaders()
+  {
+    /////////////////////////////////
+
+    vertexShaderSource = R"rawstring(
+#version 330 core
+
+in vec4 position;
+in vec4 color;
+out vec4 vo_color;
+
+uniform mat4 u_projMatrix;
+
+void main()
+{
+    gl_Position = u_projMatrix * position;
+    vo_color = color;
+}
+    )rawstring";
+
+    ///////////////////////////////////
+
+    fragmentShaderSource = R"rawstring(
+#version 330 core
+
+in vec4 vo_color;
+out vec4 color;
+
+void main()
+{
+    color = vo_color;
+}
+    )rawstring";
+    /////////////////////////////////
   }
 
   GLint ShaderProgram::getUniformLocation(const std::string& uniformName)

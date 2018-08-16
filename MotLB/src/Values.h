@@ -60,8 +60,8 @@ class Values
       ColoredVertex cv
       {
         color,
-        static_cast<float>(position.getX()),
-        static_cast<float>(position.getY()),
+        static_cast<float>(position.x),
+        static_cast<float>(position.y),
         z
       };
       return cv;

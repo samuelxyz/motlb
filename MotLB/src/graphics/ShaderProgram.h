@@ -39,6 +39,7 @@ namespace graphics
 
     private:
       void parseShaders(const std::string& filepath);
+      void writeShaders();
       static GLuint compileShader(GLenum type, std::string& source);
       GLint getUniformLocation(const std::string& uniformName);
   };

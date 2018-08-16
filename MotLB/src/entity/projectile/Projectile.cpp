@@ -145,7 +145,7 @@ namespace entity
     {
       geometry::Vec2 vel(velocity);
       vel.rotateBy(-normalAngle);
-      vel.setRect(-vel.getX(), vel.getY());
+      vel.x *= -1;
       vel.rotateBy(normalAngle + randomAngle);
 
       if (blockingBehavior == BlockingBehavior::EXPLODE_AND_REBOUND)
