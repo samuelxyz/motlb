@@ -27,7 +27,7 @@ namespace graphics
        -1.0f, 1.0f);
 
     shaderProgram.bind();
-    shaderProgram.setUniformMat4f("u_projMatrix", projMatrix);
+    shaderProgram.setUniformMat4f("u_projMatrix", projMatrix); // @suppress("Invalid arguments")
   }
 
   Renderer::~Renderer()
