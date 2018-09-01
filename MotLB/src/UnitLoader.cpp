@@ -20,6 +20,7 @@
 
 #include "Battle.h"
 #include "Values.h"
+#include "Window.h"
 
 UnitLoader::UnitLoader(Battle& battle)
 : battle(battle), stagedUnits(), count(1),
@@ -35,54 +36,67 @@ UnitLoader::~UnitLoader()
 
 void UnitLoader::render(graphics::Renderer& renderer)
 {
-  if (!lineStarted)
-    return;
+  // two modes: clicking for second point, and preview mode
 
-  // draw line/bar thing
+  if (alreadyClicked)
+  {
+    drawBar(renderer, v1, battle.window->getMousePos());
+  }
+  else if (lineStarted)
+  {
+    // draw line/bar thing
+    drawBar(renderer, v1, v2);
 
+    // render unit previews
+    for (entity::Unit* u : stagedUnits)
+    {
+      if (u) // make() returns nullptr if battle.selectedUnitType is unknown
+        u->render(renderer);
+    }
+
+    // draw arrow
+
+    geometry::Vec2 midpoint = (v1 + v2) * 0.5;
+    geometry::Vec2 para(v2 - v1);
+    geometry::Vec2 perp(facing);
+    perp.scaleTo(30);
+    para.scaleTo(20);
+
+    Values::Color triColor(
+        entity::Entity::getTeamColor(battle.selectedTeam));
+
+    Values::Triangle tri
+    {{
+      Values::makeCV( triColor, midpoint + perp * 1.5,  Values::Depth::TOP ),
+      Values::makeCV( triColor, midpoint + perp + para, Values::Depth::TOP ),
+      Values::makeCV( triColor, midpoint + perp - para, Values::Depth::TOP )
+    }};
+
+    renderer.addTriangle(tri);
+  }
+}
+
+void UnitLoader::drawBar(graphics::Renderer& renderer,
+    geometry::Vec2 start, geometry::Vec2 end) const
+{
   constexpr double halfThickness = 5;
+  const Values::Color barColor { 1.0f, 1.0f, 1.0f, 0.3f };
 
-  geometry::Vec2 para(v2 - v1);
+  geometry::Vec2 para(end - start);
   para.scaleTo(halfThickness);
-  geometry::Vec2 perp(facing);
+  geometry::Vec2 perp(para);
+  perp.rotateBy(Values::HALF_PI);
   perp.scaleTo(halfThickness);
-
-  Values::Color barColor { 1.0f, 1.0f, 1.0f, 0.3f };
 
   Values::Quad quad
   {{
-    Values::makeCV( barColor, v1 - para + perp, Values::Depth::BACKGROUND ),
-    Values::makeCV( barColor, v1 - para - perp, Values::Depth::BACKGROUND ),
-    Values::makeCV( barColor, v2 + para - perp, Values::Depth::BACKGROUND ),
-    Values::makeCV( barColor, v2 + para + perp, Values::Depth::BACKGROUND )
+    Values::makeCV( barColor, start - para + perp, Values::Depth::BACKGROUND ),
+    Values::makeCV( barColor, start - para - perp, Values::Depth::BACKGROUND ),
+    Values::makeCV( barColor, end   + para - perp, Values::Depth::BACKGROUND ),
+    Values::makeCV( barColor, end   + para + perp, Values::Depth::BACKGROUND )
   }};
 
   renderer.addQuad(quad);
-
-  // render unit previews
-  for (entity::Unit* u : stagedUnits)
-  {
-    if (u) // make() returns nullptr if battle.selectedUnitType is unknown
-      u->render(renderer);
-  }
-
-  // draw arrow
-
-  geometry::Vec2 midpoint = (v1 + v2) * 0.5;
-  perp.scaleTo(30);
-  para.scaleTo(20);
-
-  Values::Color triColor(
-      entity::Entity::getTeamColor(battle.selectedTeam));
-
-  Values::Triangle tri
-  {{
-    Values::makeCV( triColor, midpoint + perp * 1.5,  Values::Depth::TOP ),
-    Values::makeCV( triColor, midpoint + perp + para, Values::Depth::TOP ),
-    Values::makeCV( triColor, midpoint + perp - para, Values::Depth::TOP )
-  }};
-
-  renderer.addTriangle(tri);
 }
 
 void UnitLoader::flip()

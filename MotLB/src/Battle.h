@@ -44,7 +44,7 @@ class Battle
     void healAllIfAlive();
 
     void handleKeypress(int key, int action);
-    void handleMouseClick(int button, int action, double x, double y);
+    void handleMouseClick(int button, int action);
 
     const geometry::Box& getBounds() const;
 

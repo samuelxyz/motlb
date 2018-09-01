@@ -119,14 +119,15 @@ void Window::handleMouseButton(GLFWwindow* window, int button, int action,
 {
   Battle* battle = ((Window*)glfwGetWindowUserPointer(window))->battle;
   if (battle)
-  {
-    double x, y;
-    glfwGetCursorPos(window, &x, &y);
-    y = Values::BATTLE_HEIGHT - y; // GLFW y-axis is positive downward
-                                   // but MOTLB is positive upward
+    battle->handleMouseClick(button, action);
+}
 
-    battle->handleMouseClick(button, action, x, y);
-  }
+geometry::Vec2 Window::getMousePos() const
+{
+  double x, y;
+  glfwGetCursorPos(window, &x, &y);
+  y = Values::BATTLE_HEIGHT - y;
+  return geometry::Vec2(x, y);
 }
 
 void Window::setBattle(Battle* b)

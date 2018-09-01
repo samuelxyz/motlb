@@ -42,6 +42,8 @@ class UnitLoader
     entity::Unit* make(geometry::Vec2 position, double angle);
     void startLine(geometry::Vec2 start, geometry::Vec2 end);
     void clearStagedUnits();
+    void drawBar(graphics::Renderer& renderer,
+        geometry::Vec2 start, geometry::Vec2 end) const;
 
     Battle& battle;
     std::vector<entity::Unit*> stagedUnits;

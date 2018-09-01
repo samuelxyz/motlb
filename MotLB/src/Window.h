@@ -13,6 +13,7 @@
 #include <string>
 
 class Battle;
+namespace geometry { struct Vec2; }
 
 class Window
 {
@@ -37,6 +38,7 @@ class Window
           GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
     static void handleKey(GLFWwindow*, int key, int scancode, int action, int mods);
     static void handleMouseButton(GLFWwindow*, int button, int action, int mods);
+    geometry::Vec2 getMousePos() const;
 
     GLFWwindow* getGLFWwindow() const { return window; }
 };

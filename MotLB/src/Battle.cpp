@@ -351,12 +351,12 @@ void Battle::handleKeypress(int key, int action)
 
 }
 
-void Battle::handleMouseClick(int button, int action, double x, double y)
+void Battle::handleMouseClick(int button, int action)
 {
 //  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
   if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT)
   {
-    unitLoader.processClick(geometry::Vec2(x, y));
+    unitLoader.processClick(window->getMousePos());
     updateWindowTitle();
   }
 }
