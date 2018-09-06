@@ -30,6 +30,7 @@ namespace geometry
       geometry::Vec2 position;
       double angle;
 
+      geometry::Vec2 getPosition() const { return position; }
       double getWidth() const;
       double getHeight() const;
       double getLongestRadius() const;

@@ -9,7 +9,7 @@
 #define FLASH_H_
 
 #include <particle/Particle.h>
-#include <unit/Unit.h>
+#include <Box.h>
 #include <Vec2.h>
 #include <vector>
 
@@ -23,7 +23,7 @@ namespace entity
   class Flash: public Particle
   {
     private:
-      std::vector<Unit*> units;
+      std::vector<const geometry::Box*> boxes;
       Values::Color centerColor, edgeColor;
       double radius;
       double dr;
@@ -37,7 +37,7 @@ namespace entity
       void render(graphics::Renderer&) const override;
 
     private:
-      void findRelevantUnits();
+      void findRelevantBoxes();
 
   };
 
