@@ -57,7 +57,7 @@ namespace entity
 
         battle->add(new Flash
         (
-            battle, u->getPosition() + dx, flashVel, Values::random(40, 60), 0,
+            battle, u->getPosition() + dx, flashVel, Values::random(60, 80), 0,
             Values::Color { 1.0f, 1.0f, 0.6f, 1.0f },
             Values::Color { 1.0f, 0.8f, 0.8f, 0.1f },
             30
@@ -90,7 +90,7 @@ namespace entity
     smokePos -= dx;
     battle->add(new Flash
     (
-        battle, smokePos, geometry::Vec2(), Values::random(40, 60), 0,
+        battle, smokePos, geometry::Vec2(), 90, 0,
         Values::Color { 1.0f, 1.0f, 0.6f, 1.0f },
         Values::Color { 1.0f, 0.8f, 0.8f, 0.1f },
         30
