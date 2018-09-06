@@ -23,13 +23,15 @@ namespace entity
   class Flash: public Particle
   {
     private:
-      std::vector<const geometry::Box*> boxes;
+      std::vector<const geometry::Box*> boxes; // will block light
+      bool obscured; // whether flash is inside an obstruction
+
       Values::Color centerColor, edgeColor;
       double radius;
       double dr;
 
     public:
-      Flash(Battle*, geometry::Vec2 position, double radius, double dr,
+      Flash(Battle*, geometry::Vec2 position, geometry::Vec2 velocity, double radius, double dr,
           Values::Color centerColor, Values::Color edgeColor, unsigned int lifetime);
       virtual ~Flash();
 

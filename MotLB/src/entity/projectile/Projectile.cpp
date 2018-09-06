@@ -112,17 +112,20 @@ namespace entity
   // only one hit
   void Projectile::hit(Unit& u)
   {
+    if (u.getVelocity() * velocity < 0)
+      explode(u.getVelocity());
+    else
+      explode();
     u.receiveAttack(damage, velocity * inertia);
-    explode();
   }
 
-  void Projectile::explode()
+  void Projectile::explode(geometry::Vec2 vel /*= Vec2()*/)
   {
     mode = Mode::FADE_OUT;
 
     Flash* flash = new Flash
     (
-        battle, position - 2*velocity, Values::random(30, 50), 0,
+        battle, position - 2*velocity, vel, 50, 0,
 //        Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
 //        Values::Color{ 1.0f, 0.8f, 0.8f, 0.1f },
         Values::Color{ 1.0f, 1.0f, 1.0f, 1.0f },

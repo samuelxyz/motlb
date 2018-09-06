@@ -37,7 +37,7 @@ namespace entity
 
       void checkHit();
       virtual void hit(Unit&);
-      virtual void explode();
+      virtual void explode(geometry::Vec2 velocity = geometry::Vec2());
       virtual void rebound(double normalAngle, double randomAngle);
 
       virtual void move() override;

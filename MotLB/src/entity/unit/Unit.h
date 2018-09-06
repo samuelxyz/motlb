@@ -23,6 +23,7 @@ namespace entity
       virtual ~Unit();
 
       geometry::Vec2 getPosition() const { return box.position; }
+      geometry::Vec2 getVelocity() const { return velocity; }
       geometry::Vec2 getAngle() const { return box.angle; }
       const geometry::Box& getBox() const { return box; }
 

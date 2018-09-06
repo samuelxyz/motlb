@@ -57,7 +57,7 @@ namespace entity
     Values::Color edgeColor = centerColor;
     edgeColor.a = 0;
 
-    battle->add(new Flash(battle, getPosition(), 120, 0, centerColor, edgeColor, 60));
+    battle->add(new Flash(battle, getPosition(), velocity, 120, 0, centerColor, edgeColor, 60));
 
     active = false;
   }

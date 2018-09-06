@@ -25,7 +25,7 @@ namespace entity
 
     protected:
       virtual void hit(Unit&) override;
-      virtual void explode() override;
+      virtual void explode(geometry::Vec2 velocity = geometry::Vec2()) override;
 
   };
 

@@ -20,10 +20,10 @@
 namespace entity
 {
 
-  Flash::Flash(Battle* battle, geometry::Vec2 position, double radius, double dr,
+  Flash::Flash(Battle* battle, geometry::Vec2 position, geometry::Vec2 velocity, double radius, double dr,
       Values::Color centerColor, Values::Color edgeColor, unsigned int lifetime)
-  : Particle(battle, Entity::Team::NEUTRAL, position, geometry::Vec2(), lifetime, Values::Depth::FLASHES),
-    boxes(),
+  : Particle(battle, Entity::Team::NEUTRAL, position, velocity, lifetime, Values::Depth::FLASHES),
+    boxes(), obscured(false),
     centerColor(centerColor), edgeColor(edgeColor), radius(radius), dr(dr)
   {
   }
@@ -42,15 +42,13 @@ namespace entity
 
   void Flash::render(graphics::Renderer& renderer) const
   {
+    if (obscured)
+      return;
+
     // figure out what shape the flash should be
 
-#ifdef MOTLB_DEBUG
-    const unsigned int numRays = radius;
-    constexpr double rStepMax = 6;
-#else
-    const unsigned int numRays = radius * 3;
-    constexpr double rStepMax = 2;
-#endif
+    const unsigned int numRays = radius/2;
+    constexpr double rStepMax = 12;
 
     if (numRays < 3)
       return; // can't render this
@@ -64,15 +62,23 @@ namespace entity
     struct Interval { double min, max; };
     std::vector<Interval> intervals;
 
+    // critical rays are rays that will exactly hit a corner of a box.
+    // Unless they're blocked by another
+    std::unordered_map<double, double> criticalRays;
+
     for (const geometry::Box* b : boxes)
     {
       std::array<geometry::Vec2, 4> corners;
       b->absCorners(corners);
 
       std::array<double, 4> boxAngles;
+      std::unordered_map<double, double> correspondingDists;
       for (unsigned int i = 0; i < 4; ++i)
-        boxAngles[i] = (corners[i]-position).getAngle();
-
+      {
+        geometry::Vec2 v = corners[i] - position;
+        boxAngles[i] = v.getAngle();
+        correspondingDists[boxAngles[i]] = v.getLength();
+      }
 
       double min = std::min(std::min(boxAngles[0], boxAngles[1]), std::min(boxAngles[2], boxAngles[3]));
       double max = std::max(std::max(boxAngles[0], boxAngles[1]), std::max(boxAngles[2], boxAngles[3]));
@@ -82,7 +88,7 @@ namespace entity
       // so each interval also can't span more than pi radians so we can tell if there's trouble
       if (max - min > Values::PI)
       {
-        // split this thing up into two intervals
+        // split into two intervals
         std::vector<double> above, below;
         for (double& ang : boxAngles)
         {
@@ -91,15 +97,25 @@ namespace entity
           else
             below.push_back(ang);
         }
-        intervals.push_back({ -Values::PI, *std::max_element(below.begin(), below.end()) });
-        intervals.push_back({  *std::min_element(above.begin(), above.end()), Values::PI });
+        Interval i1 { -Values::PI, *std::max_element(below.begin(), below.end()) };
+        Interval i2 {  *std::min_element(above.begin(), above.end()), Values::PI };
+        intervals.push_back(i1);
+        intervals.push_back(i2);
+        criticalRays[i1.max] = correspondingDists[i1.max];
+        criticalRays[i2.min] = correspondingDists[i2.min];
+        rayAngles.push_back(i1.max);
+        rayAngles.push_back(i2.min);
       }
       else
       {
         // everything's fine, no shenanigans needed
         intervals.push_back({ min, max });
+        criticalRays[min] = correspondingDists[min];
+        criticalRays[max] = correspondingDists[max];
+        rayAngles.push_back(min);
+        rayAngles.push_back(max);
       }
-    }
+    } // for (box : boxes)
 
     // add a few extra rays to "catch" any edges better
     for (Interval& interval : intervals)
@@ -113,8 +129,6 @@ namespace entity
       if (offmax > Values::PI)
         offmin -= Values::TWO_PI;
 
-      rayAngles.push_back(interval.min);
-      rayAngles.push_back(interval.max);
       rayAngles.push_back(offmin);
       rayAngles.push_back(offmax);
     }
@@ -171,7 +185,18 @@ namespace entity
           point += rStep * rayDirection;
           r += rStep;
         }
-        rays.push_back({ point, true });
+
+        if (criticalRays.find(rayAngles[i]) != criticalRays.end())
+        {
+          // this is a critical ray, it has a max radius because it's known to hit a box
+          rays.push_back({ position +
+            std::min(point-position, criticalRays[rayAngles[i]] * rayDirection) });
+        }
+        else
+        {
+          // no shenanigans
+          rays.push_back({ point, true });
+        }
       }
       else // not obstructed, don't bother tracing the ray. Just skip to the result
       {
@@ -195,11 +220,12 @@ namespace entity
       if (rays[i].obstructed && (rays[i].vec - position).getLength() - radius < 0.1) // this was supposed to hit a box! Trash it
         continue;
 
+      double length = (rays[i].vec - position).getLength();
       cp.push_back( Values::makeCV(
           Values::interpolateColors(cColor, eColor,
-              static_cast<float>((rays[i].vec - position).getLength() / radius) ),
-          rays[i].vec,
-          depth
+              static_cast<float>(std::min(length / radius, 1.0))),
+              rays[i].vec,
+              depth
       ));
     }
 
@@ -218,8 +244,7 @@ namespace entity
     {
       if (u->isActive() &&
           (u->getPosition() - position).getLength() <
-            u->getBox().getLongestRadius() + radius &&
-          !u->getBox().containsAbs(position))
+            u->getBox().getLongestRadius() + radius)
         boxes.push_back(&(u->getBox()));
     }
 
@@ -229,8 +254,22 @@ namespace entity
       if (p && p->isActive())
       {
         ShieldEffect* se = dynamic_cast<ShieldEffect*>(p);
-        if (se && !se->getBox().containsAbs(position))
+        if (se)
           boxes.push_back(&(se->getBox()));
+      }
+    }
+
+    obscured = false;
+    for (unsigned int i = 0; i < boxes.size();)
+    {
+      if (boxes[i]->containsAbs(position))
+      {
+        obscured = true;
+        boxes.erase(boxes.begin() + i);
+      }
+      else
+      {
+        ++i;
       }
     }
   }

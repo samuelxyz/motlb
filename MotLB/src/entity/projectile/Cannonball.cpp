@@ -71,17 +71,21 @@ namespace entity
   void Cannonball::hit(Unit& u)
   {
 //    u.receiveAttack(damage, inertia * velocity);
-    explode();
+    if (u.getVelocity() * velocity < 0)
+      explode(u.getVelocity());
+    else
+      explode();
   }
 
-  void Cannonball::explode()
+  void Cannonball::explode(geometry::Vec2 vel /*= Vec2()*/)
   {
     // back up a bit
     position -= velocity;
 
     // visual effects
 
-    Flash* flash = new Flash(battle, position, 30, 1.5, Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
+    Flash* flash = new Flash(battle, position, vel, 30, 1.5,
+        Values::Color{ 1.0f, 1.0f, 0.6f, 1.0f },
         Values::Color{ 1.0f, 0.8f, 0.8f, 0.6f }, 40);
 
     battle->add(flash);

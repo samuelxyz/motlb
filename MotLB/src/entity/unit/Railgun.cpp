@@ -51,9 +51,13 @@ namespace entity
         geometry::Vec2 dx;
         dx.setPolar(-(u->getBox().getLongestRadius() + 0.01), box.angle);
 
+        geometry::Vec2 flashVel;
+        if (rayTo(*u) * u->getVelocity() < 0)
+          flashVel = u->getVelocity();
+
         battle->add(new Flash
         (
-            battle, u->getPosition() + dx, Values::random(40, 60), 0,
+            battle, u->getPosition() + dx, flashVel, Values::random(40, 60), 0,
             Values::Color { 1.0f, 1.0f, 0.6f, 1.0f },
             Values::Color { 1.0f, 0.8f, 0.8f, 0.1f },
             30
@@ -86,7 +90,7 @@ namespace entity
     smokePos -= dx;
     battle->add(new Flash
     (
-        battle, smokePos, Values::random(40, 60), 0,
+        battle, smokePos, geometry::Vec2(), Values::random(40, 60), 0,
         Values::Color { 1.0f, 1.0f, 0.6f, 1.0f },
         Values::Color { 1.0f, 0.8f, 0.8f, 0.1f },
         30
