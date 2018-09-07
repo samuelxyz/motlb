@@ -14,7 +14,7 @@
 //int uniformShaderTest();
 //int vertexColorShaderTest();
 //int coloredBoxBatchTest();
-int battleRenderTest();
+int run();
 
 //geometry::Vec2 getVector()
 //{
@@ -68,9 +68,6 @@ int battleRenderTest();
 
 int main()
 {
-  //  std::srand(static_cast<unsigned int>(std::time(0)));
-  //  boxTest();
-
   Values::initRand();
-  return battleRenderTest();
+  return run();
 }

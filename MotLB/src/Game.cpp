@@ -1,23 +1,25 @@
 /*
- * GameTest.cpp
+ * Game.cpp
  *
  *  Created on: Aug 1, 2018
  *      Author: Samuel Tan
  */
 
+#include <Box.h>
+#include <Cannon.h>
+#include <Entity.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-
-#include <Entity.h>
-#include <unit/Cannon.h>
-#include <unit/Launcher.h>
-#include <unit/Railgun.h>
+#include <GUIComponent.h>
+#include <Launcher.h>
+#include <Railgun.h>
 #include <Vec2.h>
 
 #include "Battle.h"
+#include "Values.h"
 #include "Window.h"
 
-int battleRenderTest()
+int run()
 {
   Window window;
 

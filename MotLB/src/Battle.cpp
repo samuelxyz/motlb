@@ -8,7 +8,6 @@
 #include "Battle.h"
 
 #include <GLFW/glfw3.h>
-#include <projectile/Projectile.h>
 #include <stddef.h>
 #include <Vec2.h>
 #include <iterator>
@@ -22,6 +21,11 @@ Battle::Battle(Window* window)
 : window(window),
   bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
   particles(), projectiles(), units(),
+  panel(
+      geometry::Box(geometry::Vec2(Values::BATTLE_WIDTH, 0),
+          geometry::Vec2(Values::BATTLE_WIDTH + Values::PANEL_WIDTH, Values::PANEL_HEIGHT)),
+      Values::Color { 0.0f, 0.2f, 0.4f, 1.0f }
+  ),
   renderer(),
   unitLoader(*this),
   selectedTeam(entity::Entity::Team::RED),
@@ -133,6 +137,8 @@ void Battle::renderAll()
       p->render(renderer);
 
   unitLoader.render(renderer);
+
+  panel.render(renderer);
 
   renderer.renderAndClearAll();
 }

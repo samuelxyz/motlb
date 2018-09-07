@@ -10,10 +10,11 @@
 
 #include <Box.h>
 #include <Entity.h>
-#include <particle/Particle.h>
-#include <projectile/Projectile.h>
+#include <GUIComponent.h>
+#include <Particle.h>
+#include <Projectile.h>
 #include <Renderer.h>
-#include <unit/Unit.h>
+#include <Unit.h>
 #include <vector>
 
 #include "UnitLoader.h"
@@ -65,6 +66,8 @@ class Battle
     std::vector<entity::Particle*> particles;
     std::vector<entity::Projectile*> projectiles;
     std::vector<entity::Unit*> units;
+
+    gui::GUIComponent panel;
 
     graphics::Renderer renderer;
 

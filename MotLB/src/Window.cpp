@@ -17,7 +17,7 @@
 #include "Battle.h"
 #include "Values.h"
 
-Window::Window() : Window(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT, "MotLB", nullptr)
+Window::Window() : Window(Values::BATTLE_WIDTH + Values::PANEL_WIDTH, Values::BATTLE_HEIGHT, "MotLB", nullptr)
 {
 }
 
