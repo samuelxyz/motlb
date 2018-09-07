@@ -45,16 +45,6 @@ namespace entity
     renderer.addQuad(Values::makeQuad(color, box, depth));
   }
 
-  geometry::Vec2 ShieldEffect::getPosition() const
-  {
-    return box.position;
-  }
-
-  const geometry::Box& ShieldEffect::getBox() const
-  {
-    return box;
-  }
-
   void ShieldEffect::move()
   {
     box.position += velocity;

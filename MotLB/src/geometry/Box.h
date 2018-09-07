@@ -42,12 +42,9 @@ namespace geometry
 
       geometry::Vec2 randomInteriorPos() const;
       geometry::Vec2 toClosestEdge(geometry::Vec2 absPoint) const; // rel directions
+      double toIntersection(geometry::Vec2 position, geometry::Vec2 direction) const; // ray collision
       static geometry::Vec2 collide(const Box& standOn, const Box& giveWay);
       geometry::Vec2 contain(const Box& target) const;
-
-//      static geometry::Vec2 satCollide(const Box& standOn, const Box& giveWay);
-      // ^^ now renamed to simply collide
-//      static bool overlaps(const Box&, const Box&);
 
     private:
 
@@ -57,10 +54,6 @@ namespace geometry
       void relCorners(std::array<geometry::Vec2, 4>& toFill) const;
 
       geometry::Vec2 collideOneWay(const Box& other) const;
-
-//      bool overlapsOneWay(const Box& other) const; // if other inside this
-//      geometry::Vec2 satOneWay(const Box& other) const;
-      // now renamed to simply collideOneWay
 
       struct Interval
       {

@@ -361,21 +361,6 @@ void Battle::handleMouseClick(int button, int action)
   }
 }
 
-const geometry::Box& Battle::getBounds() const
-{
-  return bounds;
-}
-
-std::vector<entity::Unit*>& Battle::getUnits()
-{
-  return units;
-}
-
-std::vector<entity::Projectile*>& Battle::getProjectiles()
-{
-  return projectiles;
-}
-
 void Battle::updateWindowTitle()
 {
   if (window)

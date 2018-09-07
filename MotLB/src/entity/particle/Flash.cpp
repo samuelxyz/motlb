@@ -48,7 +48,7 @@ namespace entity
     // figure out what shape the flash should be
 
     const unsigned int numRays = radius/2;
-    constexpr double rStepMax = 12;
+//    constexpr double rStepMax = 12;
 
     if (numRays < 3)
       return; // can't render this
@@ -163,32 +163,24 @@ namespace entity
       {
         // trace ray
 
-        for (double r = 0; r < radius;)
+        std::vector<double> rayLengths;
+        for (const geometry::Box* b : boxes)
         {
-          // for breaking out of nested loop (stop this ray)
-          bool terminateRay = false;
-
-          // boxes will block the ray
-          for (const geometry::Box* b : boxes)
-          {
-            if (b && b->containsAbs(point))
-            {
-              terminateRay = true;
-              break;
-            }
-          }
-
-          if (terminateRay)
-            break;
-
-          double rStep = std::min(rStepMax, radius-r);
-          point += rStep * rayDirection;
-          r += rStep;
+          double r = b->toIntersection(point, rayDirection);
+          if (r > 0)
+            rayLengths.emplace_back(r);
         }
+
+        // hit anything?
+        if (rayLengths.empty())
+          point += radius * rayDirection;
+        else
+          point += rayDirection * (*std::min_element(rayLengths.begin(), rayLengths.end()));
 
         if (criticalRays.find(rayAngles[i]) != criticalRays.end())
         {
           // this is a critical ray, it has a max radius because it's known to hit a box
+          // but apparently it missed so we'll shorten it manually
           rays.push_back({ position +
             std::min(point-position, criticalRays[rayAngles[i]] * rayDirection) });
         }
@@ -249,12 +241,13 @@ namespace entity
     }
 
     // ShieldEffects
-    for (Projectile* p : battle->getProjectiles())
+    for (Particle* p : battle->getParticles())
     {
       if (p && p->isActive())
       {
         ShieldEffect* se = dynamic_cast<ShieldEffect*>(p);
-        if (se)
+        if (se && (se->getPosition() - position).getLength() <
+            se->getBox().getLongestRadius() + radius)
           boxes.push_back(&(se->getBox()));
       }
     }

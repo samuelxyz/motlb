@@ -23,8 +23,8 @@ namespace entity
       virtual void update() override;
       virtual void render(graphics::Renderer& renderer) const override;
 
-      geometry::Vec2 getPosition() const;
-      const geometry::Box& getBox() const;
+      geometry::Vec2 getPosition() const { return box.position; }
+      const geometry::Box& getBox() const { return box; }
 
     protected:
       geometry::Box box;

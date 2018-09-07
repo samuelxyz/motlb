@@ -46,10 +46,11 @@ class Battle
     void handleKeypress(int key, int action);
     void handleMouseClick(int button, int action);
 
-    const geometry::Box& getBounds() const;
+    const geometry::Box& getBounds() const { return bounds; }
 
-    std::vector<entity::Unit*>& getUnits();
-    std::vector<entity::Projectile*>& getProjectiles();
+    std::vector<entity::Unit*>& getUnits() { return units; }
+    std::vector<entity::Projectile*>& getProjectiles() { return projectiles; }
+    std::vector<entity::Particle*>& getParticles() { return particles; }
 
   private:
 
