@@ -5,14 +5,13 @@
  *      Author: Samuel Tan
  */
 
-#include "Window.h"
-
 #include <Box.h>
 #include <Cannon.h>
 #include <Entity.h>
 #include <Launcher.h>
 #include <Railgun.h>
 #include <Vec2.h>
+#include <Window.h>
 #include <cassert>
 
 #ifdef MOTLB_DEBUG
@@ -20,8 +19,8 @@
 #include <iostream>
 #endif
 
-#include "Battle.h"
-#include "Values.h"
+#include <Battle.h>
+#include <Values.h>
 
 Window::Window() : Window(Values::WINDOW_WIDTH, Values::WINDOW_HEIGHT, "MotLB", nullptr)
 {

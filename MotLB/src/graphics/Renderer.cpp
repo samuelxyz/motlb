@@ -5,9 +5,9 @@
  *      Author: Samuel Tan
  */
 
+#include <Values.h>
 #include "Renderer.h"
 
-#include "../Values.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
 

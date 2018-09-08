@@ -5,9 +5,9 @@
  *      Author: xinyi
  */
 
+#include <Battle.h>
 #include "Entity.h"
 
-#include "../Battle.h"
 #include "../geometry/Box.h"
 
 namespace entity

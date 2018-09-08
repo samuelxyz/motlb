@@ -5,15 +5,15 @@
  *      Author: Samuel Tan
  */
 
+#include <Battle.h>
 #include <projectile/Cannonball.h>
 #include <Entity.h>
 #include <particle/Smoke.h>
 #include <Renderer.h>
 #include <unit/Cannon.h>
+#include <Values.h>
 #include <vector>
 
-#include "../Battle.h"
-#include "../Values.h"
 
 namespace entity
 {

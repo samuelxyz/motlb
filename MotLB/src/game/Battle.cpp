@@ -5,15 +5,14 @@
  *      Author: xinyi
  */
 
-#include "Battle.h"
-
+#include <Battle.h>
 #include <GLFW/glfw3.h>
 #include <stddef.h>
 #include <Vec2.h>
+#include <Window.h>
 #include <iterator>
 #include <string>
 
-#include "Window.h"
 
 constexpr Values::Color Battle::backgroundColor;
 

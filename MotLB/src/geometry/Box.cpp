@@ -6,12 +6,12 @@
  */
 
 #include <Box.h>
+#include <Values.h>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
 //#include <iostream>
 
-#include "../Values.h"
 
 namespace geometry
 {

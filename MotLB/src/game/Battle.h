@@ -15,10 +15,10 @@
 #include <Projectile.h>
 #include <Renderer.h>
 #include <Unit.h>
+#include <UnitLoader.h>
+#include <Values.h>
 #include <vector>
 
-#include "UnitLoader.h"
-#include "Values.h"
 
 class Window;
 

@@ -5,8 +5,7 @@
  *      Author: Samuel Tan
  */
 
-#include "UnitLoader.h"
-
+#include <Battle.h>
 #include <Box.h>
 #include <Entity.h>
 #include <Renderer.h>
@@ -18,9 +17,9 @@
 #include <unit/Railgun.h>
 #include <unit/Shield.h>
 
-#include "Battle.h"
-#include "Values.h"
-#include "Window.h"
+#include <UnitLoader.h>
+#include <Values.h>
+#include <Window.h>
 
 UnitLoader::UnitLoader(Battle& battle)
 : battle(battle), stagedUnits(), count(1),

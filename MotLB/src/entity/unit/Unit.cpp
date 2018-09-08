@@ -5,12 +5,12 @@
  *      Author: xinyi
  */
 
+#include <Battle.h>
 #include <particle/Smoke.h>
 #include <unit/Unit.h>
 #include <cstdio>
 #include <cmath>
 
-#include "../Battle.h"
 #include "Values.h"
 
 namespace entity

@@ -5,14 +5,14 @@
  *      Author: Samuel Tan
  */
 
+#include <Battle.h>
 #include <Entity.h>
 #include <particle/Flash.h>
 #include <Renderer.h>
 #include <unit/Ace.h>
+#include <Values.h>
 #include <vector>
 
-#include "../../Battle.h"
-#include "../../Values.h"
 
 namespace entity
 {

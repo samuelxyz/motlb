@@ -10,10 +10,10 @@
 
 #include <IndexBuffer.h>
 #include <ShaderProgram.h>
+#include <Values.h>
 #include <VertexArray.h>
 #include <VertexBuffer.h>
 
-#include "../Values.h"
 
 namespace graphics
 {

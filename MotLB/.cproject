@@ -40,6 +40,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/entity/particle}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/entity/projectile}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/entity/unit}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/game}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.preprocessor.def.1488461503" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="GLEW_STATIC"/>
@@ -73,11 +74,12 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Math|src|entity" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="gui|vendor|vendor/glm/detail/dummy.cpp|geometry|graphics|entity" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="game|gui|vendor|vendor/glm/detail/dummy.cpp|geometry|graphics|entity" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="projectile|particle|unit" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity/particle"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity/projectile"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity/unit"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/game"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/geometry"/>
 						<entry excluding="OpenGLTest.cpp|QuadBatch.cpp|CenteredPolyBatch.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/graphics"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/gui"/>
@@ -124,6 +126,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/entity/particle}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/entity/projectile}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/entity/unit}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MotLB/src/game}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.preprocessor.def.722676103" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="GLEW_STATIC"/>
@@ -157,11 +160,12 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="Math|src|entity" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry excluding="gui|vendor|vendor/glm/detail/dummy.cpp|geometry|graphics|entity" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="game|gui|vendor|vendor/glm/detail/dummy.cpp|geometry|graphics|entity" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="projectile|particle|unit" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity/particle"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity/projectile"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/entity/unit"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/game"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/geometry"/>
 						<entry excluding="OpenGLTest.cpp|QuadBatch.cpp|CenteredPolyBatch.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/graphics"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/gui"/>

@@ -5,11 +5,11 @@
  *      Author: Samuel Tan
  */
 
+#include <Battle.h>
 #include <Entity.h>
 #include <particle/ShieldEffect.h>
 #include <unit/Shield.h>
 #include <vector>
-#include "../Battle.h"
 
 namespace entity
 {

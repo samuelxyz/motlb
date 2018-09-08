@@ -5,13 +5,13 @@
  *      Author: Samuel Tan
  */
 
+#include <Battle.h>
 #include <particle/Flash.h>
 #include <particle/Smoke.h>
 #include <projectile/Missile.h>
 #include <Renderer.h>
 #include <unit/Unit.h>
 
-#include "../Battle.h"
 
 namespace entity
 {

@@ -9,9 +9,9 @@
 #include <Entity.h>
 #include <particle/ShieldEffect.h>
 #include <Renderer.h>
+#include <Values.h>
 #include <Vec2.h>
 
-#include "../Values.h"
 
 namespace entity
 {

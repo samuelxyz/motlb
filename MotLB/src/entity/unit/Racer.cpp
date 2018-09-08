@@ -8,9 +8,9 @@
 #include <Entity.h>
 #include <Renderer.h>
 #include <unit/Racer.h>
+#include <Values.h>
 #include <Vec2.h>
 
-#include "../Values.h"
 
 namespace entity
 {

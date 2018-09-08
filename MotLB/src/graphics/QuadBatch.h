@@ -10,11 +10,11 @@
 
 #include <IndexBuffer.h>
 #include <ShaderProgram.h>
+#include <Values.h>
 #include <VertexArray.h>
 #include <VertexBuffer.h>
 #include <vector>
 
-#include "../Values.h"
 
 namespace geometry {
   class Box;

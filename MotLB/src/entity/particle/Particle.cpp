@@ -5,9 +5,9 @@
  *      Author: xinyi
  */
 
+#include <Battle.h>
 #include <particle/Particle.h>
 
-#include "..\Battle.h"
 
 namespace entity
 {

@@ -10,10 +10,10 @@
 
 #include <particle/Particle.h>
 #include <Box.h>
+#include <Values.h>
 #include <Vec2.h>
 #include <vector>
 
-#include "../Values.h"
 
 class Battle;
 

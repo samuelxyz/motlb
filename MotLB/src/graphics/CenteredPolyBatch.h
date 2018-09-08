@@ -9,11 +9,11 @@
 #define CENTEREDPOLYBATCH_H_
 
 #include <IndexBuffer.h>
+#include <Values.h>
 #include <VertexArray.h>
 #include <VertexBuffer.h>
 #include <vector>
 
-#include "../Values.h"
 
 namespace graphics
 {

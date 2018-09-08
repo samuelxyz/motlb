@@ -8,8 +8,8 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
+#include <Values.h>
 #include "../geometry/Vec2.h"
-#include "../Values.h"
 
 //#include "../Battle.h"
 

@@ -8,13 +8,13 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#include <Battle.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <GUIComponent.h>
 #include <Renderer.h>
 #include <string>
 
-#include "Battle.h"
 
 class Battle;
 namespace geometry { struct Vec2; }

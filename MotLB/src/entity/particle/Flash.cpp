@@ -5,6 +5,7 @@
  *      Author: Samuel Tan
  */
 
+#include <Battle.h>
 #include <Entity.h>
 #include <particle/Flash.h>
 #include <particle/ShieldEffect.h>
@@ -15,7 +16,6 @@
 #include <array>
 #include <vector>
 
-#include "../../Battle.h"
 
 namespace entity
 {

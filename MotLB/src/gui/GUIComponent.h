@@ -9,10 +9,10 @@
 #define GUICOMPONENT_H_
 
 #include <Box.h>
+#include <Values.h>
 #include <Vec2.h>
 #include <vector>
 
-#include "../Values.h"
 
 namespace graphics
 {

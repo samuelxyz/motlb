@@ -12,7 +12,7 @@
 #include <ShaderProgram.h>
 #include <TriangleBatch.h>
 
-#include "../Values.h"
+#include <Values.h>
 
 namespace graphics
 {
