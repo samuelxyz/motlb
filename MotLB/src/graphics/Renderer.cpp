@@ -22,8 +22,8 @@ namespace graphics
     tBatch(50000, shaderProgram)
   {
     glm::mat4 projMatrix = glm::ortho(
-        0.0f, static_cast<float>(Values::BATTLE_WIDTH + Values::PANEL_WIDTH),
-        0.0f, static_cast<float>(Values::BATTLE_HEIGHT),
+        0.0f, static_cast<float>(Values::WINDOW_WIDTH),
+        0.0f, static_cast<float>(Values::WINDOW_HEIGHT),
        -1.0f, 1.0f);
 
     shaderProgram.bind();

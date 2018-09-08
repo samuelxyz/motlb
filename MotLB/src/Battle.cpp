@@ -21,21 +21,12 @@ Battle::Battle(Window* window)
 : window(window),
   bounds(geometry::Vec2(), geometry::Vec2(Values::BATTLE_WIDTH, Values::BATTLE_HEIGHT)),
   particles(), projectiles(), units(),
-  panel(
-      geometry::Box(geometry::Vec2(Values::BATTLE_WIDTH, 0),
-          geometry::Vec2(Values::BATTLE_WIDTH + Values::PANEL_WIDTH, Values::PANEL_HEIGHT)),
-      Values::Color { 0.0f, 0.2f, 0.4f, 1.0f }
-  ),
-  renderer(),
   unitLoader(*this),
   selectedTeam(entity::Entity::Team::RED),
   selectedUnitType(UnitType::UNIT),
   selectedAction(BattleAction::SINGLE),
   paused(true)
 {
-  if (window)
-    window->setBattle(this);
-  updateWindowTitle();
 }
 
 Battle::~Battle()
@@ -105,19 +96,8 @@ void Battle::update()
   }
 }
 
-void Battle::renderAll()
+void Battle::render(graphics::Renderer& renderer)
 {
-//  Values::CenteredPoly cp =
-//  {
-//      Values::ColoredVertex{{1.0f, 0.5f, 0.0f, 0.5f}, 400.0f, 400.0f},
-//      Values::ColoredVertex{{1.0f, 1.0f, 0.5f, 0.5f}, 800.0f, 800.0f},
-//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 0.5f}, 800.0f, 0.0f  },
-//      Values::ColoredVertex{{1.0f, 1.5f, 0.5f, 0.5f}, 0.0f  , 0.0f  },
-//      Values::ColoredVertex{{0.5f, 1.0f, 0.0f, 0.5f}, 0.0f  , 800.0f}
-//  };
-//
-//  renderer.addCenteredPoly(cp);
-
   renderer.addQuad(Values::makeQuad(backgroundColor, bounds, Values::Depth::BACKGROUND));
 
   for (auto* p : particles)
@@ -137,10 +117,6 @@ void Battle::renderAll()
       p->render(renderer);
 
   unitLoader.render(renderer);
-
-  panel.render(renderer);
-
-  renderer.renderAndClearAll();
 }
 
 void Battle::clearAll()
@@ -173,46 +149,17 @@ void Battle::healAllIfAlive()
 
 void Battle::add(entity::Projectile* p)
 {
-  projectiles.push_back(p);
+  projectiles.emplace_back(p);
 }
 
 void Battle::add(entity::Particle* p)
 {
-  particles.push_back(p);
+  particles.emplace_back(p);
 }
 
 void Battle::add(entity::Unit* u)
 {
-  units.push_back(u);
-}
-
-bool Battle::remove(entity::Particle* p)
-{
-  // std::find?
-  for (size_t i = 0; i < particles.size(); i++)
-  {
-    if (particles[i] == p)
-    {
-      delete p; // same as delete particles[i]
-      particles.erase(particles.begin() + i);
-      return true;
-    }
-  }
-  return false;
-}
-
-bool Battle::remove(entity::Projectile* p)
-{
-  for (size_t i = 0; i < projectiles.size(); i++)
-  {
-    if (projectiles[i] == p)
-    {
-      delete p;
-      projectiles.erase(projectiles.begin() + i);
-      return true;
-    }
-  }
-  return false;
+  units.emplace_back(u);
 }
 
 bool Battle::remove(entity::Unit* u)
@@ -231,7 +178,7 @@ bool Battle::remove(entity::Unit* u)
 
 void Battle::handleKeypress(int key, int action)
 {
-//  std::cout << "Key " << key << " " << action << std::endl;
+  //  std::cout << "Key " << key << " " << action << std::endl;
 
   if (action == GLFW_PRESS)
   {
@@ -359,7 +306,7 @@ void Battle::handleKeypress(int key, int action)
 
 void Battle::handleMouseClick(int button, int action)
 {
-//  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
+  //  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
   if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT)
   {
     unitLoader.processClick(window->getMousePos());
@@ -369,127 +316,124 @@ void Battle::handleMouseClick(int button, int action)
 
 void Battle::updateWindowTitle()
 {
-  if (window)
+  std::string msg(" ");
+
+  if (paused)
+    msg += "[Paused]";
+  else
+    msg += "[Running]";
+
+  msg += " Mode: ";
+  if (selectedAction == BattleAction::DELETE)
   {
-    std::string msg(" ");
+    msg += "Click to delete a unit";
+  }
+  else if (unitLoader.isLineStarted() &&
+      selectedAction == BattleAction::LINE) // special case
+  {
+    msg += "[ ] to adjust, \\ to flip, Enter to confirm";
+  }
+  else
+  {
+    if (selectedAction == BattleAction::SINGLE)
+      msg += "Click to place a ";
+    else if (selectedAction == BattleAction::LINE)
+      msg += "Click twice to place a line of ";
 
-    if (paused)
-      msg += "[Paused]";
-    else
-      msg += "[Running]";
-
-    msg += " Mode: ";
-    if (selectedAction == BattleAction::DELETE)
+    switch (selectedTeam)
     {
-      msg += "Click to delete a unit";
+      case entity::Entity::Team::RED:
+        msg += "red ";
+        break;
+      case entity::Entity::Team::GREEN:
+        msg += "green ";
+        break;
+      case entity::Entity::Team::BLUE:
+        msg += "blue ";
+        break;
+      case entity::Entity::Team::YELLOW:
+        msg += "yellow ";
+        break;
+      default:
+        msg += "[unknown team] ";
+        break;
     }
-    else if (unitLoader.isLineStarted() &&
-        selectedAction == BattleAction::LINE) // special case
-    {
-      msg += "[ ] to adjust, \\ to flip, Enter to confirm";
-    }
-    else
-    {
-      if (selectedAction == BattleAction::SINGLE)
-        msg += "Click to place a ";
-      else if (selectedAction == BattleAction::LINE)
-        msg += "Click twice to place a line of ";
 
-      switch (selectedTeam)
+    if (selectedAction == BattleAction::SINGLE)
+    {
+      // singular noun
+      switch (selectedUnitType)
       {
-        case entity::Entity::Team::RED:
-          msg += "red ";
+        case UnitType::UNIT:
+          msg += "unit";
           break;
-        case entity::Entity::Team::GREEN:
-          msg += "green ";
+        case UnitType::GUNNER:
+          msg += "gunner";
           break;
-        case entity::Entity::Team::BLUE:
-          msg += "blue ";
+        case UnitType::LAUNCHER:
+          msg += "launcher";
           break;
-        case entity::Entity::Team::YELLOW:
-          msg += "yellow ";
+        case UnitType::CANNON:
+          msg += "cannon";
+          break;
+        case UnitType::RAILGUN:
+          msg += "railgun";
+          break;
+        case UnitType::GIANT:
+          msg += "giant";
+          break;
+        case UnitType::SHIELD:
+          msg += "shield";
+          break;
+        case UnitType::RACER:
+          msg += "racer";
+          break;
+        case UnitType::ACE:
+          msg += "ace";
           break;
         default:
-          msg += "[unknown team] ";
+          msg += "[unknown unit type]";
           break;
       }
-
-      if (selectedAction == BattleAction::SINGLE)
+    }
+    else if (selectedAction == BattleAction::LINE)
+    {
+      // plural noun
+      switch (selectedUnitType)
       {
-        // singular noun
-        switch (selectedUnitType)
-        {
-          case UnitType::UNIT:
-            msg += "unit";
-            break;
-          case UnitType::GUNNER:
-            msg += "gunner";
-            break;
-          case UnitType::LAUNCHER:
-            msg += "launcher";
-            break;
-          case UnitType::CANNON:
-            msg += "cannon";
-            break;
-          case UnitType::RAILGUN:
-            msg += "railgun";
-            break;
-          case UnitType::GIANT:
-            msg += "giant";
-            break;
-          case UnitType::SHIELD:
-            msg += "shield";
-            break;
-          case UnitType::RACER:
-            msg += "racer";
-            break;
-          case UnitType::ACE:
-            msg += "ace";
-            break;
-          default:
-            msg += "[unknown unit type]";
-            break;
-        }
-      }
-      else if (selectedAction == BattleAction::LINE)
-      {
-        // plural noun
-        switch (selectedUnitType)
-        {
-          case UnitType::UNIT:
-            msg += "units";
-            break;
-          case UnitType::GUNNER:
-            msg += "gunners";
-            break;
-          case UnitType::LAUNCHER:
-            msg += "launchers";
-            break;
-          case UnitType::CANNON:
-            msg += "cannons";
-            break;
-          case UnitType::RAILGUN:
-            msg += "railguns";
-            break;
-          case UnitType::GIANT:
-            msg += "giants";
-            break;
-          case UnitType::SHIELD:
-            msg += "shields";
-            break;
-          case UnitType::RACER:
-            msg += "racers";
-            break;
-          case UnitType::ACE:
-            msg += "aces";
-            break;
-          default:
-            msg += "[unknown unit type]s";
-            break;
-        }
+        case UnitType::UNIT:
+          msg += "units";
+          break;
+        case UnitType::GUNNER:
+          msg += "gunners";
+          break;
+        case UnitType::LAUNCHER:
+          msg += "launchers";
+          break;
+        case UnitType::CANNON:
+          msg += "cannons";
+          break;
+        case UnitType::RAILGUN:
+          msg += "railguns";
+          break;
+        case UnitType::GIANT:
+          msg += "giants";
+          break;
+        case UnitType::SHIELD:
+          msg += "shields";
+          break;
+        case UnitType::RACER:
+          msg += "racers";
+          break;
+        case UnitType::ACE:
+          msg += "aces";
+          break;
+        default:
+          msg += "[unknown unit type]s";
+          break;
       }
     }
-
-    window->setTitleMessage(msg);
   }
+
+  window->setTitleMessage(msg);
 }

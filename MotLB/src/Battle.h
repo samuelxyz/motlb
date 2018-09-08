@@ -30,14 +30,12 @@ class Battle
     ~Battle();
 
     void update();
-    void renderAll();
+    void render(graphics::Renderer&);
 
     void add(entity::Projectile*);
     void add(entity::Particle*);
     void add(entity::Unit*);
 
-    bool remove(entity::Projectile*);
-    bool remove(entity::Particle*);
     bool remove(entity::Unit*);
 
     void clearAll();
@@ -53,8 +51,6 @@ class Battle
     std::vector<entity::Projectile*>& getProjectiles() { return projectiles; }
     std::vector<entity::Particle*>& getParticles() { return particles; }
 
-  private:
-
     void updateWindowTitle();
 
   private:
@@ -66,10 +62,6 @@ class Battle
     std::vector<entity::Particle*> particles;
     std::vector<entity::Projectile*> projectiles;
     std::vector<entity::Unit*> units;
-
-    gui::GUIComponent panel;
-
-    graphics::Renderer renderer;
 
     friend class UnitLoader;
     UnitLoader unitLoader;

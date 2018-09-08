@@ -182,6 +182,9 @@ void UnitLoader::cancel()
 
 void UnitLoader::processClick(geometry::Vec2 position)
 {
+  if (!battle.bounds.containsAbs(position))
+    return;
+
   if (battle.selectedAction == Battle::BattleAction::LINE)
   {
     if (alreadyClicked)

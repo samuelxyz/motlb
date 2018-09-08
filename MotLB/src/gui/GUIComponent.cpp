@@ -24,6 +24,11 @@ namespace gui
         delete c;
   }
 
+  void GUIComponent::addChild(GUIComponent* c)
+  {
+    children.emplace_back(c);
+  }
+
   void GUIComponent::onMouseClick()
   {
     // nothing yet

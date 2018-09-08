@@ -19,10 +19,16 @@
 class Values
 {
   public:
-    static constexpr unsigned int BATTLE_WIDTH  = 800,
-                                  BATTLE_HEIGHT = 800,
-                                  PANEL_WIDTH   = 300,
-                                  PANEL_HEIGHT  = 800;
+    static constexpr unsigned int BATTLE_WIDTH      = 800,
+                                  BATTLE_HEIGHT     = 800,
+                                  SIDE_PANEL_WIDTH  = 300,
+                                  SIDE_PANEL_HEIGHT = BATTLE_HEIGHT,
+                                  TOP_PANEL_WIDTH   = BATTLE_WIDTH  + SIDE_PANEL_WIDTH,
+                                  TOP_PANEL_HEIGHT  = 100,
+                                  WINDOW_WIDTH      = BATTLE_WIDTH  + SIDE_PANEL_WIDTH,
+                                  WINDOW_HEIGHT     = BATTLE_HEIGHT + TOP_PANEL_HEIGHT,
+                                  BORDER_THICKNESS  = 4;
+
     static constexpr double PI      = 3.141592653589793,
                             TWO_PI  = 6.283185307179586,
                             HALF_PI = 1.570796326794897;

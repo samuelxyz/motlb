@@ -7,6 +7,12 @@
 
 #include "Window.h"
 
+#include <Box.h>
+#include <Cannon.h>
+#include <Entity.h>
+#include <Launcher.h>
+#include <Railgun.h>
+#include <Vec2.h>
 #include <cassert>
 
 #ifdef MOTLB_DEBUG
@@ -17,76 +23,78 @@
 #include "Battle.h"
 #include "Values.h"
 
-Window::Window() : Window(Values::BATTLE_WIDTH + Values::PANEL_WIDTH, Values::BATTLE_HEIGHT, "MotLB", nullptr)
+Window::Window() : Window(Values::WINDOW_WIDTH, Values::WINDOW_HEIGHT, "MotLB", nullptr)
 {
 }
 
 Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
-: title(title),
-  battle(nullptr)
+: initializerDummy(width, height, title, monitor),
+  window(initializerDummy.window),
+  title(title),
+  renderer(),
+  sidePanel(
+      geometry::Box(geometry::Vec2(Values::BATTLE_WIDTH, 0),
+          geometry::Vec2(Values::WINDOW_WIDTH, Values::SIDE_PANEL_HEIGHT)),
+      Values::Color { 0.0f, 0.08f, 0.13f, 1.0f }
+  ),
+  topPanel(
+      geometry::Box(geometry::Vec2(0, Values::BATTLE_HEIGHT),
+          geometry::Vec2(Values::WINDOW_WIDTH, Values::WINDOW_HEIGHT)),
+      Values::Color { 0.0f, 0.08f, 0.13f, 1.0f }
+  ),
+  battle(this)
 {
 
-#ifdef MOTLB_DEBUG
-  glfwSetErrorCallback(printGLFWError);
-#endif
+  gui::GUIComponent* sideBorder(new gui::GUIComponent(
+      geometry::Box(geometry::Vec2(Values::BATTLE_WIDTH, 0),
+          geometry::Vec2(Values::BATTLE_WIDTH + Values::BORDER_THICKNESS, Values::SIDE_PANEL_HEIGHT)),
+      Values::Color { 0.6f, 0.6f, 1.0f, 0.6f }
+  ));
 
-  /* Initialize the library */
-  assert(glfwInit());
+  gui::GUIComponent* topBorder(new gui::GUIComponent(
+      geometry::Box(geometry::Vec2(0, Values::BATTLE_HEIGHT),
+          geometry::Vec2(Values::WINDOW_WIDTH, Values::BATTLE_HEIGHT + Values::BORDER_THICKNESS)),
+      Values::Color { 0.6f, 0.6f, 1.0f, 0.6f }
+  ));
 
-#ifdef MOTLB_DEBUG
-  glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
-#endif
-  glfwWindowHint(GLFW_SAMPLES, 4);
-  glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
-  glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-  /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(width, height, title, monitor, NULL);
-  if (!window)
-  {
-    glfwTerminate();
-    assert(false && "GLFW window creation failed");
-  }
-
-  glfwSetWindowUserPointer(window, this);
-
-  glfwSetKeyCallback(window, handleKey);
-  glfwSetMouseButtonCallback(window, handleMouseButton);
-
-  glfwSetCursor(window, glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR));
-
-  glfwSetWindowPos(window, 50, 50);
-  glfwShowWindow(window);
-
-  /* Make the window's context current */
-  glfwMakeContextCurrent(window);
-
-  /* Set refresh rate to once per frame (60 Hz) */
-  glfwSwapInterval(1);
-
-  /* Initialize GLEW */
-  assert(glewInit() == GLEW_OK);
-
-#ifdef MOTLB_DEBUG /////////////////////////
-
-  std::cout << "Running in debug mode with OpenGL version " <<
-      glGetString(GL_VERSION) << std::endl;
-  glDebugMessageCallback(printGLDebug, nullptr);
-
-#endif /////////////////////////////////////
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glEnable(GL_POLYGON_SMOOTH);
-
-  glEnable(GL_LINE_SMOOTH);
-  glLineWidth(1);
-
-  glEnable(GL_MULTISAMPLE);
+  sidePanel.addChild(sideBorder);
+  topPanel.addChild(topBorder);
 
 //  glEnable(GL_DEPTH_TEST);
 //  glDepthFunc(GL_LEQUAL);
+  battle.updateWindowTitle();
+  entity::Unit* u1 = new entity::Unit(&battle, entity::Entity::Team::BLUE, geometry::Vec2(600, 600), geometry::Vec2(), 1);
+  battle.add(u1);
+  entity::Unit* u2 = new entity::Unit(&battle, entity::Entity::Team::RED, geometry::Vec2(200, 200), geometry::Vec2(), 4);
+  battle.add(u2);
+  entity::Unit* u3 = new entity::Unit(&battle, entity::Entity::Team::GREEN, geometry::Vec2(200, 600), geometry::Vec2(), 2);
+  battle.add(u3);
+
+  for (int i = 0; i < 6; i++)
+  {
+    entity::Unit* ul = new entity::Unit(&battle, entity::Entity::Team::RED, geometry::Vec2(100, 100 + 100 * i), geometry::Vec2(), 0);
+    battle.add(ul);
+  }
+
+  entity::Gunner* u4 = new entity::Gunner(&battle, entity::Entity::Team::YELLOW, geometry::Vec2(400, 400), geometry::Vec2(), 5);
+  battle.add(u4);
+
+  //  entity::Projectile* p1 = new entity::Projectile(&battle, entity::Entity::Team::YELLOW,
+  //      geometry::Vec2(800, 605), geometry::Vec2(-2, 0), 10, 5, true);
+  //  battle.add(p1);
+
+  //  entity::Missile* p2 = new entity::Missile(&battle, entity::Entity::Team::YELLOW,
+  //      geometry::Vec2(800, 605), geometry::Vec2(-3, 0), 10, 5, u3);
+  //  battle.add(p2);
+
+  entity::Launcher* u5 = new entity::Launcher(&battle, entity::Entity::Team::BLUE, geometry::Vec2(600, 200), geometry::Vec2(), 2);
+  battle.add(u5);
+
+  entity::Cannon* u6 = new entity::Cannon(&battle, entity::Entity::Team::GREEN, geometry::Vec2(20, 780), geometry::Vec2(), 4.5);
+  battle.add(u6);
+
+  entity::Railgun* u7 = new entity::Railgun(&battle, entity::Entity::Team::BLUE, geometry::Vec2(20, 20), geometry::Vec2(), 1);
+  battle.add(u7);
 }
 
 Window::~Window()
@@ -94,8 +102,17 @@ Window::~Window()
   glfwTerminate();
 }
 
-void Window::swapBuffers() const
+void Window::update()
 {
+  battle.update();
+}
+
+void Window::render()
+{
+  battle.render(renderer);
+  sidePanel.render(renderer);
+  topPanel.render(renderer);
+  renderer.renderAndClearAll();
   glfwSwapBuffers(window);
 }
 
@@ -107,32 +124,21 @@ bool Window::shouldClose() const
 void Window::handleKey(GLFWwindow* window, int key, int scancode, int action,
     int mods)
 {
-  Battle* battle = ((Window*)glfwGetWindowUserPointer(window))->battle;
-  if (battle)
-  {
-    battle->handleKeypress(key, action);
-  }
+ ((Window*)glfwGetWindowUserPointer(window))->battle.handleKeypress(key, action);
 }
 
 void Window::handleMouseButton(GLFWwindow* window, int button, int action,
     int mods)
 {
-  Battle* battle = ((Window*)glfwGetWindowUserPointer(window))->battle;
-  if (battle)
-    battle->handleMouseClick(button, action);
+  ((Window*)glfwGetWindowUserPointer(window))->battle.handleMouseClick(button, action);
 }
 
 geometry::Vec2 Window::getMousePos() const
 {
   double x, y;
   glfwGetCursorPos(window, &x, &y);
-  y = Values::BATTLE_HEIGHT - y;
+  y = Values::WINDOW_HEIGHT - y;
   return geometry::Vec2(x, y);
-}
-
-void Window::setBattle(Battle* b)
-{
-  battle = b;
 }
 
 void Window::setTitleMessage(const std::string& msg)

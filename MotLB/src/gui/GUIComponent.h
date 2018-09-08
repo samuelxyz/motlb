@@ -34,6 +34,8 @@ namespace gui
       GUIComponent(const geometry::Box&, const Values::Color&);
       virtual ~GUIComponent();
 
+      void addChild(GUIComponent*);
+
       void refresh();
       void render(graphics::Renderer&) const;
       void handleMouseClick(geometry::Vec2);
