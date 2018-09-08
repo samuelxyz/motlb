@@ -7,8 +7,11 @@
 
 #include <Battle.h>
 #include <Entity.h>
-#include <particle/ShieldEffect.h>
-#include <unit/Shield.h>
+#include <Projectile.h>
+#include <Renderer.h>
+#include <Shield.h>
+#include <ShieldEffect.h>
+#include <Values.h>
 #include <vector>
 
 namespace entity

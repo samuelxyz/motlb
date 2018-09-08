@@ -27,7 +27,7 @@ class Values
                                   TOP_PANEL_HEIGHT  = 100,
                                   WINDOW_WIDTH      = BATTLE_WIDTH  + SIDE_PANEL_WIDTH,
                                   WINDOW_HEIGHT     = BATTLE_HEIGHT + TOP_PANEL_HEIGHT,
-                                  BORDER_THICKNESS  = 4;
+                                  BORDER_THICKNESS  = 2;
 
     static constexpr double PI      = 3.141592653589793,
                             TWO_PI  = 6.283185307179586,
@@ -51,6 +51,9 @@ class Values
     {
         float r, g, b, a;
     };
+
+    static constexpr Color PANEL_COLOR  { 0.0f, 0.1f, 0.2f, 1.0f },
+                           BORDER_COLOR { 0.5f, 0.7f, 1.0f, 1.0f };
 
     struct ColoredVertex
     {

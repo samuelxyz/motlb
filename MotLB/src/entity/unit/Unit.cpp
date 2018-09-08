@@ -6,12 +6,14 @@
  */
 
 #include <Battle.h>
-#include <particle/Smoke.h>
-#include <unit/Unit.h>
-#include <cstdio>
+#include <Renderer.h>
+#include <Smoke.h>
+#include <Unit.h>
+#include <Values.h>
+#include <Vec2.h>
+#include <algorithm>
 #include <cmath>
-
-#include "Values.h"
+#include <vector>
 
 namespace entity
 {

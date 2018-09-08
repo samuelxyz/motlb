@@ -179,10 +179,10 @@ void UnitLoader::cancel()
   addAndClearAll();
 }
 
-void UnitLoader::processClick(geometry::Vec2 position)
+bool UnitLoader::processClick(geometry::Vec2 position)
 {
   if (!battle.bounds.containsAbs(position))
-    return;
+    return false;
 
   if (battle.selectedAction == Battle::BattleAction::LINE)
   {
@@ -191,13 +191,15 @@ void UnitLoader::processClick(geometry::Vec2 position)
 //      lineStarted = true; // redundant, is set in startLine()
       alreadyClicked = false;
       startLine(v1, position);
+      return false;
     }
-    else
+    else // first click
     {
       clearStagedUnits();
       lineStarted = false;
       alreadyClicked = true;
       v1 = position;
+      return true; // hold focus until
     }
   }
   else
@@ -219,6 +221,7 @@ void UnitLoader::processClick(geometry::Vec2 position)
         }
       }
     }
+    return false;
   }
 }
 

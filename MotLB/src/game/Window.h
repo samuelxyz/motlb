@@ -8,11 +8,14 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#include <Battle.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <Battle.h>
 #include <GUIComponent.h>
+#include <MouseHandler.h>
 #include <Renderer.h>
+#include <cassert>
+#include <iostream>
 #include <string>
 
 
@@ -21,6 +24,14 @@ namespace geometry { struct Vec2; }
 
 class Window
 {
+
+#ifdef MOTLB_DEBUG //////////////////
+  public:
+    static void printGLFWError(int error, const char* description);
+    static void __attribute__((__stdcall__)) printGLDebug(GLenum source, GLenum type, GLuint id,
+        GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+#endif //////////////////////////////
+
   private:
 
     struct InitializerDummy // because initializer list order is bogus
@@ -96,6 +107,7 @@ class Window
     std::string title;
 
     graphics::Renderer renderer;
+    MouseHandler mouseHandler;
     gui::GUIComponent sidePanel, topPanel;
     Battle battle;
 
@@ -110,14 +122,9 @@ class Window
 
     void setTitleMessage(const std::string& msg);
 
-    static void printGLFWError(int error, const char* description);
-    static void APIENTRY printGLDebug(GLenum source, GLenum type, GLuint id,
-        GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
     static void handleKey(GLFWwindow*, int key, int scancode, int action, int mods);
     static void handleMouseButton(GLFWwindow*, int button, int action, int mods);
     geometry::Vec2 getMousePos() const;
-
-    GLFWwindow* getGLFWwindow() const { return window; }
 };
 
 #endif /* WINDOW_H_ */

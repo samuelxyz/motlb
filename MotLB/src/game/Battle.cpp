@@ -6,7 +6,6 @@
  */
 
 #include <Battle.h>
-#include <GLFW/glfw3.h>
 #include <stddef.h>
 #include <Vec2.h>
 #include <Window.h>
@@ -303,14 +302,22 @@ void Battle::handleKeypress(int key, int action)
 
 }
 
-void Battle::handleMouseClick(int button, int action)
+bool Battle::handleMouseClick(geometry::Vec2 position, int button, int action)
 {
-  //  std::cout << "Mouse " << button << " " << action << " at " << x << ", " << y << std::endl;
-  if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT)
+  if (bounds.containsAbs(position))
   {
-    unitLoader.processClick(window->getMousePos());
-    updateWindowTitle();
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+    {
+      bool keepFocus = unitLoader.processClick(position);
+      updateWindowTitle();
+      return keepFocus;
+    }
+    else if (action == GLFW_PRESS)
+    {
+      return true;
+    }
   }
+  return false;
 }
 
 void Battle::updateWindowTitle()

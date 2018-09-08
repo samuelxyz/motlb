@@ -6,10 +6,15 @@
  */
 
 #include <Battle.h>
-#include <particle/Flash.h>
-#include <particle/Smoke.h>
-#include <unit/Railgun.h>
-
+#include <Entity.h>
+#include <Flash.h>
+#include <Railgun.h>
+#include <Renderer.h>
+#include <Smoke.h>
+#include <Unit.h>
+#include <Values.h>
+#include <Vec2.h>
+#include <vector>
 
 namespace entity
 {

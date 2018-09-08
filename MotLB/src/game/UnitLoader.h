@@ -34,7 +34,7 @@ class UnitLoader
     void addAndClearAll();
     void cancel();
 
-    void processClick(geometry::Vec2 position);
+    bool processClick(geometry::Vec2 position);
     bool isLineStarted();
 
   private:

@@ -6,19 +6,24 @@
  */
 
 #include <GUIComponent.h>
+#include <MouseHandler.h>
 #include <Renderer.h>
 
 namespace gui
 {
 
-  GUIComponent::GUIComponent(const geometry::Box& area,
+  GUIComponent::GUIComponent(MouseHandler* mouseHandler, const geometry::Box& area,
       const Values::Color& color)
-  : box(area), color(color), children()
+  : mouseHandler(mouseHandler), box(area), color(color), children()
   {
+    if (mouseHandler)
+      mouseHandler->addReceiver(this);
   }
 
   GUIComponent::~GUIComponent()
   {
+    if (mouseHandler)
+      mouseHandler->removeReceiver(this);
     for (GUIComponent* c : children)
       if (c)
         delete c;
@@ -48,15 +53,13 @@ namespace gui
       c->render(renderer);
   }
 
-  void GUIComponent::handleMouseClick(geometry::Vec2 point)
+  bool GUIComponent::handleMouseClick(geometry::Vec2 point, int button, int action)
   {
     if (box.containsAbs(point))
     {
-      for (GUIComponent* c : children)
-        c->handleMouseClick(point);
-
       onMouseClick();
     }
+    return false;
   }
 
 } /* namespace gui */

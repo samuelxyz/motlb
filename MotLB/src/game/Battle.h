@@ -10,19 +10,18 @@
 
 #include <Box.h>
 #include <Entity.h>
-#include <GUIComponent.h>
+#include <MouseReceiver.h>
 #include <Particle.h>
 #include <Projectile.h>
-#include <Renderer.h>
 #include <Unit.h>
 #include <UnitLoader.h>
 #include <Values.h>
+#include <Vec2.h>
 #include <vector>
-
 
 class Window;
 
-class Battle
+class Battle: public MouseReceiver
 {
   public:
 
@@ -43,7 +42,7 @@ class Battle
     void healAllIfAlive();
 
     void handleKeypress(int key, int action);
-    void handleMouseClick(int button, int action);
+    virtual bool handleMouseClick(geometry::Vec2 position, int button, int action) override;
 
     const geometry::Box& getBounds() const { return bounds; }
 
