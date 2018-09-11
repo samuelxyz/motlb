@@ -21,6 +21,7 @@
 
 namespace gui {
   class StartStopButton;
+  class ModeSelector;
   class ColorSelector;
 }
 
@@ -68,6 +69,7 @@ class Battle: public MouseReceiver
     std::vector<entity::Unit*> units;
 
     friend class gui::StartStopButton;
+    friend class gui::ModeSelector;
     friend class gui::ColorSelector;
     friend class UnitLoader;
     UnitLoader unitLoader;
@@ -87,9 +89,9 @@ class Battle: public MouseReceiver
     } selectedUnitType;
     enum class BattleAction
     {
-        SINGLE,
-        LINE,
-        DELETE
+        DELETE = 0,
+        SINGLE = 1,
+        LINE   = 2
     } selectedAction;
 
     bool paused;

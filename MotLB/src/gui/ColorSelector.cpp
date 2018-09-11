@@ -40,6 +40,9 @@ namespace gui
 
   void ColorSelector::render(graphics::Renderer& renderer) const
   {
+    if (battle->selectedAction == Battle::BattleAction::DELETE)
+      return;
+
     // selection highlight
     int selectedBox = static_cast<int>(battle->selectedTeam);
     highlight.position = left + (selectedBox - 0.5)*dx;

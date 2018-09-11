@@ -6,6 +6,7 @@
  */
 
 #include <Box.h>
+#include <ModeSelector.h>
 #include <ColorSelector.h>
 #include <HealButton.h>
 #include <ResetButton.h>
@@ -108,10 +109,21 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   ));
   topPanel.addChild(reset);
 
-  gui::GUIComponent* colorSelect(new gui::ColorSelector(&mouseHandler,
+  constexpr double modeBottom = Values::SIDE_PANEL_HEIGHT - 2*Values::BUTTON_PADDING;
+  gui::GUIComponent* modeSelect(new gui::ModeSelector(&mouseHandler,
       geometry::Box(
           geometry::Vec2(Values::BATTLE_WIDTH + Values::BUTTON_PADDING, Values::SIDE_PANEL_HEIGHT - Values::BUTTON_PADDING),
-          geometry::Vec2(Values::WINDOW_WIDTH - Values::BUTTON_PADDING, Values::SIDE_PANEL_HEIGHT - Values::BUTTON_PADDING*2)
+          geometry::Vec2(Values::WINDOW_WIDTH - Values::BUTTON_PADDING, modeBottom)
+      ),
+      &battle
+  ));
+  sidePanel.addChild(modeSelect);
+
+  constexpr double colorBottom = modeBottom - 2*Values::BUTTON_PADDING;
+  gui::GUIComponent* colorSelect(new gui::ColorSelector(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(Values::BATTLE_WIDTH + Values::BUTTON_PADDING, modeBottom - Values::BUTTON_PADDING),
+          geometry::Vec2(Values::WINDOW_WIDTH - Values::BUTTON_PADDING, colorBottom)
       ),
       &battle
   ));
