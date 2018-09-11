@@ -19,6 +19,8 @@
 #include <Vec2.h>
 #include <vector>
 
+#include <StartStopButton.h>
+
 class Window;
 
 class Battle: public MouseReceiver
@@ -62,6 +64,7 @@ class Battle: public MouseReceiver
     std::vector<entity::Projectile*> projectiles;
     std::vector<entity::Unit*> units;
 
+    friend class gui::StartStopButton;
     friend class UnitLoader;
     UnitLoader unitLoader;
 

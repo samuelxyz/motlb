@@ -5,10 +5,14 @@
  *      Author: Samuel Tan
  */
 
-#include <Window.h>
 #include <Box.h>
+#include <HealButton.h>
+#include <ResetButton.h>
+#include <ResurrectButton.h>
+#include <StartStopButton.h>
 #include <Values.h>
 #include <Vec2.h>
+#include <Window.h>
 
 #ifdef MOTLB_DEBUG
 #include <cstdio>
@@ -59,6 +63,49 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
 
   sidePanel.addChild(sideBorder);
   topPanel.addChild(topBorder);
+
+  // buttons
+  constexpr double BUTTON_WIDTH = 80;
+
+  constexpr double startStopRight = Values::BUTTON_PADDING + BUTTON_WIDTH;
+  gui::GUIComponent* startStop(new gui::StartStopButton(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(Values::BUTTON_PADDING, Values::BATTLE_HEIGHT + Values::BUTTON_PADDING),
+          geometry::Vec2(startStopRight, Values::WINDOW_HEIGHT - Values::BUTTON_PADDING)
+      ),
+      &battle
+  ));
+  topPanel.addChild(startStop);
+
+  constexpr double resurrectRight = startStopRight + Values::BUTTON_PADDING + BUTTON_WIDTH;
+  gui::GUIComponent* resurrect(new gui::ResurrectButton(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(startStopRight + Values::BUTTON_PADDING, Values::BATTLE_HEIGHT + Values::BUTTON_PADDING),
+          geometry::Vec2(resurrectRight, Values::WINDOW_HEIGHT - Values::BUTTON_PADDING)
+      ),
+      &battle
+  ));
+  topPanel.addChild(resurrect);
+
+  constexpr double healRight = resurrectRight + Values::BUTTON_PADDING + BUTTON_WIDTH;
+  gui::GUIComponent* heal(new gui::HealButton(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(resurrectRight + Values::BUTTON_PADDING, Values::BATTLE_HEIGHT + Values::BUTTON_PADDING),
+          geometry::Vec2(healRight, Values::WINDOW_HEIGHT - Values::BUTTON_PADDING)
+      ),
+      &battle
+  ));
+  topPanel.addChild(heal);
+
+  constexpr double resetRight = healRight + Values::BUTTON_PADDING + BUTTON_WIDTH;
+  gui::GUIComponent* reset(new gui::ResetButton(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(healRight + Values::BUTTON_PADDING, Values::BATTLE_HEIGHT + Values::BUTTON_PADDING),
+          geometry::Vec2(resetRight, Values::WINDOW_HEIGHT - Values::BUTTON_PADDING)
+      ),
+      &battle
+  ));
+  topPanel.addChild(reset);
 
 //  glEnable(GL_DEPTH_TEST);
 //  glDepthFunc(GL_LEQUAL);

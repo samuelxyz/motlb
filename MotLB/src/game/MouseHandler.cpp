@@ -22,7 +22,7 @@ void MouseHandler::addReceiver(MouseReceiver* receiver)
   receivers.emplace_back(receiver);
 }
 
-void MouseHandler::removeReceiver(MouseReceiver* receiver)
+void MouseHandler::removeReceiver(const MouseReceiver* receiver)
 {
   for (unsigned int i = 0; i < receivers.size();)
   {
@@ -53,7 +53,7 @@ void MouseHandler::handleMouseClick(geometry::Vec2 position, int button, int act
   }
 }
 
-bool MouseHandler::hasFocus(MouseReceiver* receiver) const
+bool MouseHandler::hasFocus(const MouseReceiver* receiver) const
 {
   return activeReceiver == receiver;
 }

@@ -19,10 +19,10 @@ class MouseHandler
     virtual ~MouseHandler();
 
     void addReceiver(MouseReceiver*);
-    void removeReceiver(MouseReceiver*);
+    void removeReceiver(const MouseReceiver*);
     void handleMouseClick(geometry::Vec2 position, int button, int action);
 
-    bool hasFocus(MouseReceiver*) const;
+    bool hasFocus(const MouseReceiver*) const;
 
   private:
     std::vector<MouseReceiver*> receivers;

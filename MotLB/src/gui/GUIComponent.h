@@ -16,7 +16,6 @@
 
 class MouseHandler;
 
-
 namespace graphics
 {
   class Renderer;
@@ -40,8 +39,8 @@ namespace gui
 
       void addChild(GUIComponent*);
 
-      void refresh();
-      void render(graphics::Renderer&) const;
+      virtual void update();
+      virtual void render(graphics::Renderer&) const;
       virtual bool handleMouseClick(geometry::Vec2 pos, int button, int action) override;
   };
 

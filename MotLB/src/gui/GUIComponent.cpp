@@ -39,10 +39,10 @@ namespace gui
     // nothing yet
   }
 
-  void GUIComponent::refresh()
+  void GUIComponent::update()
   {
     for (GUIComponent* c : children)
-      c->refresh();
+      c->update();
   }
 
   void GUIComponent::render(graphics::Renderer& renderer) const
