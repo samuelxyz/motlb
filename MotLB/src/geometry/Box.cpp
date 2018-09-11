@@ -15,6 +15,11 @@
 
 namespace geometry
 {
+  Box::Box()
+  : Box(geometry::Vec2(), 0, 0, 0, 0, 0)
+  {
+  }
+
   Box::Box(Vec2 position, double angle,
       double xMin, double xMax,
       double yMin, double yMax)

@@ -6,6 +6,7 @@
  */
 
 #include <Box.h>
+#include <ColorSelector.h>
 #include <HealButton.h>
 #include <ResetButton.h>
 #include <ResurrectButton.h>
@@ -106,6 +107,15 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
       &battle
   ));
   topPanel.addChild(reset);
+
+  gui::GUIComponent* colorSelect(new gui::ColorSelector(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(Values::BATTLE_WIDTH + Values::BUTTON_PADDING, Values::SIDE_PANEL_HEIGHT - Values::BUTTON_PADDING),
+          geometry::Vec2(Values::WINDOW_WIDTH - Values::BUTTON_PADDING, Values::SIDE_PANEL_HEIGHT - Values::BUTTON_PADDING*2)
+      ),
+      &battle
+  ));
+  sidePanel.addChild(colorSelect);
 
 //  glEnable(GL_DEPTH_TEST);
 //  glDepthFunc(GL_LEQUAL);

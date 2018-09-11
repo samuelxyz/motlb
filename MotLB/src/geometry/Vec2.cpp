@@ -113,6 +113,9 @@ namespace geometry
 
   void Vec2::rotateBy(double angle)
   {
+    if (angle == 0.0)
+      return;
+
     double oldX = x;
     double oldY = y;
     double cosa = cos(angle);

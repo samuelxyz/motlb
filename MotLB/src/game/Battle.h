@@ -19,7 +19,10 @@
 #include <Vec2.h>
 #include <vector>
 
-#include <StartStopButton.h>
+namespace gui {
+  class StartStopButton;
+  class ColorSelector;
+}
 
 class Window;
 
@@ -65,6 +68,7 @@ class Battle: public MouseReceiver
     std::vector<entity::Unit*> units;
 
     friend class gui::StartStopButton;
+    friend class gui::ColorSelector;
     friend class UnitLoader;
     UnitLoader unitLoader;
 

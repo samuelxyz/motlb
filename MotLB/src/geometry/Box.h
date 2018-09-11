@@ -20,6 +20,7 @@ namespace geometry
   {
     public:
 
+      Box();
       Box(geometry::Vec2 position, double angle, double xMin, double xMax,
           double yMin, double yMax);
       Box(geometry::Vec2 corner1, geometry::Vec2 corner2);
