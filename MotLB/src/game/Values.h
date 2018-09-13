@@ -53,9 +53,10 @@ class Values
         float r, g, b, a;
     };
 
-    static constexpr Color PANEL_COLOR  { 0.0f, 0.1f, 0.2f, 1.0f },
-                           BORDER_COLOR { 0.5f, 0.7f, 1.0f, 1.0f },
-                           BUTTON_COLOR { 1.0f, 1.0f, 1.0f, 0.5f };
+    static constexpr Color PANEL_COLOR     { 0.0f, 0.1f, 0.2f, 1.0f },
+                           BORDER_COLOR    { 0.5f, 0.7f, 1.0f, 1.0f },
+                           BUTTON_COLOR    { 1.0f, 1.0f, 1.0f, 0.5f },
+                           HIGHLIGHT_COLOR { 1.0f, 1.0f, 1.0f, 1.0f };
 
     struct ColoredVertex
     {

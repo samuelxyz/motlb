@@ -12,12 +12,18 @@
 #include "../geometry/Box.h"
 #include "Entity.h"
 
+namespace gui {
+  class TypeSelector;
+}
+
 namespace entity
 {
 
   class Unit: public Entity
   {
     public:
+
+      friend class gui::TypeSelector;
 
       Unit(Battle*, Team, geometry::Vec2 position, geometry::Vec2 velocity, double angle);
       virtual ~Unit();

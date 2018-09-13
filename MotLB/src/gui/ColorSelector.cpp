@@ -75,6 +75,7 @@ namespace gui
           {
             battle->selectedTeam = static_cast<entity::Entity::Team>(
                 static_cast<int>(i+1));
+            battle->refreshGUI();
             battle->updateWindowTitle();
             clicked = true;
             break;
@@ -99,6 +100,7 @@ namespace gui
           selection = static_cast<int>(dist) + 1;
 
         battle->selectedTeam = static_cast<entity::Entity::Team>(selection);
+        battle->refreshGUI();
         battle->updateWindowTitle();
 
         return (action != GLFW_RELEASE);

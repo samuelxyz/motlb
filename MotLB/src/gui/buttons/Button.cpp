@@ -11,6 +11,7 @@
 #include <GLFW/glfw3.h>
 
 constexpr Values::Color Values::BUTTON_COLOR;
+constexpr Values::Color Values::HIGHLIGHT_COLOR;
 
 namespace gui
 {
@@ -27,11 +28,10 @@ namespace gui
 
   void Button::render(graphics::Renderer& renderer) const
   {
-    Values::Color buttonColor(color);
     if (mouseHandler->hasFocus(this))
-      buttonColor.a = 1.0f;
-
-    renderer.addQuad(Values::makeQuad(buttonColor, box, Values::Depth::UNITS));
+      renderer.addQuad(Values::makeQuad(Values::HIGHLIGHT_COLOR, box, Values::Depth::UNITS));
+    else
+      renderer.addQuad(Values::makeQuad(Values::BUTTON_COLOR, box, Values::Depth::UNITS));
   }
 
   bool Button::handleMouseClick(geometry::Vec2 pos, int button, int action)

@@ -8,7 +8,7 @@
 #ifndef UNITLOADER_H_
 #define UNITLOADER_H_
 
-#include <unit/Unit.h>
+#include <Unit.h>
 #include <Vec2.h>
 #include <vector>
 
@@ -36,6 +36,9 @@ class UnitLoader
 
     bool processClick(geometry::Vec2 position);
     bool isLineStarted();
+
+    static entity::Unit* make(Battle* battle, entity::Entity::Team team,
+        geometry::Vec2 position, double angle, int type);
 
   private:
     entity::Unit* make(geometry::Vec2 position);

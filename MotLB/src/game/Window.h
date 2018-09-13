@@ -119,6 +119,7 @@ class Window
     bool shouldClose() const;
     void update();
     void render();
+    void refreshGUI();
 
     void setTitleMessage(const std::string& msg);
 

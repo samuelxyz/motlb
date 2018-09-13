@@ -5,18 +5,17 @@
  *      Author: Samuel Tan
  */
 
+#include <Ace.h>
 #include <Battle.h>
 #include <Box.h>
+#include <Cannon.h>
 #include <Entity.h>
+#include <Giant.h>
+#include <Launcher.h>
+#include <Racer.h>
+#include <Railgun.h>
 #include <Renderer.h>
-#include <unit/Ace.h>
-#include <unit/Cannon.h>
-#include <unit/Giant.h>
-#include <unit/Launcher.h>
-#include <unit/Racer.h>
-#include <unit/Railgun.h>
-#include <unit/Shield.h>
-
+#include <Shield.h>
 #include <UnitLoader.h>
 #include <Values.h>
 #include <Window.h>
@@ -230,6 +229,36 @@ bool UnitLoader::isLineStarted()
   return lineStarted;
 }
 
+entity::Unit* UnitLoader::make(Battle* battle, entity::Entity::Team team, geometry::Vec2 position, double angle,
+    int type)
+{
+  Battle::UnitType unitType = static_cast<Battle::UnitType>(type);
+
+  switch (unitType)
+  {
+    case Battle::UnitType::UNIT:
+      return new entity::Unit    (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::GUNNER:
+      return new entity::Gunner  (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::LAUNCHER:
+      return new entity::Launcher(battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::CANNON:
+      return new entity::Cannon  (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::RAILGUN:
+      return new entity::Railgun (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::GIANT:
+      return new entity::Giant   (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::SHIELD:
+      return new entity::Shield  (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::RACER:
+      return new entity::Racer   (battle, team, position, geometry::Vec2(), angle);
+    case Battle::UnitType::ACE:
+      return new entity::Ace     (battle, team, position, geometry::Vec2(), angle);
+    default:
+      return nullptr; // battle can handle this
+  }
+}
+
 entity::Unit* UnitLoader::make(geometry::Vec2 position)
 {
   double angle = (-battle.bounds.toClosestEdge(position)).getAngle();
@@ -238,29 +267,7 @@ entity::Unit* UnitLoader::make(geometry::Vec2 position)
 
 entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)
 {
-  switch (battle.selectedUnitType)
-  {
-    case Battle::UnitType::UNIT:
-      return new entity::Unit    (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::GUNNER:
-      return new entity::Gunner  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::LAUNCHER:
-      return new entity::Launcher(&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::CANNON:
-      return new entity::Cannon  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::RAILGUN:
-      return new entity::Railgun (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::GIANT:
-      return new entity::Giant   (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::SHIELD:
-      return new entity::Shield  (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::RACER:
-      return new entity::Racer   (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    case Battle::UnitType::ACE:
-      return new entity::Ace     (&battle, battle.selectedTeam, position, geometry::Vec2(), angle);
-    default:
-      return nullptr; // battle can handle this
-  }
+  return make(&battle, battle.selectedTeam, position, angle, static_cast<int>(battle.selectedUnitType));
 }
 
 void UnitLoader::startLine(geometry::Vec2 start, geometry::Vec2 end)

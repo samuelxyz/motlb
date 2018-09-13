@@ -14,15 +14,16 @@
 #include <Particle.h>
 #include <Projectile.h>
 #include <Unit.h>
-#include <UnitLoader.h>
 #include <Values.h>
 #include <Vec2.h>
 #include <vector>
+#include <UnitLoader.h>
 
 namespace gui {
   class StartStopButton;
   class ModeSelector;
   class ColorSelector;
+  class TypeSelector;
 }
 
 class Window;
@@ -34,6 +35,7 @@ class Battle: public MouseReceiver
     Battle(Window*);
     ~Battle();
 
+    void refreshGUI();
     void update();
     void render(graphics::Renderer&);
 
@@ -71,21 +73,22 @@ class Battle: public MouseReceiver
     friend class gui::StartStopButton;
     friend class gui::ModeSelector;
     friend class gui::ColorSelector;
+    friend class gui::TypeSelector;
     friend class UnitLoader;
     UnitLoader unitLoader;
 
     entity::Entity::Team selectedTeam;
     enum class UnitType
     {
-        UNIT,
-        GUNNER,
-        LAUNCHER,
-        CANNON,
-        RAILGUN,
-        GIANT,
-        SHIELD,
-        RACER,
-        ACE
+        UNIT     = 0,
+        GUNNER   = 1,
+        LAUNCHER = 2,
+        CANNON   = 3,
+        RAILGUN  = 4,
+        GIANT    = 5,
+        SHIELD   = 6,
+        RACER    = 7,
+        ACE      = 8
     } selectedUnitType;
     enum class BattleAction
     {

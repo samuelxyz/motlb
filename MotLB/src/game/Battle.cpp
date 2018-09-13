@@ -31,6 +31,14 @@ Battle::~Battle()
 {
 }
 
+void Battle::refreshGUI()
+{
+  if (unitLoader.isLineStarted())
+    unitLoader.refresh();
+
+  window->refreshGUI();
+}
+
 void Battle::update()
 {
   if (paused)
@@ -295,9 +303,7 @@ void Battle::handleKeypress(int key, int action)
     }
   }
 
-  if (selectedAction == BattleAction::LINE)
-    unitLoader.refresh();
-
+  refreshGUI();
   updateWindowTitle();
 
 }

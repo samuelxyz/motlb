@@ -14,6 +14,8 @@
 #include <Values.h>
 #include <GLFW/glfw3.h>
 
+//constexpr Values::Color Values::HIGHLIGHT_COLOR;
+
 namespace gui
 {
 
@@ -39,13 +41,11 @@ namespace gui
 
   void ModeSelector::render(graphics::Renderer& renderer) const
   {
-    Values::Color highlightColor = color;
-    highlightColor.a = 1.0f;
     unsigned int selection = static_cast<unsigned int>(
         static_cast<int>(battle->selectedAction));
 
     GUIComponent::render(renderer);
-    renderer.addQuad(Values::makeQuad(highlightColor, boxes[selection], Values::Depth::UNITS));
+    renderer.addQuad(Values::makeQuad(Values::HIGHLIGHT_COLOR, boxes[selection], Values::Depth::UNITS));
 
     constexpr double scale = 12;
     geometry::Box deleteBar(boxes[0].position, box.angle + Values::HALF_PI/2, -scale, scale, -scale/4, scale/4);

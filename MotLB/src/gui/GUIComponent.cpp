@@ -39,6 +39,12 @@ namespace gui
     // nothing yet
   }
 
+  void GUIComponent::refresh()
+  {
+    for (GUIComponent* c : children)
+      c->refresh();
+  }
+
   void GUIComponent::update()
   {
     for (GUIComponent* c : children)

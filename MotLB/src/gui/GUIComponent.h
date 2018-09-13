@@ -39,6 +39,7 @@ namespace gui
 
       void addChild(GUIComponent*);
 
+      virtual void refresh();
       virtual void update();
       virtual void render(graphics::Renderer&) const;
       virtual bool handleMouseClick(geometry::Vec2 pos, int button, int action) override;
