@@ -34,7 +34,7 @@ namespace gui
     children.emplace_back(c);
   }
 
-  void GUIComponent::onMouseClick()
+  void GUIComponent::clickAction() const
   {
     // nothing yet
   }
@@ -63,7 +63,7 @@ namespace gui
   {
     if (box.containsAbs(point))
     {
-      onMouseClick();
+      clickAction();
     }
     return false;
   }

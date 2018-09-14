@@ -31,7 +31,6 @@ namespace gui
       Values::Color color;
       std::vector<GUIComponent*> children;
 
-      virtual void onMouseClick();
 
     public:
       GUIComponent(MouseHandler*, const geometry::Box&, const Values::Color&);
@@ -43,6 +42,7 @@ namespace gui
       virtual void update();
       virtual void render(graphics::Renderer&) const;
       virtual bool handleMouseClick(geometry::Vec2 pos, int button, int action) override;
+      virtual void clickAction() const;
   };
 
 } /* namespace gui */

@@ -22,6 +22,7 @@ namespace gui
     protected:
       Battle* battle;
 
+
     public:
       Button(MouseHandler* mouseHandler,
           const geometry::Box& area, Battle* battle);
@@ -29,7 +30,6 @@ namespace gui
 
       virtual void render(graphics::Renderer&) const override;
       virtual bool handleMouseClick(geometry::Vec2 pos, int button, int action) override;
-      virtual void clickAction() const = 0;
   };
 
 } /* namespace gui */

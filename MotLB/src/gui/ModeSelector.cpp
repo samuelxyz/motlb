@@ -59,9 +59,9 @@ namespace gui
     plusBar.angle += Values::HALF_PI;
     renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, plusBar, Values::Depth::EMBLEMS));
 
-    geometry::Box lineVertLeft(boxes[2].position, box.angle, -plusScale/2 - plusScale, -plusScale, -plusScale, plusScale);
+    geometry::Box lineVertLeft(boxes[2].position, box.angle, -plusScale*3/2, -plusScale, -plusScale, plusScale);
     renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, lineVertLeft, Values::Depth::EMBLEMS));
-    geometry::Box lineVertRight(boxes[2].position, box.angle, -plusScale/2 + plusScale, plusScale, -plusScale, plusScale);
+    geometry::Box lineVertRight(boxes[2].position, box.angle, plusScale, plusScale*3/2, -plusScale, plusScale);
     renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, lineVertRight, Values::Depth::EMBLEMS));
     geometry::Box lineHoriz(boxes[2].position, box.angle, -plusScale, plusScale, -plusScale/4, plusScale/4);
     renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, lineHoriz, Values::Depth::EMBLEMS));

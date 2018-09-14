@@ -13,6 +13,7 @@
 #include <ResetButton.h>
 #include <ResurrectButton.h>
 #include <StartStopButton.h>
+#include <LineControls.h>
 #include <Values.h>
 #include <Vec2.h>
 #include <Window.h>
@@ -130,14 +131,21 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   ));
   sidePanel.addChild(colorSelect);
 
-  constexpr double typeBottom = colorBottom - Values::BUTTON_PADDING -
-      gui::TypeSelector::BOX_SIZE*gui::TypeSelector::BOX_LIMIT_Y;
   gui::GUIComponent* typeSelect(new gui::TypeSelector(&mouseHandler,
       geometry::Vec2(Values::BATTLE_WIDTH + 0.5*Values::SIDE_PANEL_WIDTH,
           colorBottom - Values::BUTTON_PADDING),
       &battle
   ));
   sidePanel.addChild(typeSelect);
+
+  gui::GUIComponent* lineControls(new gui::LineControls(&mouseHandler,
+      geometry::Box(
+          geometry::Vec2(Values::BATTLE_WIDTH + Values::BUTTON_PADDING, 2*Values::BUTTON_PADDING),
+          geometry::Vec2(Values::WINDOW_WIDTH - Values::BUTTON_PADDING, Values::BUTTON_PADDING)
+      ),
+      &battle
+  ));
+  sidePanel.addChild(lineControls);
 
 //  glEnable(GL_DEPTH_TEST);
 //  glDepthFunc(GL_LEQUAL);

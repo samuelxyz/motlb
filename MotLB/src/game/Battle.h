@@ -105,6 +105,9 @@ class Battle: public MouseReceiver
       0.7f, 0.7f, 0.7f, 1.0f
     };
 
+  public:
+    UnitLoader& getUnitLoader() { return unitLoader; }
+
 };
 
 #endif /* BATTLE_H_ */
