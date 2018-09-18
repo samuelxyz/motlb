@@ -99,13 +99,16 @@ void UnitLoader::drawBar(graphics::Renderer& renderer,
 
 void UnitLoader::flip()
 {
-  facing *= -1;
-  refresh();
+  if (lineStarted)
+  {
+    facing *= -1;
+    refresh();
+  }
 }
 
 void UnitLoader::increment()
 {
-  if (battle.selectedAction == Battle::BattleAction::LINE)
+  if (lineStarted)
   {
     ++count;
     refresh();
@@ -114,8 +117,7 @@ void UnitLoader::increment()
 
 void UnitLoader::decrement()
 {
-  if (battle.selectedAction == Battle::BattleAction::LINE &&
-      count > 0)
+  if (lineStarted && count > 0)
   {
     --count;
     refresh();
@@ -124,6 +126,9 @@ void UnitLoader::decrement()
 
 void UnitLoader::refresh()
 {
+  if (!lineStarted)
+    return;
+
   if (stagedUnits.size())
     clearStagedUnits();
 

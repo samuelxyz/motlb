@@ -67,6 +67,7 @@ class Window
 
           glfwSetKeyCallback(window, handleKey);
           glfwSetMouseButtonCallback(window, handleMouseButton);
+          glfwSetScrollCallback(window, handleScroll);
 
           glfwSetCursor(window, glfwCreateStandardCursor(GLFW_CROSSHAIR_CURSOR));
 
@@ -125,6 +126,7 @@ class Window
 
     static void handleKey(GLFWwindow*, int key, int scancode, int action, int mods);
     static void handleMouseButton(GLFWwindow*, int button, int action, int mods);
+    static void handleScroll(GLFWwindow*, double xoffset, double yoffset);
     geometry::Vec2 getMousePos() const;
 };
 

@@ -231,6 +231,15 @@ void Window::handleMouseButton(GLFWwindow* window, int button, int action,
   w->mouseHandler.handleMouseClick(w->getMousePos(), button, action);
 }
 
+void Window::handleScroll(GLFWwindow* window, double xoffset, double yoffset)
+{
+  Window* w = ((Window*)glfwGetWindowUserPointer(window));
+  if (yoffset > 0)
+    w->battle.getUnitLoader().increment();
+  else if (yoffset < 0)
+    w->battle.getUnitLoader().decrement();
+}
+
 geometry::Vec2 Window::getMousePos() const
 {
   double x, y;
