@@ -22,6 +22,8 @@ namespace entity
       geometry::Vec2 position, geometry::Vec2 velocity, double angle)
   : Entity(battle, team, position, velocity, Values::Depth::UNITS),
 
+    dragging(false),
+
     // const members
     inertia(10),
     acceleration(0.1),
@@ -54,8 +56,11 @@ namespace entity
     updateTarget();
 
     rotate();
-    accelerate();
-    move();
+    if (!dragging)
+    {
+      accelerate();
+      move();
+    }
     checkCollisions();
     checkContainment();
 
@@ -77,6 +82,11 @@ namespace entity
   void Unit::receiveImpulse(const geometry::Vec2 impulse)
   {
     velocity += (1/inertia) * impulse;
+  }
+
+  void Unit::setVelocity(const geometry::Vec2 vel)
+  {
+    velocity = vel;
   }
 
   void Unit::resurrect()

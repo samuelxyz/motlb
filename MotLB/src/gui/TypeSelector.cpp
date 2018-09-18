@@ -79,7 +79,8 @@ namespace gui
 
   void TypeSelector::render(graphics::Renderer& renderer) const
   {
-    if (battle->selectedAction == Battle::BattleAction::DELETE)
+    if (battle->selectedAction != Battle::BattleAction::SINGLE &&
+        battle->selectedAction != Battle::BattleAction::LINE)
       return;
 
     unsigned int selection = static_cast<unsigned int>(

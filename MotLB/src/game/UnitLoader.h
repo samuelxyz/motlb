@@ -21,6 +21,13 @@ namespace graphics
 
 class UnitLoader
 {
+  private:
+    Battle& battle;
+    std::vector<entity::Unit*> stagedUnits;
+    unsigned int count;
+    bool alreadyClicked, lineStarted;
+    geometry::Vec2 v1, v2, facing;
+
   public:
     UnitLoader(Battle& battle);
     ~UnitLoader();
@@ -36,6 +43,7 @@ class UnitLoader
 
     bool processClick(geometry::Vec2 position);
     bool isLineStarted();
+    double getAngleOfNewUnits(geometry::Vec2 position);
 
     static entity::Unit* make(Battle* battle, entity::Entity::Team team,
         geometry::Vec2 position, double angle, int type);
@@ -47,12 +55,6 @@ class UnitLoader
     void clearStagedUnits();
     void drawBar(graphics::Renderer& renderer,
         geometry::Vec2 start, geometry::Vec2 end) const;
-
-    Battle& battle;
-    std::vector<entity::Unit*> stagedUnits;
-    unsigned int count;
-    bool alreadyClicked, lineStarted;
-    geometry::Vec2 v1, v2, facing;
 };
 
 #endif /* UNITLOADER_H_ */

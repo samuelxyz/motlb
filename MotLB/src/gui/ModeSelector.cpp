@@ -65,6 +65,27 @@ namespace gui
     renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, lineVertRight, Values::Depth::EMBLEMS));
     geometry::Box lineHoriz(boxes[2].position, box.angle, -plusScale, plusScale, -plusScale/4, plusScale/4);
     renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, lineHoriz, Values::Depth::EMBLEMS));
+
+    constexpr double thinPlusScale = 8;
+    geometry::Box thinPlus(boxes[3].position, box.angle, -thinPlusScale, thinPlusScale, -thinPlusScale/5, thinPlusScale/5);
+    renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, thinPlus, Values::Depth::EMBLEMS));
+    thinPlus.angle += Values::HALF_PI;
+    renderer.addQuad(Values::makeQuad(Values::PANEL_COLOR, thinPlus, Values::Depth::EMBLEMS));
+    geometry::Vec2 arrowBase(thinPlusScale);
+    geometry::Vec2 arrowSide(0, thinPlusScale/2);
+    geometry::Vec2 arrowTip(thinPlusScale/2);
+    for (unsigned int i = 0; i < 4; ++i)
+    {
+      renderer.addTriangle(Values::Triangle {{
+        Values::makeCV(Values::PANEL_COLOR, boxes[3].position + arrowBase + arrowSide, Values::Depth::EMBLEMS),
+        Values::makeCV(Values::PANEL_COLOR, boxes[3].position + arrowBase - arrowSide, Values::Depth::EMBLEMS),
+        Values::makeCV(Values::PANEL_COLOR, boxes[3].position + arrowBase + arrowTip, Values::Depth::EMBLEMS)
+      }});
+
+      arrowBase.rotateBy(Values::HALF_PI);
+      arrowSide.rotateBy(Values::HALF_PI);
+      arrowTip.rotateBy(Values::HALF_PI);
+    }
   }
 
   bool ModeSelector::handleMouseClick(geometry::Vec2 pos, int button,

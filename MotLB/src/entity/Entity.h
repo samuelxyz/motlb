@@ -46,6 +46,8 @@ namespace entity
       const float getDepth() { return depth; }
       static const Values::Color& getTeamColor(Team team);
 
+      virtual void move();
+
     protected:
 
       Battle* battle;
@@ -54,7 +56,6 @@ namespace entity
       bool active;
       const float depth;
 
-      virtual void move();
       virtual void checkContainment() = 0;
 
     private:

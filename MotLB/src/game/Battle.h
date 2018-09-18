@@ -53,7 +53,7 @@ class Battle: public MouseReceiver
     virtual bool handleMouseClick(geometry::Vec2 position, int button, int action) override;
 
     const geometry::Box& getBounds() const { return bounds; }
-
+    UnitLoader& getUnitLoader() { return unitLoader; }
     std::vector<entity::Unit*>& getUnits() { return units; }
     std::vector<entity::Projectile*>& getProjectiles() { return projectiles; }
     std::vector<entity::Particle*>& getParticles() { return particles; }
@@ -94,7 +94,8 @@ class Battle: public MouseReceiver
     {
         DELETE = 0,
         SINGLE = 1,
-        LINE   = 2
+        LINE   = 2,
+        DRAG   = 3
     } selectedAction;
 
     bool paused;
@@ -105,8 +106,11 @@ class Battle: public MouseReceiver
       0.7f, 0.7f, 0.7f, 1.0f
     };
 
-  public:
-    UnitLoader& getUnitLoader() { return unitLoader; }
+    struct DragData
+    {
+        entity::Unit* target;
+        geometry::Vec2 previousMousePos, idealTargetOffset;
+    } dragData;
 
 };
 

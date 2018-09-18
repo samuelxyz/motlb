@@ -21,7 +21,7 @@ namespace gui
     private:
       Battle* battle;
 
-      static constexpr unsigned int NUM_MODES = 3;
+      static constexpr unsigned int NUM_MODES = 4;
       const double sectionWidth;
 
       geometry::Vec2 left, dx;

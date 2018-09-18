@@ -234,6 +234,11 @@ bool UnitLoader::isLineStarted()
   return lineStarted;
 }
 
+double UnitLoader::getAngleOfNewUnits(geometry::Vec2 position)
+{
+  return (-battle.bounds.toClosestEdge(position)).getAngle();
+}
+
 entity::Unit* UnitLoader::make(Battle* battle, entity::Entity::Team team, geometry::Vec2 position, double angle,
     int type)
 {
@@ -266,8 +271,7 @@ entity::Unit* UnitLoader::make(Battle* battle, entity::Entity::Team team, geomet
 
 entity::Unit* UnitLoader::make(geometry::Vec2 position)
 {
-  double angle = (-battle.bounds.toClosestEdge(position)).getAngle();
-  return make(position, angle);
+  return make(position, getAngleOfNewUnits(position));
 }
 
 entity::Unit* UnitLoader::make(geometry::Vec2 position, double angle)

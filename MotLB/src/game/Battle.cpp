@@ -23,7 +23,8 @@ Battle::Battle(Window* window)
   selectedTeam(entity::Entity::Team::RED),
   selectedUnitType(UnitType::UNIT),
   selectedAction(BattleAction::SINGLE),
-  paused(true)
+  paused(true),
+  dragData { nullptr, geometry::Vec2(), geometry::Vec2() }
 {
 }
 
@@ -246,6 +247,9 @@ void Battle::handleKeypress(int key, int action)
         if (unitLoader.isLineStarted())
           unitLoader.cancel();
         break;
+      case GLFW_KEY_F:
+        selectedAction = BattleAction::DRAG;
+        break;
 
       case GLFW_KEY_Z:
         resurrectAllIfDead();
@@ -310,7 +314,7 @@ void Battle::handleKeypress(int key, int action)
 
 bool Battle::handleMouseClick(geometry::Vec2 position, int button, int action)
 {
-  if (bounds.containsAbs(position))
+  if (selectedAction != BattleAction::DRAG && bounds.containsAbs(position))
   {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
     {
@@ -320,6 +324,48 @@ bool Battle::handleMouseClick(geometry::Vec2 position, int button, int action)
     }
     else if (action == GLFW_PRESS)
     {
+      return true;
+    }
+  }
+
+  // handle dragging
+  else if (selectedAction == BattleAction::DRAG &&
+      button == GLFW_MOUSE_BUTTON_LEFT)
+  {
+    if (action == GLFW_PRESS)
+    {
+      for (entity::Unit* u : units)
+      {
+        if (u && u->getBox().containsAbs(position))
+        {
+          dragData.target = u;
+          dragData.target->dragging = true;
+          dragData.previousMousePos = position;
+          dragData.idealTargetOffset = u->getPosition() - position;
+          return true;
+        }
+      }
+    }
+    else if (action == GLFW_RELEASE)
+    {
+      if (paused)
+        dragData.target->setVelocity(geometry::Vec2());
+      dragData.target->dragging = false;
+      dragData.target = nullptr;
+      return false;
+    }
+    else if (action == GLFW_REPEAT && dragData.target != nullptr)
+    {
+      geometry::Vec2 idealPos = position + dragData.idealTargetOffset;
+      geometry::Vec2 spring = idealPos - dragData.target->getPosition();
+      geometry::Vec2 dx = position - dragData.previousMousePos;
+
+      dragData.target->setVelocity(dx);
+      dragData.target->receiveImpulse(spring * 2);
+      dragData.target->move();
+      dragData.target->checkContainment();
+
+      dragData.previousMousePos = position;
       return true;
     }
   }
@@ -339,6 +385,10 @@ void Battle::updateWindowTitle()
   if (selectedAction == BattleAction::DELETE)
   {
     msg += "Click to delete a unit";
+  }
+  else if (selectedAction == BattleAction::DRAG)
+  {
+    msg += "Click and drag to move units";
   }
   else if (unitLoader.isLineStarted() &&
       selectedAction == BattleAction::LINE) // special case

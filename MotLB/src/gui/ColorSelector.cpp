@@ -40,7 +40,8 @@ namespace gui
 
   void ColorSelector::render(graphics::Renderer& renderer) const
   {
-    if (battle->selectedAction == Battle::BattleAction::DELETE)
+    if (battle->selectedAction != Battle::BattleAction::SINGLE &&
+        battle->selectedAction != Battle::BattleAction::LINE)
       return;
 
     // selection highlight

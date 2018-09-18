@@ -8,9 +8,9 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
-#include <projectile/Projectile.h>
-#include "../geometry/Box.h"
-#include "Entity.h"
+#include <Box.h>
+#include <Entity.h>
+#include <Vec2.h>
 
 namespace gui {
   class TypeSelector;
@@ -36,10 +36,16 @@ namespace entity
       virtual void update() override;
       virtual void render(graphics::Renderer&) const override;
       virtual void receiveAttack(const double, const geometry::Vec2);
+
       void receiveImpulse(const geometry::Vec2);
+      void setVelocity(const geometry::Vec2);
+      virtual void move() override;
+      virtual void checkContainment() override;
 
       void resurrect();
       void heal();
+
+      bool dragging;
 
       static constexpr double MAX_INTERACTION_DISTANCE = 50.0;
 
@@ -71,9 +77,6 @@ namespace entity
 
       virtual double idealSpeed() const;
       void doCollision(Unit& u);
-
-      virtual void move() override;
-      virtual void checkContainment() override;
 
       virtual void attack();
 
