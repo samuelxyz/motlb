@@ -34,7 +34,7 @@ Window::Window(int width, int height, const char* title, GLFWmonitor* monitor)
   window(initializerDummy.window),
   title(title),
   renderer(),
-  mouseHandler(),
+  mouseHandler(this),
   sidePanel(
       nullptr,
       geometry::Box(geometry::Vec2(Values::BATTLE_WIDTH, 0),
@@ -198,6 +198,7 @@ void Window::refreshGUI()
 
 void Window::update()
 {
+  mouseHandler.update();
   battle.update();
   sidePanel.update();
 }

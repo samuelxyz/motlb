@@ -102,6 +102,8 @@ namespace gui
   {
     if (button == GLFW_MOUSE_BUTTON_LEFT)
     {
+      if (!mouseHandler->hasFocus(this))
+      {
         bool clicked = false;
         // to activate, we need to click a box
         for (unsigned int i = 0; i < NUM_TYPES; ++i)
@@ -117,7 +119,28 @@ namespace gui
           }
         }
         return (clicked && action != GLFW_RELEASE);
-    }
+      }
+      else // already dragging
+      {
+        // select box whose center is closest to mouse
+        double minDist = Values::WINDOW_WIDTH;
+        unsigned int closest = 0;
+        for (unsigned int i = 0; i < NUM_TYPES; ++i)
+        {
+          double dist = (position - boxes[i].position).getLength();
+          if (dist < minDist)
+          {
+            minDist = dist;
+            closest = i;
+          }
+        }
+        battle->selectedUnitType = static_cast<Battle::UnitType>(
+            static_cast<int>(closest));
+        battle->refreshGUI();
+        battle->updateWindowTitle();
+        return (action != GLFW_RELEASE);
+      }
+    } // end if left mouse button
     return false;
   }
 

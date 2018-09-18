@@ -6,10 +6,11 @@
  */
 
 #include <MouseHandler.h>
+#include <Window.h>
 
-
-MouseHandler::MouseHandler()
-: receivers(), activeReceiver(nullptr)
+MouseHandler::MouseHandler(Window* window)
+: window(window), receivers(), activeReceiver(nullptr),
+  mouseHeld(false)
 {
 }
 
@@ -35,6 +36,11 @@ void MouseHandler::removeReceiver(const MouseReceiver* receiver)
 
 void MouseHandler::handleMouseClick(geometry::Vec2 position, int button, int action)
 {
+  if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+    mouseHeld = true;
+  else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+    mouseHeld = false;
+
   if (activeReceiver != nullptr)
   {
     if (!activeReceiver->handleMouseClick(position, button, action))
@@ -50,6 +56,14 @@ void MouseHandler::handleMouseClick(geometry::Vec2 position, int button, int act
         break;
       }
     }
+  }
+}
+
+void MouseHandler::update()
+{
+  if (mouseHeld)
+  {
+    handleMouseClick(window->getMousePos(), GLFW_MOUSE_BUTTON_LEFT, GLFW_REPEAT);
   }
 }
 
